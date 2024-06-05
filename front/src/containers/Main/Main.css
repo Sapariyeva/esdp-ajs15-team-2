@@ -1,0 +1,52 @@
+@font-face {
+    font-family: 'Blue Curve';
+    src: url('@/assets/fonts/blue_curve/Bluecurve-Light.ttf') format('truetype');
+}
+
+.Support_btn, .Registr_btn, .Login_btn {
+    font-family: 'Blue Curve';
+    font-size: 20px;
+    line-height: 26px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.Support_btn {
+    font-size: 20px;
+    background-color: white;
+    border: 0.62px solid black;
+    padding: 16px 24px;
+    margin-top: 40px;
+}
+
+.Support_btn:hover {
+    background-color: #58A700;
+    color: white;
+}
+
+.Registr_btn {
+    background-color: #9069CD;
+    color: white;
+    border: none;
+    padding: 16px 97px;
+    margin-bottom: 10px;
+}
+
+.Login_btn {
+    background-color: white;
+    border: 0.62px solid black;
+    padding: 16px 124px;
+    margin-bottom: 10px;
+}
+
+.Login_btn:hover, .Registr_btn:hover {
+    background-color: #FDD231;
+    border: none;
+    color: black;
+}
+
+.Logo:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+    transition: 0.3s;
+}
