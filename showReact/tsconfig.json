@@ -21,13 +21,6 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "paths": {
-      "@/*": [
-        "./src/*"
-      ],
-      "@components/*": ["./src/components/*"],
-      "@features/*": ["./src/features/*"],
-    }
   },
   "include": [
     "src"
