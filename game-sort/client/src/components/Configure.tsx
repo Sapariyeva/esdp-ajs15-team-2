@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { setActions } from '../features/configureSlice';
 import { Form, Input, Select, Switch, Slider, Button, Card, Col, Row } from 'antd';
 import { useAppDispatch, useAppSelector } from '../app/hook';
+import { Footer } from 'antd/es/layout/layout';
 
 const { Option } = Select;
 
@@ -32,7 +33,7 @@ export function Configure({ startGame }: ConfigureProps) {
       <Col xs={24} sm={20} md={16} lg={12} >
         <Card title="Настройка сессии">
           <Form layout="vertical">
-            <Form.Item label="Беззвучное изучение">
+            <Form.Item label="Безошибочное изучение">
               <Switch />
             </Form.Item>
 
@@ -89,14 +90,42 @@ export function Configure({ startGame }: ConfigureProps) {
             </Form.Item>
 
             <Form.Item label="Критерий успешности (КУ)">
-              <Input type="number" />
+              <Slider min={0} max={100} />
             </Form.Item>
 
-            <Form.Item>
-              <Button type="primary" onClick={startGame}>
-                Начать
-              </Button>
+            <Form.Item label="Сколько сессий подряд должен быть достигнут КУ">
+              <Slider min={1} max={8} />
             </Form.Item>
+
+            <Form.Item label="Подсказки">
+              <Switch />
+            </Form.Item>
+
+            <Form.Item label="Колличество ошибок для автоматической подсказки">
+              <Slider min={1} max={3} />
+            </Form.Item>
+
+            <Form.Item label="Лимит подсказок">
+              <Slider min={1} max={3} />
+            </Form.Item>
+
+            <Form.Item label="Звук">
+              <Switch />
+            </Form.Item>
+
+            <Footer style={{backgroundColor: 'white', borderTop: 2, borderTopStyle: 'solid', borderTopColor: 'whitesmoke' }}>
+              <Form.Item>
+                <Button style={{margin: 3}} type="primary" onClick={startGame}>
+                  Начать
+                </Button>
+                <Button style={{margin: 3}} type="default" >
+                  Использовать предыдущие настройки
+                </Button>
+                <Button style={{margin: 3}} type="default" >
+                  Поделиться игрой
+                </Button>
+              </Form.Item>
+            </Footer>
           </Form>
         </Card>
       </Col>
