@@ -5,11 +5,11 @@ import { apiUrl } from '../helpers/axiosApiClient';
 
 interface Props {
     card: ICard;
-    check: () => void;
+    check: (title: string) => void;
 }
 
 export function CardItem({ card, check }: Props) {
-  const { image } = card;
+  const { title, image } = card;
 
   let cardImage = imageNotAvalable;
 
@@ -22,7 +22,7 @@ export function CardItem({ card, check }: Props) {
                 hoverable
                 style={{ width: 350, height: 280, marginRight: 50 }}
                 cover={<img alt="example" src={cardImage} style={{ height: 280 }}/>}
-                onClick={check}
+                onClick={() => check(title)}
             >
             </Card>
     );

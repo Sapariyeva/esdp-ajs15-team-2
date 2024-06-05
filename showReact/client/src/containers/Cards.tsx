@@ -27,9 +27,8 @@ export function Cards() {
       }
   }, [cards]);
 
-  const check = () => {
-    const randomTitle = _.sample(array);
-    if (title === randomTitle?.title) {
+  const check = (cardTitle: string) => {
+    if (title === cardTitle) {
         setStatus(true);
     } else {
         setStatus(false);
