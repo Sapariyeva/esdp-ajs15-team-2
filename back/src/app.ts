@@ -2,7 +2,7 @@ import express from 'express';
 import { Application, RequestHandler } from 'express';
 import { AppInit } from './interfaces/AppInit.interface';
 import { IRoute } from './interfaces/IRoute.interface';
-// import { appDataSource } from './config/dataSource';
+import { appDataSource } from './dataSource/dataSource';
 
 class App {
     public app: Application;
@@ -34,11 +34,11 @@ class App {
         this.app.use(express.static('public'));
     }
     public async listen() {
-        // await appDataSource.initialize();
+        await appDataSource.initialize();
         this.app.listen(this.port, () => {
             console.log(`App listening  on the http://localhost:${this.port}`);
             process.on('exit', () => {
-                // appDataSource.destroy();
+                appDataSource.destroy();
             })
         });
     }
