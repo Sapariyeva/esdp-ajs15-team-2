@@ -1,0 +1,88 @@
+# version: '3.8'
+
+# services:
+#   node-app:
+#     image: node:14
+#     working_dir: /usr/src/app
+#     volumes:
+#       - .:/usr/src/app
+#       - /usr/src/app/node_modules
+#     ports:
+#       - '80:5173'
+#     environment:
+#       - NODE_ENV=development
+#       - DB_HOST=mysql
+#       - DB_USER=root
+#       - DB_PASSWORD=example
+#       - DB_NAME=mydatabase
+#     depends_on:
+#       - mysql
+#     command: sh -c "npm install && npm run dev"
+
+#   mysql:
+#     image: mysql:8.0
+#     ports:
+#       - '3306:3306'
+#     environment:
+#       MYSQL_ROOT_PASSWORD: example
+#       MYSQL_DATABASE: mydatabase
+#     volumes:
+#       - mysql-data:/var/lib/mysql
+
+# volumes:
+#   mysql-data:
+
+# version: '3.8'
+
+# services:
+#   node-app:
+#     build:
+#       context: .
+#       dockerfile: Dockerfile.test1
+#     volumes:
+#       - .:/app
+#       - /app/node_modules
+#     ports:
+#       - '80:5173'
+#     environment:
+#       - NODE_ENV=development
+#       - DB_HOST=mysql
+#       - DB_USER=root
+#       - DB_PASSWORD=example
+#       - DB_NAME=mydatabase
+#     depends_on:
+#       - mysql
+
+#   mysql:
+#     image: mysql:8.0
+#     ports:
+#       - '3306:3306'
+#     environment:
+#       MYSQL_ROOT_PASSWORD: example
+#       MYSQL_DATABASE: mydatabase
+#     volumes:
+#       - mysql-data:/var/lib/mysql
+
+  # check_port_front1:
+  #   image: check_port_front1:latest
+  #   ports:
+  #     - '80:5173'
+
+# volumes:
+#   mysql-data:
+
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: ./back
+    ports:
+      - '5000:5000'
+
+  nginx:
+    restart: always
+    build:
+      context: ./front
+    ports:
+      - '80:80'

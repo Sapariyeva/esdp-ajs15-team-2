@@ -19,4 +19,5 @@ const options: DataSourceOptions & SeederOptions = {
     factories: []
 }
 
-export const appDataSource = new DataSource(options)
+// export const appDataSource = new DataSource(options)
+export const appDataSource = null;

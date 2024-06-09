@@ -6,7 +6,7 @@ import logger from './middlewares/logger';
 
 
 const app = new App({
-    port: 8000,
+    port: 5000,
     middlewares: [logger(), cors()],
     controllers: [],
 });

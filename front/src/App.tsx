@@ -21,6 +21,9 @@ function App() {
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
         </button>
+        <button onClick={() => fetch('/api').then((res) => res.json()).then((text) => console.log(text))}>
+          Trololo
+        </button>
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
