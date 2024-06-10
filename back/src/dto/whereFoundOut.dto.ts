@@ -1,15 +1,15 @@
 import { Expose } from "class-transformer";
-import { IsNotEmpty, IsString } from "class-validator";
+import { IsNotEmpty, IsNumber, IsNumberString } from "class-validator";
 
-export class WhereFoundOut {
+export class WhereFoundOutDto {
   
   @Expose()
-  @IsString({message: "Почта должно быть строкой"})
-  @IsNotEmpty({message: "Укажите почту"})  
-    mail!: string;
+  @IsNumberString({}, {message: "Укажите корректный тип"})
+  @IsNotEmpty({message: "Тип не может быть пустым"})
+    typeId!: number; 
 
   @Expose()
-  @IsString({message: "Пароль должен быть строкой"})
-  @IsNotEmpty({message: "Укажите пароль"})  
-    password!: string;
+  @IsNumber({}, { message: "Идентификатор пользователя должен быть числом" })
+  @IsNotEmpty({ message: "Укажите идентификатор пользователя" }) 
+    userId!: number;
 }

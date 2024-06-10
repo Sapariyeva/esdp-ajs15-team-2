@@ -16,8 +16,8 @@ export class FoundOutTypeRepository extends Repository<FoundOutType> {
     return await this.findOne({ where:{ id } });
   }
 
-  async createType(productDto: FoundOutTypeDto) {
-    return await this.save(productDto);
+  async createType(foundOutTypeDto: FoundOutTypeDto) {
+    return await this.save(foundOutTypeDto);
   }
 
   async deleteType(id: number) {
