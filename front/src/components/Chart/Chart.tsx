@@ -21,7 +21,7 @@ const LineChart = () => {
                 label: 'Всплывашка',/*Название,которое будет отображаться в легенде графика*/
                 data: [90, 100, 20, 81, 56, 55, 100],/*Массив чисел, представляющих значения данных, соответствующие меткам на оси X.*/
                 fill: false,/*нужно ли заполнять область под линией*/
-                borderColor: 'rgb(75, 192, 192)',/*цвет линии*/
+                borderColor: '#9069CD',/*цвет линии*/
                 tension: 0.1/*степень кривизны линии от 0 до 1*/
             }
         ]
@@ -37,10 +37,14 @@ const LineChart = () => {
                 display: false
             },
             tooltip: { // Настройки для всплывающих подсказок
+                displayColors: false, // Отключает индикаторы цветов
                 callbacks: {
                     label: function (context: any) { // Функция для форматирования содержимого подсказки
-                        return context.dataset.label + ': КУ ' + context.parsed.y + '%' + 
-                        "\n Глаголы :";
+                        return [
+                            `${context.dataset.label}`,
+                            `КУ: ${context.parsed.y}%`,
+                            'Глаголы:'
+                        ];
                     }
                 }
             }
