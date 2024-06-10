@@ -17,7 +17,6 @@
     "paths": {
       "@/*": ["./*"]
     },
-
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,

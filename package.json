@@ -1,0 +1,15 @@
+{
+  "name": "esdp-ajs15-team-2",
+  "version": "1.0.0",
+  "description": "Текущая ветка создана для шаблона реакт (фронт и бэк)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "npm i & ultra -r npm i & ultra -r dev"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ultra-runner": "^3.10.5"
+  }
+}
