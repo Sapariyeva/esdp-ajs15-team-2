@@ -6,7 +6,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import FormElement from "@/components/UI/Form/FormElement";
-import { clearRegisterError, registerUser } from "@/features/userSlice";
+import { changeRegisterData, clearRegisterError, registerUser } from "@/features/userSlice";
 import mainImage from '@/assets/images/main_img.svg';
 import logo from '@/assets/images/logo.svg';
 import './Register.css';
@@ -38,6 +38,7 @@ const Register = () => {
   
     useEffect(() => {
         dispatch(clearRegisterError());
+        dispatch(changeRegisterData({email: '', password: ''}));
     }, [dispatch]);
     
     const inputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -56,8 +57,9 @@ const Register = () => {
             return;
         }
         setPasswordError(undefined);
+        dispatch(changeRegisterData({email: state.email, password: state.password}));
         dispatch(registerUser({email: state.email, password: state.password})).unwrap().then(() => {
-            navigate("/");
+            navigate("/email-link");
         });
     };
 

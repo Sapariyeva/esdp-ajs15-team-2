@@ -44,3 +44,11 @@
     border: none;
     color: black;
 }
+
+.Auth_title {
+    font-family: 'Blue Curve';
+    font-size: 32px;
+    line-height: 33.61px;
+    margin: 0;
+    margin-bottom: 24px;
+}

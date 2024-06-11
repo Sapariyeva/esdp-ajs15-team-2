@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { IUser } from "../interfaces/IUser";
 import axiosApi from "../api/axiosApi";
 import { AxiosError, isAxiosError } from "axios";
@@ -8,6 +8,7 @@ interface IState {
     loading: boolean;
     registerError: null | string | userResponseValidateError;
     loginError: null | string;
+    registerData: {email: string, password: string};
 }
 
 type userRequest = {
@@ -31,6 +32,7 @@ const initialState: IState = {
     loading: false,
     registerError: null,
     loginError: null,
+    registerData: {email: "", password: ""}
 };
 
 export const registerUser = createAsyncThunk<IUser, userRequest, { rejectValue: userResponseError | userResponseValidateError }>(
@@ -71,11 +73,13 @@ export const loginUser = createAsyncThunk<IUser, userRequest, { rejectValue: str
     }
 );
 
-export const confirmEmail = createAsyncThunk<IUser, userRequest, { rejectValue: string }>(
-    "auth/confirmEmail",
+export const resendConfirmEmail = createAsyncThunk<IUser, userRequest, { rejectValue: string }>(
+    "auth/resend-confirmation",
     async (userData, { rejectWithValue }) => {
         try {
-            const response = await axiosApi.get<IUser>(`/users/confirm/${userData.token}`);
+            const response = await axiosApi.post(`/users/resend-confirmation`, userData);
+            console.log(response.data);
+            
             return response.data;
         } catch (err) {
             if (isAxiosError(err)) {
@@ -130,6 +134,9 @@ const userSlice = createSlice({
             state.registerError = null;
             state.loginError = null;
         },
+        changeRegisterData(state, action: PayloadAction<{email: string, password: string}>) {
+            state.registerData = action.payload;
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -163,16 +170,14 @@ const userSlice = createSlice({
                 state.loading = false;
                 state.loginError = action.payload || null;
             })
-            .addCase(confirmEmail.pending, (state) => {
+            .addCase(resendConfirmEmail.pending, (state) => {
                 state.loading = true;
             })
-            .addCase(confirmEmail.fulfilled, (state, action) => {
-                state.user = action.payload;
+            .addCase(resendConfirmEmail.fulfilled, (state) => {
                 state.loading = false;
             })
-            .addCase(confirmEmail.rejected, (state, action) => {
+            .addCase(resendConfirmEmail.rejected, (state) => {
                 state.loading = false;
-                state.registerError = action.payload || null;
             })
             .addCase(setUsername.pending, (state) => {
                 state.loading = true;
@@ -191,6 +196,6 @@ const userSlice = createSlice({
     },
 });
 
-export const { clearRegisterError } = userSlice.actions;
+export const { clearRegisterError, changeRegisterData } = userSlice.actions;
 
 export default userSlice.reducer;

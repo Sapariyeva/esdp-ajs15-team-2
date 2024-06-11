@@ -16,7 +16,6 @@ const ImageContainer = styled(Box)({
 const Main = () => {
     const navigate = useNavigate();
 
-
     return (
         <Container disableGutters sx={{ margin: 0}}>
             <Grid display="flex">

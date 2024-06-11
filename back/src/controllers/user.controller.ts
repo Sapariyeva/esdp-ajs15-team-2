@@ -79,7 +79,7 @@ export class UserController {
   }
 
   resendConfirmationEmail: RequestHandler = async (req, res) => {
-    const email = req.body;
+    const email = req.body.email;
     try {
         await this.service.sendConfirmationEmailAgain(email);
         res.status(200).send({ message: "Подтверждение повторно отправлено на вашу почту." });

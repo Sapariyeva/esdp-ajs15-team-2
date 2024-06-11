@@ -1,3 +1,4 @@
+import EmailLink from "@/containers/Auth/EmailLink";
 import Login from "@/containers/Auth/Login";
 import Register from "@/containers/Auth/Register";
 import Main from "@/containers/Main/Main";
@@ -9,6 +10,7 @@ export const Routes = () => {
       <Route path="/" element={<Main />} />
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/email-link" element={<EmailLink />} />
     </RouterRoutes>
   );
 };
