@@ -16,8 +16,8 @@ export class WhereFoundOutRepository extends Repository<WhereFoundOut> {
     return await this.findOne({ where:{ id } });
   }
 
-  async createFoundOut(productDto: WhereFoundOutDto) {
-    return await this.save(productDto);
+  async createFoundOut(whereFoundOutDto: WhereFoundOutDto) {
+    return await this.save(whereFoundOutDto);
   }
 
   async deleteFoundOut(id: number) {
