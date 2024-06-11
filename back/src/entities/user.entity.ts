@@ -1,15 +1,14 @@
-import {Entity, Column, PrimaryGeneratedColumn, Unique } from "typeorm";
-import bcrypt from "bcrypt";
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, BeforeInsert } from 'typeorm';
+import bcrypt from 'bcrypt';
 import { randomUUID } from "crypto";
 
 @Entity('users')
-@Unique(['email'])
-export class User {
+export class User extends BaseEntity {
     @PrimaryGeneratedColumn()
     id!: number;
 
     @Column({ nullable: true })
-    username?: string;
+    username!: string;
 
     @Column()
     email!: string;
@@ -23,12 +22,15 @@ export class User {
     @Column({ default: 'specialist' })
     role!: 'specialist' | 'admin';
 
+    @Column({ default: false })
+    isEmailConfirmed!: boolean;
+
+    @BeforeInsert()
+    generateToken(): void {
+        this.token = randomUUID();
+    }
     async comparePassword(password: string): Promise<boolean> {
         if (this.password) return await bcrypt.compare(password, this.password);
         return false;
-    }
-
-    generateToken(): void {
-        this.token = randomUUID();
     }
 }

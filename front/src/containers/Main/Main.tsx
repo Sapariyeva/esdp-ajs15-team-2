@@ -26,13 +26,13 @@ const Main = () => {
                         <button className='Support_btn'>Поддержка</button>
                     </Grid>
                     <Grid display="flex" justifyContent="center" margin={'150px 0 100px'}>
-                        <img className='Logo' src={logo} alt="Логотип" />
+                        <img src={logo} alt="Логотип" />
                     </Grid>
                     <Grid display="flex" justifyContent="center">
                         <button className='Registr_btn' onClick={() => navigate('/register')}>Регистрация</button>
                     </Grid>
                     <Grid display="flex" justifyContent="center">
-                        <button className='Login_btn'>Войти</button>
+                        <button className='Login_btn' onClick={() => navigate('/login')}>Войти</button>
                     </Grid>
                     <Grid display="flex" justifyContent="center">
                         <Link href="#" variant="body1" color={"#9069CD"}>

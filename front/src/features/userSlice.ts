@@ -11,8 +11,10 @@ interface IState {
 }
 
 type userRequest = {
-    email: string,
-    password: string
+    email: string;
+    password: string;
+    username?: string; // Опциональное поле для имени пользователя при регистрации
+    token?: string; // Опциональное поле для подтверждения электронной почты
 };
 
 type userResponseError = {
@@ -21,7 +23,7 @@ type userResponseError = {
 
 type userResponseValidateError = { 
     type: string; 
-    messages: string[] 
+    messages: string[];
 }[];
 
 const initialState: IState = {
@@ -29,53 +31,90 @@ const initialState: IState = {
     loading: false,
     registerError: null,
     loginError: null,
-}
+};
 
-export const registerUser = createAsyncThunk<IUser,userRequest, { rejectValue: userResponseError | userResponseValidateError }>(
-    "auth/register", 
-    async (userData: userRequest, { rejectWithValue }) => {
-    try {
-        const response = await axiosApi.post<IUser>("/users/register", userData);
-        return response.data;
-    } catch (err) {
-        if (isAxiosError(err)) {
-            const error: AxiosError<userResponseError> = err;
-            return rejectWithValue(
-                error.response?.data || { error: { message: "Произошла неизвестная ошибка" } }
-            );
-        }
-        throw err;
-    }
-});
-
-export const loginUser = createAsyncThunk< IUser, userRequest, { rejectValue: string }>(
-    "auth/login", 
-    async (userData: userRequest, { rejectWithValue }) => {
-    try {
-        const response = await axiosApi.post<IUser>("users/login", userData);
-        return response.data;
-    } catch (err) {
-        if (isAxiosError(err)) {
-            const error: AxiosError<userResponseError> = err;
-            return rejectWithValue(
-                error.response?.data.error.message || "Произошла неизвестная ошибка"
-            );
-        }
-        throw err;
-    }
-});
-
-export const logoutUser = createAsyncThunk(
-    "auth/logout",
-    async (_, { rejectWithValue }) => {
+export const registerUser = createAsyncThunk<IUser, userRequest, { rejectValue: userResponseError | userResponseValidateError }>(
+    "auth/register",
+    async (userData, { rejectWithValue }) => {
         try {
-            const response = await axiosApi.delete("/users/logout");
+            const response = await axiosApi.post<IUser>("/users/register", userData);
             return response.data;
         } catch (err) {
             if (isAxiosError(err)) {
                 const error: AxiosError<userResponseError> = err;
                 return rejectWithValue(
-                    error.response?.data.error.message || "Ошибка подключения к Интернету"
+                    error.response?.data || { error: { message: "Произошла неизвестная ошибка" } }
+                );
+            }
+            throw err;
+        }
+    }
+);
+
+export const loginUser = createAsyncThunk<IUser, userRequest, { rejectValue: string }>(
+    "auth/login",
+    async (userData, { rejectWithValue }) => {
+        console.log(userData);
+        
+        try {
+            const response = await axiosApi.post<IUser>("/users/login", userData);
+            return response.data;
+        } catch (err) {
+            if (isAxiosError(err)) {
+                const error: AxiosError<userResponseError> = err;
+                return rejectWithValue(
+                    error.response?.data?.error?.message || "Произошла неизвестная ошибка"
+                );
+            }
+            throw err;
+        }
+    }
+);
+
+export const confirmEmail = createAsyncThunk<IUser, userRequest, { rejectValue: string }>(
+    "auth/confirmEmail",
+    async (userData, { rejectWithValue }) => {
+        try {
+            const response = await axiosApi.get<IUser>(`/users/confirm/${userData.token}`);
+            return response.data;
+        } catch (err) {
+            if (isAxiosError(err)) {
+                const error: AxiosError<userResponseError> = err;
+                return rejectWithValue(
+                    error.response?.data?.error?.message || "Произошла неизвестная ошибка"
+                );
+            }
+            throw err;
+        }
+    }
+);
+
+export const setUsername = createAsyncThunk<IUser, userRequest, { rejectValue: userResponseValidateError }>(
+    "auth/setUsername",
+    async (userData, { rejectWithValue }) => {
+        try {
+            const response = await axiosApi.post<IUser>("/users/set-username", { username: userData.username });
+            return response.data;
+        } catch (err) {
+            if (isAxiosError(err)) {
+                const error: AxiosError<userResponseValidateError> = err;
+                return rejectWithValue(error.response?.data || []);
+            }
+            throw err;
+        }
+    }
+);
+
+export const logoutUser = createAsyncThunk<void>(
+    "auth/logout",
+    async (_, { rejectWithValue }) => {
+        try {
+            await axiosApi.delete("/users/logout");
+        } catch (err) {
+            if (isAxiosError(err)) {
+                const error: AxiosError<userResponseError> = err;
+                return rejectWithValue(
+                    error.response?.data?.error?.message || "Ошибка подключения к Интернету"
                 );
             }
             throw err;
@@ -84,49 +123,73 @@ export const logoutUser = createAsyncThunk(
 );
 
 const userSlice = createSlice({
-    name: 'user',
+    name: "user",
     initialState,
     reducers: {
         clearRegisterError(state) {
             state.registerError = null;
-        },
-    }, 
-    extraReducers: builder => {
-        builder
-        .addCase(registerUser.pending, (state) => {
-            state.loading = true;
-            state.registerError = null;
-        })
-        .addCase(registerUser.fulfilled, (state, action) => {
-            state.user = { ...action.payload };
-            state.loading = false;
-            state.registerError = null;
-        })
-        .addCase(registerUser.rejected, (state, action) => {
-            state.loading = false;
-            if (Array.isArray(action.payload)) {
-                state.registerError = action.payload;
-            } else {
-                state.registerError = action.payload?.error.message ?? "Произошла неизвестная ошибка";
-            }
-        })
-        .addCase(loginUser.pending, (state) => {
-            state.loading = true;
             state.loginError = null;
-        })
-        .addCase(loginUser.fulfilled, (state, action) => {
-            state.loading = false;
-            state.user = { ...action.payload };
-        })
-        .addCase(loginUser.rejected, (state, action) => {
-            state.loading = false;
-            state.loginError = action.payload || null;
-        })
-        .addCase(logoutUser.fulfilled, () => {
-            return initialState;
-        })
-    }
-})
+        },
+    },
+    extraReducers: (builder) => {
+        builder
+            .addCase(registerUser.pending, (state) => {
+                state.loading = true;
+                state.registerError = null;
+            })
+            .addCase(registerUser.fulfilled, (state, action) => {
+                state.user = action.payload;
+                state.loading = false;
+                state.registerError = null;
+            })
+            .addCase(registerUser.rejected, (state, action) => {
+                state.loading = false;
+                if (Array.isArray(action.payload)) {
+                    state.registerError = action.payload;
+                } else {
+                    state.registerError = action.payload?.error.message ?? "Произошла неизвестная ошибка";
+                }
+            })
+            .addCase(loginUser.pending, (state) => {
+                state.loading = true;
+                state.loginError = null;
+            })
+            .addCase(loginUser.fulfilled, (state, action) => {
+                state.user = action.payload;
+                state.loading = false;
+                state.loginError = null;
+            })
+            .addCase(loginUser.rejected, (state, action) => {
+                state.loading = false;
+                state.loginError = action.payload || null;
+            })
+            .addCase(confirmEmail.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(confirmEmail.fulfilled, (state, action) => {
+                state.user = action.payload;
+                state.loading = false;
+            })
+            .addCase(confirmEmail.rejected, (state, action) => {
+                state.loading = false;
+                state.registerError = action.payload || null;
+            })
+            .addCase(setUsername.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(setUsername.fulfilled, (state, action) => {
+                state.user = action.payload;
+                state.loading = false;
+            })
+            .addCase(setUsername.rejected, (state, action) => {
+                state.loading = false;
+                state.registerError = action.payload || null;
+            })
+            .addCase(logoutUser.fulfilled, () => {
+                return initialState;
+            });
+    },
+});
 
 export const { clearRegisterError } = userSlice.actions;
 

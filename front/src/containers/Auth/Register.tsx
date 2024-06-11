@@ -73,14 +73,15 @@ const Register = () => {
             <Grid display="flex">
                 <ImageContainer />
                 <Grid container direction="column" width={'50%'}>
-                    <Grid display="flex" justifyContent="flex-end">
+                    <Grid display="flex" justifyContent="space-between" alignItems={"end"}>
+                        <button className="Back_btn" onClick={() => navigate('/')}></button>
                         <button className='Support_btn'>Поддержка</button>
                     </Grid>
                     <Grid display="flex" justifyContent="center" margin={'150px 0 50px'} onClick={() => navigate('/')}>
                         <img className='Logo' src={logo} alt="Логотип" />
                     </Grid>
                     <Grid display="flex" justifyContent="center">
-                        <p className="Register_title">Регистрация</p>
+                        <p className="Auth_title">Регистрация</p>
                     </Grid>
                     <Box
                         component="form"
