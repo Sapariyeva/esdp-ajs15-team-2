@@ -4,7 +4,7 @@ import { RootState } from '@/app/store';
 import { apiURL } from '@/constants';
 
 type AppStore = Store<RootState>;
-
+//@ts-ignore
 let store: AppStore;
 
 export const injectStore = (_store: AppStore) => {

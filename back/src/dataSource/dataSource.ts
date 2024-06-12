@@ -1,7 +1,7 @@
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { SeederOptions } from 'typeorm-extension';
 // Закоментить нижнюю строку и написать пароль для своей БД
-import {password} from "../../sql-config";
+// import {password} from "../../sql-config";
 import MainSeeder from '../database/seeds/main.seeder';
 
 const options: DataSourceOptions & SeederOptions = {
@@ -9,7 +9,7 @@ const options: DataSourceOptions & SeederOptions = {
     host: 'localhost',
     port: 3306,
     username: 'root',
-    password: password,
+    password: "password",
     database: 'esdp',
     synchronize: true,
     logging: true,
@@ -18,4 +18,4 @@ const options: DataSourceOptions & SeederOptions = {
     factories: []
 }
 
-export const appDataSource = new DataSource(options);
+// export const appDataSource = new DataSource(options);
