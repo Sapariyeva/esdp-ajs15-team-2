@@ -1,40 +1,30 @@
 import { User } from "../entities/user.entity";
-import nodemailer from "nodemailer";
 import { UserRepository } from "../repositories/user.repository";
 import { IUser } from "../interfaces/IUser.interface";
 import { LoginDto } from "../dto/user.dto";
 import bcrypt from 'bcrypt';
+import { randomUUID } from "crypto";
+import { sendMessageByMail } from "../middlewares/SendMessagesByMail";
 
 const SALT_WORK_FACTORY = 10;
 
 export class UserService {
     private repository: UserRepository;
-    private transporter: nodemailer.Transporter;
 
     constructor() {
         this.repository = new UserRepository();
-        this.transporter = nodemailer.createTransport({
-            host: 'smtp.mailtrap.io',
-            port: 2525,
-            auth: {
-                user: '474da4dfe02b65',
-                pass: '06753b19b9cfc5'
-            }
-        });
     }
 
+    // Отправка письма для подтверждения регистрации
     async sendConfirmationEmail(user: User): Promise<void> {
-        const mailOptions = {
-            from: 'igrovuz@gmail.com',
-            to: user.email,
-            subject: 'Подтверждение регистрации',
-            text: `Для подтверждения регистрации перейдите по ссылке: http://localhost:8000/users/confirm/${user.token}`,
-            html: `<p>Для подтверждения регистрации перейдите по ссылке:</p><p><a href="http://localhost:8000/users/confirm/${user.token}">Подтвердить регистрацию</a></p>`
-        };
+        const subject = 'Подтверждение регистрации';
+        const text = `Для подтверждения регистрации перейдите по ссылке: http://localhost:8000/users/confirm/${user.token}`;
+        const html = `<p>Для подтверждения регистрации перейдите по ссылке:</p><p><a href="http://localhost:8000/users/confirm/${user.token}">Подтвердить регистрацию</a></p>`;
 
-        await this.transporter.sendMail(mailOptions);
+        await sendMessageByMail( 'igrovuz@gmail.com', user.email, subject, text, html);
     }
 
+    // Регистрация пользователя
     async registerUser(email: string, password: string): Promise<User> {
         const salt = await bcrypt.genSalt(SALT_WORK_FACTORY);
         const existingUser = await this.repository.findByEmail(email);
@@ -64,13 +54,14 @@ export class UserService {
         return user;
     }
 
+    // Аутентификация пользователя
     async loginUser(loginUserDto: LoginDto): Promise<IUser | null> {
         const user = await this.repository.findByEmail(loginUserDto.email);
 
         if (!user) throw new Error('Ошибка данных');
         if (user && user.isEmailConfirmed) {
             const isMatch = await user.comparePassword(loginUserDto.password);
-            if (!isMatch) throw new Error('Ошибка пароль');
+            if (!isMatch) throw new Error('Ошибка данных');
 
             user.generateToken();
             const userWithToken = await this.repository.saveUser(user);
@@ -80,6 +71,7 @@ export class UserService {
         return null;
     }
 
+    // Выход пользователя
     async logoutUser(token: string): Promise<void> {
         const user = await this.repository.findByToken(token);
         if (user) {
@@ -88,7 +80,8 @@ export class UserService {
         }
     }
 
-    async confirmUser(token: string): Promise<User | null> {
+    // Подтверждение регистрации по электронной почте
+    async confirmEmail(token: string): Promise<User | null> {
         const user = await this.repository.findByToken(token);
         if (user) {
             user.isEmailConfirmed = true;
@@ -98,7 +91,8 @@ export class UserService {
         return user;
     }
 
-    async sendConfirmationEmailAgain(email: string): Promise<void> {
+    // Повторная отправка письма для подтверждения регистрации
+    async resendConfirmationEmail(email: string): Promise<void> {
         const user = await this.repository.findByEmail(email);
         if (user && !user.isEmailConfirmed) {
             await this.sendConfirmationEmail(user);
@@ -107,6 +101,7 @@ export class UserService {
         }
     }
 
+    // Изменение имени пользователя
     async setUsername(token: string, username: string): Promise<User | null> {
         const user = await this.repository.findByToken(token);
         if (user && user.isEmailConfirmed) {
@@ -118,6 +113,7 @@ export class UserService {
         return null;
     }
 
+    // Поиск пользователя по токену
     async findByToken(token: string): Promise<User | null> {
         const user = await this.repository.findByToken(token);
         if (user) {
@@ -125,4 +121,24 @@ export class UserService {
         }
         return user;
     }
+
+    // Отправка письма для сброса пароля
+    async sendResetPasswordEmail(email: string): Promise<void> {
+        const user = await this.repository.findByEmail(email);
+        if (!user || !user.isEmailConfirmed) {
+            throw new Error('Пользователь с таким email не найден');
+        }
+
+        user.resetPasswordToken = randomUUID();
+        user.resetPasswordExpires = new Date(Date.now() + 3600000); // 1 час
+
+        await this.repository.saveUser(user);
+
+        const subject = 'Сброс пароля';
+        const text = `Для сброса пароля перейдите по ссылке: http://localhost:8000/users/reset-password/${user.resetPasswordToken}`;
+        const html = `<p>Для сброса пароля перейдите по ссылке:</p><p><a href="http://localhost:8000/users/reset-password/${user.resetPasswordToken}">Сбросить пароль</a></p>`;
+
+        await sendMessageByMail( 'igrovuz@gmail.com', user.email, subject, text, html);
+    }
+
 }

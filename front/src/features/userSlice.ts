@@ -56,8 +56,6 @@ export const registerUser = createAsyncThunk<IUser, userRequest, { rejectValue: 
 export const loginUser = createAsyncThunk<IUser, userRequest, { rejectValue: string }>(
     "auth/login",
     async (userData, { rejectWithValue }) => {
-        console.log(userData);
-        
         try {
             const response = await axiosApi.post<IUser>("/users/login", userData);
             return response.data;
@@ -119,6 +117,42 @@ export const logoutUser = createAsyncThunk<void>(
                 const error: AxiosError<userResponseError> = err;
                 return rejectWithValue(
                     error.response?.data?.error?.message || "Ошибка подключения к Интернету"
+                );
+            }
+            throw err;
+        }
+    }
+);
+
+export const resetPassword = createAsyncThunk<IUser, string, { rejectValue: string }>(
+    "auth/request-password-reset",
+    async (email, { rejectWithValue }) => {
+        try {
+            const response = await axiosApi.post<IUser>("/users/request-password-reset", { email });
+            return response.data;
+        } catch (err) {
+            if (isAxiosError(err)) {
+                const error: AxiosError<userResponseError> = err;
+                return rejectWithValue(
+                    error.response?.data?.error?.message || "Произошла неизвестная ошибка"
+                );
+            }
+            throw err;
+        }
+    }
+);
+
+export const changePassword = createAsyncThunk<IUser, userRequest, { rejectValue: string }>(
+    "auth/change-password",
+    async (userData, { rejectWithValue }) => {
+        try {
+            const response = await axiosApi.post<IUser>("/users/change-password", userData);
+            return response.data;
+        } catch (err) {
+            if (isAxiosError(err)) {
+                const error: AxiosError<userResponseError> = err;
+                return rejectWithValue(
+                    error.response?.data?.error?.message || "Произошла неизвестная ошибка"
                 );
             }
             throw err;
@@ -192,7 +226,19 @@ const userSlice = createSlice({
             })
             .addCase(logoutUser.fulfilled, () => {
                 return initialState;
-            });
+            })
+            .addCase(resetPassword.pending, (state) => {
+                state.loading = true;
+                state.loginError = null;
+            })
+            .addCase(resetPassword.fulfilled, (state) => {
+                state.loading = false;
+                state.loginError = null;
+            })
+            .addCase(resetPassword.rejected, (state, action) => {
+                state.loading = false;
+                state.loginError = action.payload || null;
+            })
     },
 });
 

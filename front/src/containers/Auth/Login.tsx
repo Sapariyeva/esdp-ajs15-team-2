@@ -6,7 +6,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import FormElement from "@/components/UI/Form/FormElement";
-import { clearRegisterError, loginUser } from "@/features/userSlice";
+import { clearRegisterError, loginUser, resetPassword } from "@/features/userSlice";
 import mainImage from '@/assets/images/main_img.svg';
 import logo from '@/assets/images/logo.svg';
 import './Register.css';
@@ -50,7 +50,7 @@ const Login = () => {
         e.preventDefault();
         
         dispatch(loginUser({ ...state })).unwrap().then(() => {
-            navigate("/");
+            navigate("/logout");
         });
     };
 
@@ -105,7 +105,7 @@ const Login = () => {
                             <button className='Registr_btn'>Продолжить</button>
                         </Grid>
                         <Grid display="flex" justifyContent="center">
-                            <Link href="#" variant="body1" color={"#9069CD"}>
+                            <Link href="#" variant="body1" color={"#9069CD"} onClick={() => dispatch(resetPassword(state.email))}>
                                 {"Забыли пароль?"}
                             </Link>
                         </Grid>

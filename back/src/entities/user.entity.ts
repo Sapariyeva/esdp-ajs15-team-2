@@ -25,6 +25,12 @@ export class User extends BaseEntity {
     @Column({ default: false })
     isEmailConfirmed!: boolean;
 
+    @Column({ nullable: true })
+    resetPasswordToken?: string;
+
+    @Column({ type: 'timestamp', nullable: true })
+    resetPasswordExpires?: Date;
+
     @BeforeInsert()
     generateToken(): void {
         this.token = randomUUID();

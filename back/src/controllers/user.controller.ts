@@ -1,5 +1,5 @@
 import { RequestHandler } from "express";
-import { LoginDto, UserDto, UsernameDto } from "../dto/user.dto";
+import { LoginDto, ResetPasswordRequestDto, UserDto, UsernameDto } from "../dto/user.dto";
 import { validate } from "class-validator";
 import { UserService } from "../services/user.service";
 import { formatErrors } from "../helpers/formatErrors";
@@ -13,16 +13,7 @@ export class UserController {
     this.service = new UserService();
   }
 
-  loginUser: RequestHandler = async (req, res): Promise<void> => {
-    try {
-        const loginUserDto = plainToInstance(LoginDto, req.body);
-        const user = await this.service.loginUser(loginUserDto);
-        res.send(user);
-    } catch (e) {
-        res.status(401).send({ error: { message: (e as Error).message}});
-    }
-  };
-
+  // Регистрация пользователя
   register: RequestHandler = async (req, res): Promise<void> => {
     const userDto = new UserDto();
     userDto.email = req.body.email;
@@ -52,6 +43,18 @@ export class UserController {
     }
   }
 
+  // Аутентификация пользователя
+  loginUser: RequestHandler = async (req, res): Promise<void> => {
+    try {
+        const loginUserDto = plainToInstance(LoginDto, req.body);
+        const user = await this.service.loginUser(loginUserDto);
+        res.send(user);
+    } catch (e) {
+        res.status(401).send({ error: { message: (e as Error).message}});
+    }
+  };
+
+  // Выход пользователя
   logoutUser: RequestHandler = async (req: IRequestWithUser, res) => {
     if(!req.user?.token) return res.send( { message: 'success' } );
     try {
@@ -63,11 +66,12 @@ export class UserController {
     return res.send({ message: `success ` });
   }
 
+  // Подтверждение регистрации по электронной почте
   confirmEmail: RequestHandler = async (req, res): Promise<void> => {
     const { token } = req.params;
     
     try {
-      const user = await this.service.confirmUser(token);
+      const user = await this.service.confirmEmail(token);
       if (user) {
         res.send({message: "Регистрация прошла успешно"});
       } else {
@@ -78,16 +82,18 @@ export class UserController {
     }
   }
 
+  // Повторная отправка письма для подтверждения регистрации
   resendConfirmationEmail: RequestHandler = async (req, res) => {
     const email = req.body.email;
     try {
-        await this.service.sendConfirmationEmailAgain(email);
+        await this.service.resendConfirmationEmail(email);
         res.status(200).send({ message: "Подтверждение повторно отправлено на вашу почту." });
     } catch (error) {
         res.status(400).send({ error: { message: "Неверный адрес электронной почты." } });
     }
   };
 
+  // Изменение имени
   setUsername: RequestHandler = async (req, res): Promise<void> => {
     const usernameDto = new UsernameDto();
     usernameDto.username = req.body.username;
@@ -114,6 +120,18 @@ export class UserController {
       }
     } catch (error) {
       res.status(500).send({ error: { message: 'Ошибка установки имени пользователя' } });
+    }
+  }
+
+  // Отправка письма для сброса пароля
+  sendResetPasswordEmail: RequestHandler = async (req, res): Promise<void> => {
+    const resetPasswordRequestDto = new ResetPasswordRequestDto();
+    resetPasswordRequestDto.email = req.body.email;
+    try {
+      await this.service.sendResetPasswordEmail(resetPasswordRequestDto.email);
+      res.send({ message: 'Ссылка для сброса пароля отправлена на ваш email' });
+    } catch (e) {
+      res.status(500).send({ error: { message: (e as Error).message}});
     }
   }
 }
