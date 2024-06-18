@@ -1,0 +1,26 @@
+@font-face {
+    font-family: 'Blue Curve';
+    src: url('@/assets/fonts/blue_curve/Bluecurve-Light.ttf') format('truetype');
+}
+
+.Logo:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+    transition: 0.3s;
+}
+
+.Back_btn {
+    background: none;
+    border: none;
+}
+
+.Back_btn::after {
+    margin-top: 20px;
+    content: url('@/assets/images/arrow_back.svg');
+}
+
+.Back_btn:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+    transition: 0.3s;
+}
