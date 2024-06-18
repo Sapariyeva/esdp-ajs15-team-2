@@ -37,7 +37,11 @@ export function Cards() {
   return (
     <>
     <Flex justify='center'>
-        <Button onClick={changeStatus}>Stop video</Button>
+        {status === false ? 
+          <Button onClick={changeStatus}>Stop video</Button>
+          :
+          <Button onClick={changeStatus}>Play video</Button>
+        }
     </Flex>
       <Flex wrap="wrap" gap="large" justify="center">
         {array.map((card) => (
