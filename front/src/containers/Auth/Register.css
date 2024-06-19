@@ -1,0 +1,58 @@
+@font-face {
+    font-family: 'Blue Curve'; 
+    src: url('@/assets/fonts/blue_curve/Bluecurve-Light.ttf') format('truetype');
+}
+
+.Logo:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+    transition: 0.3s;
+}
+
+.Back_btn {
+    background: none;
+    border: none;
+    padding-bottom: 20px;
+}
+
+.button-type-primary.Back_btn {
+    background-color: white;
+    border: none;
+    margin-left: 14px;
+}
+
+.button-type-primary.Back_btn:hover {
+    background-color: white;
+}
+
+
+.Back_btn::after {
+    margin-top: 20px;
+    content: url('@/assets/images/arrow_back.svg');
+}
+
+.Back_btn:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+    transition: 0.3s;
+}
+
+
+.input-wrapper .input {
+    padding-right: 10px;
+}
+
+.Support_btn_login .button-title {
+    color: black;
+}
+
+.Support_btn_login {
+    background-color: white;
+    border: 0.62px solid black;
+    margin-left: 50px;
+}
+
+.Support_btn_login:hover {
+    background-color: #58A700;
+    color: white;
+}

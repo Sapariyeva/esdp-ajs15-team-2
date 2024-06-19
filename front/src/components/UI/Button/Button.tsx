@@ -7,6 +7,7 @@ interface Props {
     size: 'sm' | 'md' | 'lg',
     type: 'primary' | 'default'
     style?: React.CSSProperties
+    className?: string
 }
 
 const buttonSizeClassName = {
@@ -20,10 +21,10 @@ const buttonTypeClassName = {
     'default': "button-type-default",
 }
 
-export function Button({title, onClick, size, type, style}: Props) {
+export function Button({title, onClick, size, type, style, className}: Props) {
     return (
         <button 
-            className={`button ${buttonSizeClassName[size]} ${buttonTypeClassName[type]}`} 
+            className={`button ${buttonSizeClassName[size]} ${buttonTypeClassName[type]} ${className}`} 
             onClick={onClick}
             style={style}>
             <span className="button-title">{title}</span>
