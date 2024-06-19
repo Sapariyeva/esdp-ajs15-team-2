@@ -8,6 +8,23 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: #ffffff;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #f2eaff;
+    border: 1px solid #b995f2;
+    border-radius: 20px;
+  }
 }
 
 .modal-content {
@@ -16,6 +33,25 @@
   border-radius: 8px;
   min-width: 300px;
   max-width: 90%;
+  max-height: 90%;
+  overflow-y: auto;
+  padding-right: 20px;
+
+  &::-webkit-scrollbar {
+    width: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: #ffffff;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #f2eaff;
+    border: 1px solid #b995f2;
+    border-radius: 20px;
+  }
 
   @media (max-width: 600px) {
     width: 90%;

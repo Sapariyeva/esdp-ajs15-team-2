@@ -1,0 +1,44 @@
+.help-page {
+    padding: 20px;
+    max-width: 800px;
+}
+
+.help-header {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.help-header h2 {
+    margin-right: auto;
+}
+
+.help-video {
+    margin-bottom: 20px;
+}
+
+.video-placeholder {
+    width: 714px;
+    height: 402px;
+    background-color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.play-button {
+    font-size: 48px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.video-link {
+    display: block;
+    margin-top: 10px;
+    color: #9c27b0;
+}
+
+.faq-section {
+    margin-top: 20px;
+}

@@ -11,9 +11,10 @@ interface Props {
   defaultValue: string;
   onChange: (value: string) => void;
   type?: 'default' | 'inline';
+  style?: React.CSSProperties
 }
 
-export function Select({ options, defaultValue, onChange, type = 'default' }:Props)  {
+export function Select({ options, defaultValue, onChange, type = 'default', style }:Props)  {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState(defaultValue);
 
@@ -26,7 +27,7 @@ export function Select({ options, defaultValue, onChange, type = 'default' }:Pro
   };
 
   return (
-    <div className={`select-container ${type}`}>
+    <div className={`select-container ${type}`} style={style}>
       {type === 'default' ? (
         <>
           <div
@@ -58,7 +59,7 @@ export function Select({ options, defaultValue, onChange, type = 'default' }:Pro
               className={`select-option ${option.value === selectedValue ? 'selected' : ''}`}
               onClick={() => handleSelect(option.value)}
             >
-              {option.value === selectedValue && <span className="check-icon">✔</span>}
+              {option.value === selectedValue && <span className="check-icon"></span>}
               {option.label}
             </div>
           ))}

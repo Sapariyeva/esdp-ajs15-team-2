@@ -22,12 +22,12 @@
     text-overflow: ellipsis;
 
     &:hover {
-      border-color: #40a9ff;
+      border-color: #9069cd;
     }
 
     &:focus {
-      border-color: #40a9ff;
-      box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+      border-color: #9069cd;
+      box-shadow: 0 0 0 2px rgba(143, 105, 205, 0.336);
     }
 
     &:disabled {
@@ -51,7 +51,7 @@
     user-select: none;
 
     &:hover {
-      color: #40a9ff;
+      color: #9069cd;
     }
   }
 
