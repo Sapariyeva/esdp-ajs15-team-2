@@ -3,7 +3,7 @@ import './Button.scss'
 
 interface Props {
     title: string
-    onClick: MouseEventHandler<HTMLButtonElement>
+    onClick?: MouseEventHandler<HTMLButtonElement>
     size: 'sm' | 'md' | 'lg',
     type: 'primary' | 'default'
     style?: React.CSSProperties
@@ -24,7 +24,7 @@ const buttonTypeClassName = {
 export function Button({title, onClick, size, type, style, className}: Props) {
     return (
         <button 
-            className={`button ${buttonSizeClassName[size]} ${buttonTypeClassName[type]} ${className}`} 
+            className={`button ${buttonSizeClassName[size]} ${buttonTypeClassName[type]}`} 
             onClick={onClick}
             style={style}>
             <span className="button-title">{title}</span>

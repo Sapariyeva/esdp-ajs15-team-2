@@ -9,6 +9,7 @@ interface Props {
 
 export function Message ({ type, content, style }: Props) {
     const [isVisible, setIsVisible] = useState<boolean>(true);
+    
 
     useEffect(() => {
         setIsVisible(true);

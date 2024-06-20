@@ -16,6 +16,7 @@ interface Props {
 
 export function Input({ type, placeholder, value, onChange, style, disabled, required }: Props) {
   const [showPassword, setShowPassword] = useState(false);
+  
 
   const handleTogglePassword = () => {
     setShowPassword(!showPassword);
@@ -54,7 +55,7 @@ export function Input({ type, placeholder, value, onChange, style, disabled, req
       />
       {type === 'password' && (
         <span className="password-toggle" onClick={handleTogglePassword}>
-          <img src={showPassword ? closeEye : openEye} alt="eye icon" />
+          <img src={showPassword ? openEye : closeEye} alt="eye icon" />
         </span>
       )}
       {type === 'id' && (

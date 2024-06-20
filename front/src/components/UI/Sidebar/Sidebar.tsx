@@ -1,6 +1,6 @@
 import React from 'react';
 import './Sidebar.scss';
-import igrovuzLogo from '../../../../public/images/logo/igrovuz-logo-lg.svg';
+import igrovuzLogo from '../../../../public/images/logo/igrovuz-logo-sm.svg';
 import helpLogo from '../../../../public/images/sidebar-icons/help.svg';
 import homeLogo from '../../../../public/images/sidebar-icons/home.svg';
 import settingsLogo from '../../../../public/images/sidebar-icons/settings.svg';
