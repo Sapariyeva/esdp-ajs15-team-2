@@ -3,6 +3,8 @@
     src: url('@/assets/fonts/blue_curve/Bluecurve-Light.ttf') format('truetype');
 }
 
+.Continue_btn,
+.Retry_btn,
 .Support_btn,
 .Registr_btn,
 .Login_btn {
@@ -12,6 +14,7 @@
     border-radius: 8px;
     cursor: pointer;
 }
+
 
 .Support_btn {
     color: black;

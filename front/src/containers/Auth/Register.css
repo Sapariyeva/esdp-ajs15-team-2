@@ -1,5 +1,5 @@
 @font-face {
-    font-family: 'Blue Curve'; 
+    font-family: 'Blue Curve';
     src: url('@/assets/fonts/blue_curve/Bluecurve-Light.ttf') format('truetype');
 }
 
@@ -25,11 +25,39 @@
     background-color: white;
 }
 
+.Continue_btn {
+    margin-top: 40vh;
+}
 
 .Back_btn::after {
     margin-top: 20px;
     content: url('@/assets/images/arrow_back.svg');
 }
+
+.card_btn::after {
+    content: url('@/assets/images/Card_onboarding.svg');
+}
+
+.card_btn_social::after {
+    content: url('@/assets/images/Card_onboarding_social.svg');
+}
+
+.card_btn_google::after {
+    content: url('@/assets/images/Card_onboarding_google.svg');
+}
+
+.card_btn, .card_btn_google, .card_btn_social{
+    border: none;
+    background-color: white;
+}
+
+.card_btn:hover, .card_btn_social:hover, .card_btn_google:hover {
+    background-color: white;
+}
+.card_btn, .card_btn_social, .card_btn_google{
+    width: 100%;
+}
+
 
 .Back_btn:hover {
     cursor: pointer;
@@ -56,3 +84,4 @@
     background-color: #58A700;
     color: white;
 }
+
