@@ -1,0 +1,87 @@
+@font-face {
+    font-family: 'Blue Curve';
+    src: url('@/assets/fonts/blue_curve/Bluecurve-Light.ttf') format('truetype');
+}
+
+.Logo:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+    transition: 0.3s;
+}
+
+.Back_btn {
+    background: none;
+    border: none;
+    padding-bottom: 20px;
+}
+
+.button-type-primary.Back_btn {
+    background-color: white;
+    border: none;
+    margin-left: 14px;
+}
+
+.button-type-primary.Back_btn:hover {
+    background-color: white;
+}
+
+.Continue_btn {
+    margin-top: 40vh;
+}
+
+.Back_btn::after {
+    margin-top: 20px;
+    content: url('@/assets/images/arrow_back.svg');
+}
+
+.card_btn::after {
+    content: url('@/assets/images/Card_onboarding.svg');
+}
+
+.card_btn_social::after {
+    content: url('@/assets/images/Card_onboarding_social.svg');
+}
+
+.card_btn_google::after {
+    content: url('@/assets/images/Card_onboarding_google.svg');
+}
+
+.card_btn, .card_btn_google, .card_btn_social{
+    border: none;
+    background-color: white;
+}
+
+.card_btn:hover, .card_btn_social:hover, .card_btn_google:hover {
+    background-color: white;
+}
+.card_btn, .card_btn_social, .card_btn_google{
+    width: 100%;
+}
+
+
+.Back_btn:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+    transition: 0.3s;
+}
+
+
+.input-wrapper .input {
+    padding-right: 10px;
+}
+
+.Support_btn_login .button-title {
+    color: black;
+}
+
+.Support_btn_login {
+    background-color: white;
+    border: 0.62px solid black;
+    margin-left: 50px;
+}
+
+.Support_btn_login:hover {
+    background-color: #58A700;
+    color: white;
+}
+

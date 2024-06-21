@@ -1,0 +1,62 @@
+@font-face {
+    font-family: 'Blue Curve';
+    src: url('@/assets/fonts/blue_curve/Bluecurve-Light.ttf') format('truetype');
+}
+
+.Continue_btn,
+.Retry_btn,
+.Support_btn,
+.Registr_btn,
+.Login_btn {
+    font-family: 'Blue Curve';
+    font-size: 20px;
+    line-height: 26px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+
+.Support_btn {
+    color: black;
+    font-size: 20px;
+    background-color: white;
+    border: 0.62px solid black;
+    padding: 10px 24px;
+    /* margin-top: 40px; */
+    margin: 40px 70px 0px 0px;
+}
+
+.Support_btn:hover {
+    background-color: #58A700;
+    color: white;
+}
+
+.Registr_btn {
+    background-color: #9069CD;
+    color: white;
+    border: none;
+    padding: 16px 97px;
+    margin-bottom: 10px;
+}
+
+.Login_btn {
+    background-color: white;
+    border: 0.62px solid black;
+    padding: 16px 124px;
+    margin-bottom: 10px;
+}
+
+.Login_btn:hover,
+.Registr_btn:hover {
+    background-color: #FDD231;
+    border: none;
+    color: black;
+}
+
+.Auth_title {
+    font-family: 'Blue Curve';
+    font-size: 32px;
+    line-height: 33.61px;
+    margin: 0;
+    margin-bottom: 24px;
+}
