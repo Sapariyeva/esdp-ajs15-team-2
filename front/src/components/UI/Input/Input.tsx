@@ -1,20 +1,21 @@
-import { ChangeEvent, ChangeEventHandler, useState } from 'react';
+import React, { ChangeEvent, ChangeEventHandler, useState } from 'react';
 import './Input.scss';
 import closeEye from '../../../../public/images/icons/close-eye.png';
 import openEye from '../../../../public/images/icons/open-eye.png';
 import copy from '../../../../public/images/icons/copy.svg';
 
 interface Props {
-  type: 'password' | 'email' | 'name' | 'date' | 'id';
+  type: 'password' | 'email' | 'text' | 'date' | 'id';
   placeholder?: string;
   value?: string;
   onChange?: ChangeEventHandler<HTMLInputElement> 
   style?: React.CSSProperties;
+  inputStyle?: React.CSSProperties;
   disabled?: boolean;
   required?: boolean;
 }
 
-export function Input({ type, placeholder, value, onChange, style, disabled, required }: Props) {
+export function Input({ type, placeholder, value, onChange, style, disabled, required, inputStyle }: Props) {
   const [showPassword, setShowPassword] = useState(false);
   
 
@@ -52,6 +53,7 @@ export function Input({ type, placeholder, value, onChange, style, disabled, req
         onChange={type === 'date' ? handleDateChange : onChange}
         disabled={disabled}
         required={required}
+        style={inputStyle}
       />
       {type === 'password' && (
         <span className="password-toggle" onClick={handleTogglePassword}>
