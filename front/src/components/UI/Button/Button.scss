@@ -1,4 +1,11 @@
-@mixin button-size($width, $height, $border-radius, $padding-y, $padding-x, $font-size) {
+@mixin button-size(
+  $width,
+  $height,
+  $border-radius,
+  $padding-y,
+  $padding-x,
+  $font-size
+) {
   width: $width;
   height: $height;
   border-radius: $border-radius;
@@ -27,6 +34,12 @@
     }
     .button-title {
       color: $color;
+    }
+    .button-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 0.5em;
     }
   }
 }

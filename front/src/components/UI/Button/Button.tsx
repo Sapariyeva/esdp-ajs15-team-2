@@ -1,4 +1,4 @@
-import { MouseEventHandler } from "react"
+import { MouseEventHandler, ReactNode } from "react"
 import './Button.scss'
 
 interface Props {
@@ -8,6 +8,7 @@ interface Props {
     type: 'primary' | 'default'
     style?: React.CSSProperties
     className?: string
+    icon?: ReactNode;
 }
 
 const buttonSizeClassName = {
@@ -21,12 +22,13 @@ const buttonTypeClassName = {
     'default': "button-type-default",
 }
 
-export function Button({title, onClick, size, type, style, className}: Props) {
+export function Button({title, onClick, size, type, style, className, icon}: Props) {
     return (
         <button 
             className={`button ${buttonSizeClassName[size]} ${buttonTypeClassName[type]} ${className}`} 
             onClick={onClick}
             style={style}>
+            {icon && <span className="button-icon">{icon}</span>}
             <span className="button-title">{title}</span>
         </button>
     )
