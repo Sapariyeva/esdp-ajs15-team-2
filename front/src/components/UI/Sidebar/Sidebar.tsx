@@ -10,10 +10,14 @@ import './Sidebar.scss';
 
 interface Props {
     style?: React.CSSProperties
-    onClick?: MouseEventHandler<HTMLLIElement>
+    onClickLogout?: MouseEventHandler<HTMLLIElement>
+    onClickGame?: MouseEventHandler<HTMLLIElement>
+    onClickProfile?: MouseEventHandler<HTMLLIElement>
+    onClickStatistics?: MouseEventHandler<HTMLLIElement>
+    onClickHelp?: MouseEventHandler<HTMLLIElement>
 }
 
-export function Sidebar ({style, onClick}: Props) {
+export function Sidebar ({style, onClickLogout, onClickGame, onClickProfile, onClickStatistics, onClickHelp}: Props) {
     return (
       <nav className="sidebar" style={style}>
         <img src={igrovuzLogo} alt="igrovuzLogo" className="sidebar-logo" />
@@ -24,34 +28,34 @@ export function Sidebar ({style, onClick}: Props) {
                     <a href="#home">Главная</a>
                 </div>
             </li>
-            <li className="sidebar-menu-item">
+            <li className="sidebar-menu-item" onClick={onClickStatistics}>
                 <div className="sidebar-menu-item-inner">
                     <img src={statisticsLogo} alt="statistics-logo" />
                     <a href="#statistics">Статистика</a>
                 </div>
             </li>
-            <li className="sidebar-menu-item">
+            <li className="sidebar-menu-item" onClick={onClickProfile}>
                 <div className="sidebar-menu-item-inner">
                     <img src={profileLogo} alt="profile-logo" />
-                    <a href="#profile">Профиль</a>
+                    <a href="/profile">Профиль</a>
                 </div>
             </li>
-            <li className="sidebar-menu-item">
+            <li className="sidebar-menu-item" onClick={onClickGame}>
                 <div className="sidebar-menu-item-inner">
                     <img src={settingsLogo} alt="settings-logo" />
                     <a href="#settings">Настройки</a>
                 </div>
             </li>
-            <li className="sidebar-menu-item">
+            <li className="sidebar-menu-item" onClick={onClickHelp}>
                 <div className="sidebar-menu-item-inner">
                     <img src={helpLogo} alt="help-logo" />
-                    <a href="#help">Помощь</a>
+                    <a href="/help">Помощь</a>
                 </div>
             </li>
-            <li className="sidebar-menu-item" onClick={onClick}>
+            <li className="sidebar-menu-item" onClick={onClickLogout}>
                 <div className="sidebar-menu-item-inner">
                     <img src={logout} alt="logout-logo" />
-                    <a href="#help">Выход</a>
+                    <a href="/">Выход</a>
                 </div>
             </li>
         </ul>

@@ -1,4 +1,4 @@
-import {FAQItem} from '@/containers/FAQItem/FAQItem';
+import {FAQItem} from '@/containers/Help/FAQItem/FAQItem';
 import { Button } from '@/components/UI/Button/Button';
 import { Title } from '@/components/UI/Title/Title';
 import { Modal } from '@/components/UI/Modal/Modal';

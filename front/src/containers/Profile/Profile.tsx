@@ -2,15 +2,18 @@ import { useState } from "react";
 import { Input } from "@/components/UI/Input/Input";
 import { Button } from "@/components/UI/Button/Button";
 import { Modal } from "@/components/UI/Modal/Modal";
-import settingsHeart from "@/public/images/icons/settings_heart.svg";
+import settingsHeart from "../../../public/images/icons/settings_heart.svg";
 
-interface Props {
+interface userData {
   reviewerName: string;
   studentName: string;
   id: number;
 }
 
-export function Profile({ reviewerName, studentName, id }: Props) {
+export function Profile() {
+  const [userData, setUserData] = useState<userData>({ 
+    reviewerName: "Test", studentName: "student", id: 0
+  });
   const [isEditingReviewer, setIsEditingReviewer] = useState(false);
   const [isEditingStudent, setIsEditingStudent] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -68,7 +71,7 @@ export function Profile({ reviewerName, studentName, id }: Props) {
           style={{ display: "flex", gap: 20, alignItems: "center" }}
         >
           <h2 style={{ maxWidth: 410 }}>
-            Профиль <span>{reviewerName}</span>
+            Профиль <span>{userData.reviewerName}</span>
           </h2>
           <img
             src={settingsHeart}
@@ -137,7 +140,7 @@ export function Profile({ reviewerName, studentName, id }: Props) {
           }}
         >
           <h2 style={{ maxWidth: 318 }}>
-            Студент <span>{studentName}</span>
+            Студент <span>{userData.studentName}</span>
           </h2>
           <img
             src={settingsHeart}
@@ -181,7 +184,7 @@ export function Profile({ reviewerName, studentName, id }: Props) {
           />
           <Input
             type="id"
-            placeholder={`ID: ${id}`}
+            placeholder={`ID: ${userData.id}`}
             required
             style={{ width: 300 }}
           />

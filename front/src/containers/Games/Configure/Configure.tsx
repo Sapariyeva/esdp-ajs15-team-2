@@ -11,10 +11,11 @@ const { Footer } = Layout;
 
 interface ConfigureProps {
   visible: boolean;
-  onClose: () => void;
+  onClose?: () => void;
+  startGame: () => void;
 }
 
-export function Configure({ visible, onClose }: ConfigureProps) {
+export function Configure({ visible, onClose, startGame }: ConfigureProps) {
   const [selectedGames, setSelectedGames] = useState('Покажи');
   const [selectedContents, setSelectedContents] = useState('Фото');
   const [selectedEncouragement, setSelectedEncouragement] = useState('Звезда');
@@ -157,7 +158,7 @@ export function Configure({ visible, onClose }: ConfigureProps) {
 
             <Footer style={{ backgroundColor: 'white', borderTop: '2px solid whitesmoke', padding: '0' }}>
                 <Form.Item style={{ display: 'flex', justifyContent: 'space-around' }}>
-                    <Button style={{ width: '108px', height: '58px', margin: '10px', padding: '16px 24px', fontSize: '20px' }} type="primary" title="Начать" size="md"></Button>
+                    <Button style={{ width: '108px', height: '58px', margin: '10px', padding: '16px 24px', fontSize: '20px' }} type="primary" title="Начать" size="md" onClick={() => startGame()}></Button>
                     <Button style={{ width: '363px', height: '58px', margin: '10px', padding: '16px 24px', fontSize: '20px' }} type="default" title="Использовать предыдущие настройки" size="md"></Button>
                     <Button style={{ width: '234px', height: '58px', margin: '10px', padding: '16px 24px', fontSize: '20px' }} type="default" title="Поделиться игрой" size="md"></Button>
                 </Form.Item>

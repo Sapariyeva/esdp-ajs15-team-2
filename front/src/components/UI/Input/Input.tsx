@@ -12,7 +12,7 @@ interface Props {
   style?: React.CSSProperties;
   disabled?: boolean;
   required?: boolean;
-  name: string;
+  name?: string;
 }
 
 export function Input({ type, placeholder, value, onChange, style, disabled, required, name }: Props) {

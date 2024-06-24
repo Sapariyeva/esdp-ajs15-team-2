@@ -17,7 +17,10 @@ const Main = () => {
     return (
         <>
             <Sidebar
-                onClick={() => logout()}
+                onClickLogout={() => logout()}
+                onClickProfile={() => navigate('/profile')}
+                onClickGame={() => navigate('/games')}
+                onClickHelp={() => navigate('/help')}
             ></Sidebar>
         </>
     )
