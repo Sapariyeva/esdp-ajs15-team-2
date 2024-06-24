@@ -1,9 +1,15 @@
 import { Container, Grid } from '@mui/material';
 import { Button } from '@/components/UI/Button/Button';
 import { Title } from '@/components/UI/Title/Title';
+import { Card } from '@/components/UI/Card/Card';
+import friends from '../../../public/images/find/friends.jpg';
+import google from '../../../public/images/find/google.jpg';
+import social from '../../../public/images/find/social.jpg';
+import { useNavigate } from 'react-router-dom';
 
 // Страница с выбором варианта "Как вы узнали о ИгроВУЗ?"
 const Info = () => {
+    const navigate = useNavigate();
 
     return (
         <Container disableGutters sx={{ margin: 0 }} maxWidth={false}>
@@ -22,39 +28,27 @@ const Info = () => {
                 />
             </Grid>
             <Grid display="flex" alignItems="center" flexDirection={"row"} justifyContent={"space-evenly"} >
-                <Button
-                    className='card_btn'
-                    title=""
-                    onClick={() => console.log('clicked')}
-                    size="md"
-                    type="primary"
-                    style={{}}>
-                </Button>
-                <Button
-                    className='card_btn_social'
-                    title=""
-                    onClick={() => console.log('clicked')}
-                    size="md"
-                    type="primary"
-                    style={{}}>
-                </Button>
-                <Button
-                    className='card_btn_google'
-                    title=""
-                    onClick={() => console.log('clicked')}
-                    size="md"
-                    type="primary"
-                    style={{}}>
-                </Button>
+                <Card
+                    title="От друзей, родных или знакомых"
+                    image={friends}
+                ></Card>
+                <Card
+                    title="Из социальных сетей"
+                    image={social}
+                ></Card>
+                <Card
+                    title="Из поиска Google/Yandex"
+                    image={google}
+                ></Card>
             </Grid>
             <Grid display="flex" justifyContent="center" marginTop={"20px"}>
                 <Button
                     className='Continue_btn'
                     title="Продолжить"
-                    onClick={() => console.log('clicked')}
+                    onClick={() => navigate('/main')}
                     size="lg"
                     type="primary"
-                    style={{}}>
+                >
                 </Button>
             </Grid>
         </Container>
