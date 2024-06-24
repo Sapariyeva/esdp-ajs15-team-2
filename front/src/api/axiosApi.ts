@@ -17,7 +17,7 @@ const axiosApi: AxiosInstance = axios.create({
 
 axiosApi.interceptors.request.use(config => {
   try {
-    // config.headers['Authorization'] = store.getState().user.user?.token;
+    config.headers['Authorization'] = store.getState().user.user?.token;
   } catch (e) {
     console.error(e);
   }

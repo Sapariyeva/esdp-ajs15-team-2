@@ -1,0 +1,12 @@
+@font-face {
+    font-family: 'Blue Curve';
+    src: url('@/assets/fonts/blue_curve/Bluecurve-Light.ttf') format('truetype');
+}
+
+* {
+    font-family: 'Blue Curve', sans-serif;
+}
+
+body {
+    margin: 0;
+}

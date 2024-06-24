@@ -1,0 +1,23 @@
+.button-social {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #1c1b1f;
+  cursor: pointer;
+  transition: 0.3s;
+  background-color: #fff;
+  border-radius: 8px;
+
+  &.button-social-size-lg {
+    padding: 14px;
+    margin-right: 10px;
+  }
+
+  .button-icon {
+    width: 24px;
+    height: 24px;
+    &:hover {
+      opacity: 0.6;
+    }
+  }
+}

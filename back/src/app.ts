@@ -3,6 +3,9 @@ import { Application, RequestHandler } from 'express';
 import { AppInit } from './interfaces/AppInit.interface';
 import { IRoute } from './interfaces/IRoute.interface';
 import { appDataSource } from './dataSource/dataSource';
+import session from 'express-session';
+import passport from 'passport';
+import './config/passportConfig';
 
 class App {
     public app: Application;
@@ -23,6 +26,13 @@ class App {
         middlewares.forEach((middleware) => {
             this.app.use(middleware);
         });
+        this.app.use(session({
+            secret: 'your-secret-key',
+            resave: false,
+            saveUninitialized: false
+        }));
+        this.app.use(passport.initialize());
+        this.app.use(passport.session());
     }
     private initRoutes(routes: IRoute[]) {
         routes.forEach((route) => {

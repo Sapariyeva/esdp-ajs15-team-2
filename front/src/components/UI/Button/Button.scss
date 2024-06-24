@@ -1,0 +1,71 @@
+@mixin button-size($width, $height, $border-radius, $padding-y, $padding-x, $font-size) {
+  width: $width;
+  height: $height;
+  border-radius: $border-radius;
+  padding: $padding-y $padding-x;
+  .button-title {
+    font-size: $font-size;
+  }
+}
+
+@mixin button-type(
+  $name,
+  $background-color,
+  $color,
+  $border-color,
+  $background-color-hover,
+  $background-color-active
+) {
+  .button-type-#{$name} {
+    border: 1px solid $border-color;
+    background-color: $background-color;
+    &:hover {
+      background-color: $background-color-hover;
+    }
+    &:active {
+      background-color: $background-color-active;
+    }
+    .button-title {
+      color: $color;
+    }
+  }
+}
+
+.button {
+  cursor: pointer;
+}
+
+.button-size-sm {
+  @include button-size(100px, 38px, 5px, 10px, 10px, 12px);
+}
+
+.button-size-md {
+  @include button-size(200px, 48px, 6px, 14px, 14px, 16px);
+}
+
+.button-size-lg {
+  @include button-size(300px, 58px, 8px, 16px, 16px, 20px);
+}
+
+@include button-type(primary, #9069cd, #fff, #9069cd, #674b94, #9069cd);
+@include button-type(default, #ffffff, #1c1b1f, #1c1b1f, #e4e3e3, #ffffff);
+
+.Support_btn {
+  border: 0.62px solid black;
+  padding: 16px 24px;
+  margin: 40px 100px 0 0;
+}
+
+.Back_btn {
+  margin: 40px 0 0 24px;
+}
+
+.Back_btn::after {
+  margin-top: 20px;
+  content: url('../../../public/images/icons/arrow_back.svg');
+}
+
+.Back_btn:hover {
+  transform: scale(1.1);
+  transition: 0.3s;
+}
