@@ -125,7 +125,7 @@ export function SortingGame({ endGame, restartGame }: Props) {
                         onDragLeave={(e) => dragEndHandler(e)}
                         onDragEnd={(e) => dragEndHandler(e)}
                         onDragOver={(e) => dragOverHandler(e)}
-                        className="card"
+                        className="card-game"
                     >
                         <img src={lastCard.image} alt={lastCard.name} />
                     </div>

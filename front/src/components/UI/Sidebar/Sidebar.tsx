@@ -31,7 +31,7 @@ export function Sidebar ({style, onClickLogout, onClickGame, onClickProfile, onC
             <li className="sidebar-menu-item" onClick={onClickStatistics}>
                 <div className="sidebar-menu-item-inner">
                     <img src={statisticsLogo} alt="statistics-logo" />
-                    <a href="#statistics">Статистика</a>
+                    <a href="/statistics">Статистика</a>
                 </div>
             </li>
             <li className="sidebar-menu-item" onClick={onClickProfile}>
@@ -43,7 +43,7 @@ export function Sidebar ({style, onClickLogout, onClickGame, onClickProfile, onC
             <li className="sidebar-menu-item" onClick={onClickGame}>
                 <div className="sidebar-menu-item-inner">
                     <img src={settingsLogo} alt="settings-logo" />
-                    <a href="#settings">Настройки</a>
+                    <a href="/games">Настройки</a>
                 </div>
             </li>
             <li className="sidebar-menu-item" onClick={onClickHelp}>

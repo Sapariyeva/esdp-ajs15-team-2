@@ -53,9 +53,11 @@ const EmailLink = () => {
             <Grid display="flex" alignItems="center" flexDirection={"column"}>
                 <Title
                     text="Ссылка отправлена на почту."
+                    style={{marginBottom: 0}}
                 />
                 <Title
                     text="Перейдите по ссылке для завершения регистрации"
+                    style={{marginTop: 0}}
                 />
             </Grid>
             <Grid display="flex" justifyContent="center" marginTop={"20px"}>
