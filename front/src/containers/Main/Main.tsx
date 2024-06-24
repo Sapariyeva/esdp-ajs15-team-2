@@ -1,5 +1,5 @@
 import { useAppDispatch } from "@/app/hooks";
-import { Button } from "@/components/UI/Button/Button";
+import { Sidebar } from "@/components/UI/Sidebar/Sidebar";
 import { logoutUser } from "@/features/userSlice";
 import { useNavigate } from "react-router-dom";
 
@@ -16,11 +16,9 @@ const Main = () => {
 
     return (
         <>
-            <Button
-                title="Выйти"
+            <Sidebar
                 onClick={() => logout()}
-                size="lg"
-            />
+            ></Sidebar>
         </>
     )
 }
