@@ -4,11 +4,11 @@ import nodemailer from 'nodemailer';
 
 export const sendMessageByMail = async (from: string, to: string, subject: string, text: string, html: string): Promise<void> => {
     const transporter = nodemailer.createTransport({
-        host: 'smtp.mailtrap.io',
+        host: 'sandbox.smtp.mailtrap.io',
         port: 2525,
         auth: {
-            user: '2b1c8245a8b186',
-            pass: '5990d81b834eb0'
+            user: '105e5bc7b19ec7',
+            pass: '0041075008b41d'
         }
     });
 

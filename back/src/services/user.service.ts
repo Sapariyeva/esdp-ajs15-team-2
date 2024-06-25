@@ -59,10 +59,10 @@ export class UserService {
         const user = await this.repository.findByEmail(loginUserDto.email);
 
         if (!user) throw new Error('Ошибка данных');
-        if (user && user.isEmailConfirmed) {
-            const isMatch = await user.comparePassword(loginUserDto.password);
-            if (!isMatch) throw new Error('Ошибка данных');
+        const isMatch = await user.comparePassword(loginUserDto.password);
+        if (!isMatch) throw new Error('Ошибка данных');
 
+        if (user && user.isEmailConfirmed) {
             user.generateToken();
             const userWithToken = await this.repository.saveUser(user);
             delete userWithToken.password;
