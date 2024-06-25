@@ -49,7 +49,10 @@ export class UserController {
     try {
         const loginUserDto = plainToInstance(LoginDto, req.body);
         const user = await this.service.loginUser(loginUserDto);
-        res.send(user);
+        if (user) {
+          res.send(user);
+        }
+        res.status(401).send({ error: { message: 'Ошибка данных' } });
     } catch (e) {
         res.status(401).send({ error: { message: (e as Error).message}});
     }
