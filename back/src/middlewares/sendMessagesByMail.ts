@@ -7,8 +7,8 @@ export const sendMessageByMail = async (from: string, to: string, subject: strin
         host: 'smtp.mailtrap.io',
         port: 2525,
         auth: {
-            user: '474da4dfe02b65',
-            pass: '06753b19b9cfc5'
+            user: '2b1c8245a8b186',
+            pass: '5990d81b834eb0'
         }
     });
 
