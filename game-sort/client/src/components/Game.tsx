@@ -2,12 +2,13 @@ import { useEffect, useState } from "react";
 import './Game.css';
 import shuffle from 'lodash/shuffle';
 import { message, Modal, Button } from "antd";
-import cabinetImage from '../../public/images/cabinet.jpg';
-import iphoneImage from '../../public/images/iphone.jpg';
-import tvImage from '../../public/images/tv.jpg';
-import appleImage from '../../public/images/apple.jpg';
-import pineappleImage from '../../public/images/pineapple.jpg';
-import closetImage from '../../public/images/closet.jpg';
+// import cabinetImage from '../../public/images/cabinet.jpg';
+// import iphoneImage from '../../public/images/iphone.jpg';
+// import tvImage from '../../public/images/tv.jpg';
+// import appleImage from '../../public/images/apple.jpg';
+// import pineappleImage from '../../public/images/pineapple.jpg';
+// import closetImage from '../../public/images/closet.jpg';
+import { useAppSelector } from "../app/hook";
 
 
 export interface ICard {
@@ -24,14 +25,18 @@ interface Props {
 }
 
 export function Game({ endGame, restartGame }: Props) {
-    const [cards, setCards] = useState<ICard[]>([
-        {id: 1, order: 1, name: 'iPhone', image: iphoneImage, category: 'Электроника'},
-        {id: 2, order: 2, name: 'Телевизор', image: tvImage, category: 'Электроника'},
-        {id: 3, order: 3, name: 'Яблоко', image: appleImage, category: 'Фрукты'},
-        {id: 4, order: 4, name: 'Ананас', image: pineappleImage, category: 'Фрукты'},
-        {id: 5, order: 5, name: 'Шкаф', image: closetImage, category: 'Мебель'},
-        {id: 6, order: 6, name: 'Тумба', image: cabinetImage, category: 'Мебель'}
-    ]);
+
+    const { cards } = useAppSelector((state) => state.cards);
+    const [card, setCards] = useState<ICard[]>(cards);
+
+    // const [cards, setCards] = useState<ICard[]>([
+    //     {id: 1, order: 1, name: 'iPhone', image: iphoneImage, category: 'Электроника'},
+    //     {id: 2, order: 2, name: 'Телевизор', image: tvImage, category: 'Электроника'},
+    //     {id: 3, order: 3, name: 'Яблоко', image: appleImage, category: 'Фрукты'},
+    //     {id: 4, order: 4, name: 'Ананас', image: pineappleImage, category: 'Фрукты'},
+    //     {id: 5, order: 5, name: 'Шкаф', image: closetImage, category: 'Мебель'},
+    //     {id: 6, order: 6, name: 'Тумба', image: cabinetImage, category: 'Мебель'}
+    // ]);
     const [currentCard, setCurrentCard] = useState<ICard | null>(null);
     const [correct, setCorrect] = useState<number>(0);
     const [incorrect, setIncorrect] = useState<number>(0);
@@ -42,10 +47,10 @@ export function Game({ endGame, restartGame }: Props) {
     }, []); 
 
     useEffect(() => {
-        if (cards.length === 0) {
+        if (card.length === 0) {
             setIsModalVisible(true);
         }
-    }, [cards]);
+    }, [card]);
 
     function dragStartHandler(e: React.DragEvent<HTMLDivElement>, card: ICard) {
         setCurrentCard(card);
@@ -80,7 +85,7 @@ export function Game({ endGame, restartGame }: Props) {
         e.currentTarget.style.background = 'white';
     }
 
-    const lastCard = cards[cards.length - 1];
+    const lastCard = card[card.length - 1];
 
     const handleCancel = () => {
         setIsModalVisible(false);
