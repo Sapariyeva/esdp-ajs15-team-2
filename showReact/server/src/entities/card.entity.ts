@@ -10,4 +10,7 @@ export class Card {
 
   @Column()
     image!: string;
+
+  @Column()
+    video!: string;
 }

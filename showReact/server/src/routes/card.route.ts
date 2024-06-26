@@ -15,6 +15,6 @@ export class CardRoute implements IRoute {
 
   private init() {
     this.router.get('/', this.controller.getCards);
-    this.router.post('/', upload.single('image'), this.controller.createCard);
+    this.router.post('/', upload.single('image'), upload.single('video'), this.controller.createCard);
   }
 }

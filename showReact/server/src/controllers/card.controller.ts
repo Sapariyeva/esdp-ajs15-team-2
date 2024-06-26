@@ -21,6 +21,7 @@ export class CardController {
       const cardDto = plainToInstance(CardDto, req.body);
       if (req.file) {
         cardDto.image = req.file.filename;
+        cardDto.video = req.file.filename;
       }
       const card = await this.service.createCard(cardDto);
       return res.send(card);
