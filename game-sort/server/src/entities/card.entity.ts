@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 
-@Entity()
+@Entity({ name: 'sortCards' })
 export class Card {
   @PrimaryGeneratedColumn()
     id!: number;
