@@ -4,13 +4,14 @@ import { SeederOptions } from 'typeorm-extension';
 // import {password} from "../../sql-config";
 import MainSeeder from '../database/seeds/main.seeder';
 
+
 const options: DataSourceOptions & SeederOptions = {
     type: 'mysql',
-    host: 'localhost',
+    host: 'localhost', // Различие здесь
     port: 3306,
-    username: 'root',
-    password: "password",
-    database: 'esdp',
+    username: 'youruser',
+    password: "yourpassword",
+    database: 'yourdatabase',
     synchronize: true,
     logging: true,
     entities: [],
@@ -18,4 +19,4 @@ const options: DataSourceOptions & SeederOptions = {
     factories: []
 }
 
-// export const appDataSource = new DataSource(options);
+export const appDataSource = new DataSource(options);

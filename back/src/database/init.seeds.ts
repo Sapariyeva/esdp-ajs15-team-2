@@ -1,8 +1,9 @@
-// import { appDataSource } from '../dataSource/dataSource';
-// import { runSeeders } from 'typeorm-extension';
+import { appDataSource } from '../dataSource/dataSource';
+import { runSeeders } from 'typeorm-extension';
 
-// appDataSource.initialize().then(async () => {
-//     await appDataSource.synchronize(true);
-//     await runSeeders(appDataSource);
-//     process.exit();
-// });
+appDataSource.initialize().then(async () => {
+    console.log('Seeding...');
+    await appDataSource.synchronize(true);
+    await runSeeders(appDataSource);
+    process.exit();
+});
