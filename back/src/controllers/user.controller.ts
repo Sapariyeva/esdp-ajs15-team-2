@@ -4,7 +4,7 @@ import { validate } from "class-validator";
 import { UserService } from "../services/user.service";
 import { formatErrors } from "../helpers/formatErrors";
 import { plainToInstance } from "class-transformer";
-// import { IRequestWithUser } from "../interfaces/IRequestWithUser.interface";
+import { IRequestWithUser } from "../interfaces/IRequestWithUser.interface";
 import passport from 'passport';
 
 export class UserController {
@@ -51,6 +51,7 @@ export class UserController {
         const user = await this.service.loginUser(loginUserDto);
         if (user) {
           res.send(user);
+          return;
         }
         res.status(401).send({ error: { message: 'Ошибка данных' } });
     } catch (e) {
@@ -59,16 +60,20 @@ export class UserController {
   };
 
   // Выход пользователя
-  // logoutUser: RequestHandler = async (req: IRequestWithUser, res) => {
-  //   if(!req.user?.token) return res.send( { message: 'success' } );
-  //   try {
-  //       const { token } = req.user;
-  //       await this.service.logoutUser(token);
-  //   } catch (e) {
-  //       return res.status(500).send({ error: { message: 'Внутренняя ошибка сервера' } });
-  //   }
-  //   return res.send({ message: `success ` });
-  // }
+  logoutUser: RequestHandler = async (req: IRequestWithUser, res) => {
+    // Проверяем, есть ли токен у пользователя
+    if(!req.user?.token) return res.send( { message: 'success' } );
+    try {
+      // Получаем токен пользователя из запроса
+      const { token } = req.user;
+
+      // Вызываем сервис для логаута пользователя
+      await this.service.logoutUser(token);
+    } catch (e) {
+      return res.status(500).send({ error: { message: 'Внутренняя ошибка сервера' } });
+    }
+    return res.send({ message: `success ` });
+  }
 
   // Подтверждение регистрации по электронной почте
   confirmEmail: RequestHandler = async (req, res): Promise<void> => {

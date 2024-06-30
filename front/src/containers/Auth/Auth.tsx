@@ -1,6 +1,6 @@
 import { Container, Grid, Link } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import logo from '../../../public/images/logo/igrovuz-logo-lg.svg';
+import logo from '@/assets/images/logo/igrovuz-logo-lg.svg';
 import { Button } from '@/components/UI/Button/Button';
 import { ImageContainer } from '@/components/UI/ImageContainer/ImageContainer';
 

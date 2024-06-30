@@ -19,7 +19,9 @@ export function Configure({ visible, onClose, startGame }: ConfigureProps) {
   const [selectedGames, setSelectedGames] = useState('Покажи');
   const [selectedContents, setSelectedContents] = useState('Фото');
   const [selectedEncouragement, setSelectedEncouragement] = useState('Звезда');
-  const [actions, setActions] = useState(['Бегать', 'Спать', 'Прыгать', 'Нюхать', 'Летать']);
+
+  //TODO: Удален setActions как неиспользуемый. Ошибка при npm run build
+  const [actions] = useState(['Бегать', 'Спать', 'Прыгать', 'Нюхать', 'Летать']);
 
   const games = [
     { value: 'Покажи', label: 'Покажи' },

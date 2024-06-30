@@ -1,6 +1,7 @@
 @font-face {
     font-family: 'Blue Curve';
     src: url('@/assets/fonts/blue_curve/Bluecurve-Light.ttf') format('truetype');
+    font-display: swap;
 }
 
 * {

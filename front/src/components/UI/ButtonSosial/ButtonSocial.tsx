@@ -1,9 +1,9 @@
 import { MouseEventHandler } from "react"
-import vkIcon from '../../../../public/images/social-icons/vk-icon.svg'
-import facebookIcon from '../../../../public/images/social-icons/facebook-icon.svg'
-import appleIcon from '../../../../public/images/social-icons/apple-icon.svg'
-import googleIcon from '../../../../public/images/social-icons/google-icon.svg'
-import yandexIcon from '../../../../public/images/social-icons/yandex-icon.svg'
+import vkIcon from '@/assets/images/social-icons/vk-icon.svg'
+import facebookIcon from '@/assets/images/social-icons/facebook-icon.svg'
+import appleIcon from '@/assets/images/social-icons/apple-icon.svg'
+import googleIcon from '@/assets/images/social-icons/google-icon.svg'
+import yandexIcon from '@/assets/images/social-icons/yandex-icon.svg'
 import './ButtonSocial.scss'
 
 

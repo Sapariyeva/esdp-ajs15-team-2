@@ -1,5 +1,5 @@
 import { styled } from '@mui/system';
-import boy from '@/../public/images/image/boy.svg';
+import boy from '@/assets/images/image/boy.svg';
 import { Box } from '@mui/material';
 
 export const ImageContainer = styled(Box)({

@@ -25,7 +25,7 @@ export class UserRoute implements IRoute {
         // Аутентификация пользователя
         this.router.post('/login', this.controller.loginUser);
         // Выход пользователя
-        // this.router.delete('/logout', authValidate, this.controller.logoutUser);
+        this.router.delete('/logout', authValidate, this.controller.logoutUser);
         // Поиск пользователя по почте
         this.router.get('/find_by_email', this.controller.findByEmail);
         // Отправка ссылки для подтверждения сброса пароля

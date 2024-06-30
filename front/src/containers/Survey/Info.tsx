@@ -2,9 +2,9 @@ import { Container, Grid } from '@mui/material';
 import { Button } from '@/components/UI/Button/Button';
 import { Title } from '@/components/UI/Title/Title';
 import { Card } from '@/components/UI/Card/Card';
-import friends from '../../../public/images/find/friends.jpg';
-import google from '../../../public/images/find/google.jpg';
-import social from '../../../public/images/find/social.jpg';
+import friends from '@/assets/images/find/friends.jpg';
+import google from '@/assets/images/find/google.jpg';
+import social from '@/assets/images/find/social.jpg';
 import { useNavigate } from 'react-router-dom';
 
 // Страница с выбором варианта "Как вы узнали о ИгроВУЗ?"

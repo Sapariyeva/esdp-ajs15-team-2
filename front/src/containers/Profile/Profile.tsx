@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Input } from "@/components/UI/Input/Input";
 import { Button } from "@/components/UI/Button/Button";
 import { Modal } from "@/components/UI/Modal/Modal";
-import settingsHeart from "../../../public/images/icons/settings_heart.svg";
+import settingsHeart from "@/assets/images/icons/settings_heart.svg";
 
 interface userData {
   reviewerName: string;
@@ -11,7 +11,8 @@ interface userData {
 }
 
 export function Profile() {
-  const [userData, setUserData] = useState<userData>({ 
+  //TODO: Удален setUserData как неиспользуемый. Ошибка при npm run build
+  const [userData] = useState<userData>({ 
     reviewerName: "Test", studentName: "student", id: 0
   });
   const [isEditingReviewer, setIsEditingReviewer] = useState(false);

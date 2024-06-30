@@ -1,5 +1,5 @@
 import { Alert, Box, Container, Grid } from '@mui/material';
-import logo from '../../../public/images/logo/igrovuz-logo-lg.svg';
+import logo from '@/assets/images/logo/igrovuz-logo-lg.svg';
 import { Button } from '@/components/UI/Button/Button';
 import FormElement from '@/components/UI/Form/FormElement';
 import Loading from '@/components/UI/Loading/Loading';

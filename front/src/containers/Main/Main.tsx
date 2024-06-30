@@ -21,6 +21,8 @@ const Main = () => {
                 onClickProfile={() => navigate('/profile')}
                 onClickGame={() => navigate('/games')}
                 onClickHelp={() => navigate('/help')}
+                onClickStatistics={() => navigate('/statistics')}
+                onClickMain={() => navigate('/main')}
             ></Sidebar>
         </>
     )

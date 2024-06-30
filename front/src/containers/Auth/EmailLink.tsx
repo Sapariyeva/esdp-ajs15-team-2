@@ -1,5 +1,5 @@
 import { Container, Grid } from '@mui/material';
-import logo from '../../../public/images/logo/igrovuz-logo-lg.svg';
+import logo from '@/assets/images/logo/igrovuz-logo-lg.svg';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { changeRegisterEmail, getUserFindByEmail, resendConfirmEmail } from '@/features/userSlice';

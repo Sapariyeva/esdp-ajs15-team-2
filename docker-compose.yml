@@ -77,8 +77,18 @@ services:
   api:
     build:
       context: ./back
+    depends_on:
+      - mysql
+    environment:
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: youruser
+      DB_PASSWORD: yourpassword
+      DB_NAME: yourdatabase
     ports:
-      - '5000:5000'
+      - '8000:8000'
+    networks:
+      - backend
 
   nginx:
     restart: always
@@ -86,3 +96,29 @@ services:
       context: ./front
     ports:
       - '80:80'
+    depends_on:
+      - api  # Различие здесь
+    networks:
+      - backend # Различие здесь
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: yourdatabase
+      MYSQL_USER: youruser
+      MYSQL_PASSWORD: yourpassword
+    ports:
+      - "3306:3306"  # Различие здесь
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - backend  # Различие здесь
+
+volumes:
+  mysql-data:
+
+networks:
+  backend:

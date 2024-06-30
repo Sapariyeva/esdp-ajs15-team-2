@@ -1,5 +1,5 @@
 import { Container, Grid, Typography } from '@mui/material';
-import logo from '../../../../public/images/logo/igrovuz-logo-lg.svg';
+import logo from '@/assets/images/logo/igrovuz-logo-lg.svg';
 
 const Loading = () => {
 

@@ -32,22 +32,21 @@
   padding-left: 15px;
 }
 
-.sidebar-menu-item a {
+.sidebar-menu-item p {
   display: block;
   padding: 15px 20px;
   color: #1c1b1f;
-  text-decoration: none;
-  width: 100%;
   transition: 0.3s;
-  text-align: left;
-  border-radius: 8px;
+  width: 100%;
+  margin: 0;
 }
 
 .sidebar-menu-item:hover .sidebar-menu-item-inner {
   background-color: #300163;
   border-radius: 8px;
+  cursor: pointer;
 }
 
-.sidebar-menu-item a:hover {
+.sidebar-menu-item p:hover {
   color: #fff;
 }

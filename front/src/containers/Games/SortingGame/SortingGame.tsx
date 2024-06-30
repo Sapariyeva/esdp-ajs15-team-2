@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import shuffle from 'lodash/shuffle';
 import { message, Modal, Button } from "antd";
-import cabinetImage from '../../../../public/images/sortingGameImg/cabinet.jpg';
-import iphoneImage from '../../../../public/images/sortingGameImg/iphone.jpg';
-import tvImage from '../../../../public/images/sortingGameImg/tv.jpg';
-import appleImage from '../../../../public/images/sortingGameImg/apple.jpg';
-import pineappleImage from '../../../../public/images/sortingGameImg/pineapple.jpg';
-import closetImage from '../../../../public/images/sortingGameImg/closet.jpg';
+import cabinetImage from '@/assets/images/sortingGameImg/cabinet.jpg';
+import iphoneImage from '@/assets/images/sortingGameImg/iphone.jpg';
+import tvImage from '@/assets/images/sortingGameImg/tv.jpg';
+import appleImage from '@/assets/images/sortingGameImg/apple.jpg';
+import pineappleImage from '@/assets/images/sortingGameImg/pineapple.jpg';
+import closetImage from '@/assets/images/sortingGameImg/closet.jpg';
 import './SortingGame.css';
 
 export interface ICard {
@@ -47,6 +47,8 @@ export function SortingGame({ endGame, restartGame }: Props) {
     }, [cards]);
 
     function dragStartHandler(e: React.DragEvent<HTMLDivElement>, card: ICard) {
+        //TODO: Добавлен console.log(e) как решение проблемы. Ошибка при npm run build
+        console.log(e)
         setCurrentCard(card);
     }
 

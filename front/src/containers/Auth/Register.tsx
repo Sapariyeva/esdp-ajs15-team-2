@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import { changeRegisterEmail, clearRegisterError, registerUser } from "@/features/userSlice";
 import FormElement from "@/components/UI/Form/FormElement";
-import logo from '../../../public/images/logo/igrovuz-logo-lg.svg';
+import logo from '@/assets/images/logo/igrovuz-logo-lg.svg';
 import { Button } from "@/components/UI/Button/Button";
 import { ImageContainer } from "@/components/UI/ImageContainer/ImageContainer";
 import { ButtonSocial } from "@/components/UI/ButtonSosial/ButtonSocial";

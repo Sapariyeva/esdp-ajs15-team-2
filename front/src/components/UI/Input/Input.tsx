@@ -1,7 +1,7 @@
 import { ChangeEvent, ChangeEventHandler, useState } from 'react';
-import closeEye from '@/../public/images/icons/close-eye.png';
-import openEye from '@/../public/images/icons/open-eye.png';
-import copy from '@/../public/images/icons/copy.svg';
+import closeEye from '@/assets/images/icons/close-eye.png';
+import openEye from '@/assets/images/icons/open-eye.png';
+import copy from '@/assets/images/icons/copy.svg';
 import './Input.scss';
 
 interface Props {
