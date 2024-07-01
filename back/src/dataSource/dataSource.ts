@@ -1,7 +1,6 @@
 import { DataSource, DataSourceOptions } from "typeorm";
 import { SeederOptions } from "typeorm-extension";
 import MainSeeder from "../database/seeds/main.seeder";
-import { User } from "../entities/user.entity";
 
 /**
  * Данная конфигурация нужна при запуске команды npm run dev
@@ -15,7 +14,7 @@ const options: DataSourceOptions & SeederOptions = {
     database: 'esdp',
     synchronize: true,
     logging: true,
-    entities: [ User ],
+    entities: [`src/entities/*{.ts,.js}`],
     seeds: [ MainSeeder ],
     factories: []
 }
