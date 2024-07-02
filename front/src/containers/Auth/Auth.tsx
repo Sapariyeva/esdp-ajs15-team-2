@@ -3,10 +3,18 @@ import { useNavigate } from 'react-router-dom';
 import logo from '@/assets/images/logo/igrovuz-logo-lg.svg';
 import { Button } from '@/components/UI/Button/Button';
 import { ImageContainer } from '@/components/UI/ImageContainer/ImageContainer';
+import { useEffect } from 'react';
+import { useAppDispatch } from '@/app/hooks';
+import { changeRegisterEmail } from '@/features/userSlice';
 
 // Страница аутентификации
 const Auth = () => {
+    const dispatch = useAppDispatch();
     const navigate = useNavigate();
+
+    useEffect(() => {
+        dispatch(changeRegisterEmail(''));
+    }, [navigate]);
 
     return (
         <Container disableGutters maxWidth="xl">

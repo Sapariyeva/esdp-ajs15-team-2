@@ -4,11 +4,12 @@ import nodemailer from 'nodemailer';
 
 export const sendMessageByMail = async (from: string, to: string, subject: string, text: string, html: string): Promise<void> => {
     const transporter = nodemailer.createTransport({
-        host: 'sandbox.smtp.mailtrap.io',
-        port: 2525,
+        host: 'smtp.yandex.ru',
+        port: 465,
+        secure: true,
         auth: {
-            user: '105e5bc7b19ec7',
-            pass: '0041075008b41d'
+            user: 'igro.vuz',
+            pass: 'xbxkdaeqqoadptwz'
         }
     });
 
@@ -20,5 +21,10 @@ export const sendMessageByMail = async (from: string, to: string, subject: strin
         html, // html письма
     };
 
-    await transporter.sendMail(mailOptions);
+    try {
+        await transporter.sendMail(mailOptions);
+        console.log('Email sent successfully');
+    } catch (error) {
+        console.error('Error sending email:', error);
+    }
 };

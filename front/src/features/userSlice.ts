@@ -76,12 +76,8 @@ export const loginUser = createAsyncThunk<IUser, userRequest, { rejectValue: str
 export const resendConfirmEmail = createAsyncThunk(
     "auth/resend_confirmation",
     async (email: string, { rejectWithValue }) => {
-        console.log(email);
-        
         try {
             const response = await axiosApi.post(`/users/resend_confirmation`, { email });
-            console.log(response.data);
-            
             return response.data;
         } catch (err) {
             if (isAxiosError(err)) {
@@ -132,7 +128,7 @@ export const getUserFindByEmail = createAsyncThunk(
     "auth/get_user_find_by_email",
     async (email: string, { rejectWithValue }) => {
         try {
-            const response = await axiosApi.get<IUser>(`/users/find_by_email?email=${email}`);
+            const response = await axiosApi.get<IUser>(`/users/find_by_email/${email}`);
             return response.data;
         } catch (err) {
             if (isAxiosError(err)) {

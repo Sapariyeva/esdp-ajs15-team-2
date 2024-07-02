@@ -12,6 +12,7 @@ import { Button } from "@/components/UI/Button/Button";
 import { ImageContainer } from "@/components/UI/ImageContainer/ImageContainer";
 import { Title } from "@/components/UI/Title/Title";
 import Loading from "@/components/UI/Loading/Loading";
+import { ButtonSocial } from "@/components/UI/ButtonSosial/ButtonSocial";
 
 // Страница авторизации
 interface ILoginState {
@@ -126,6 +127,33 @@ const Login = () => {
                             </Link>
                         </Grid>
                     </Box>
+                    <Grid display="flex" justifyContent="center">
+                        <ButtonSocial
+                            onClick={() => console.log("click")}
+                            size="lg"
+                            type="facebook"
+                        ></ButtonSocial>
+                        <ButtonSocial
+                            onClick={() => console.log("click")}
+                            size="lg"
+                            type="google"
+                        ></ButtonSocial>
+                        <ButtonSocial
+                            onClick={() => console.log("click")}
+                            size="lg"
+                            type="apple"
+                        ></ButtonSocial>
+                        <ButtonSocial
+                            onClick={() => console.log("click")}
+                            size="lg"
+                            type="vk"
+                        ></ButtonSocial>
+                        <ButtonSocial
+                            onClick={() => console.log("click")}
+                            size="lg"
+                            type="yandex"
+                        ></ButtonSocial>
+                    </Grid>
                 </Grid>
             </Grid>
         </Container>

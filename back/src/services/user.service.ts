@@ -19,9 +19,16 @@ export class UserService {
     async sendConfirmationEmail(user: User): Promise<void> {
         const subject = 'Подтверждение регистрации';
         const text = `Для подтверждения регистрации перейдите по ссылке: http://localhost:8000/users/confirm/${user.token}`;
-        const html = `<p>Для подтверждения регистрации перейдите по ссылке:</p><p><a href="http://localhost:8000/users/confirm/${user.token}">Подтвердить регистрацию</a></p>`;
+        const html = `
+            <h2>Вы зарегистрировались</h2>
+            <i>Ваши данные:</i>
+            <ul>
+                <li>login: ${user.email}</li>
+            </ul>
+            <p>Для подтверждения регистрации перейдите по ссылке:</p><p><a href="http://localhost:8000/users/confirm/${user.token}">Подтвердить регистрацию</a></p>
+        `;
 
-        await sendMessageByMail( 'igrovuz@gmail.com', user.email, subject, text, html);
+        await sendMessageByMail( 'igro.vuz@yandex.ru', user.email, subject, text, html);
     }
 
     // Регистрация пользователя
