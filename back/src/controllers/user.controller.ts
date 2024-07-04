@@ -82,9 +82,25 @@ export class UserController {
     try {
       const user = await this.service.confirmEmail(token);
       if (user) {
-        res.send({message: "Регистрация прошла успешно"});
+        res.status(200).send(`<h1 
+          style="text-align: center; margin-top: 20%; color: #9069cd;"
+        >Регистрация пройдена успешно!</h1>
+        <script>
+          setTimeout(() => {
+            window.closed = true;
+            window.close();
+          }, 3000);
+        </script>`);
       } else {
-        res.status(400).send({ error: { message: `Неверный токен` }});
+        res.status(400).send(`<h1 
+          style="text-align: center; margin-top: 20%; color: #9069cd;"
+        >Ссылка недействительна</h1>
+        <script>
+          setTimeout(() => {
+            window.closed = true;
+            window.close();
+          }, 3000);
+        </script>`);
       }
     } catch (error) {
       res.status(500).send({ error: { message: 'Ошибка подтверждения электронной почты' } });
