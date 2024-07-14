@@ -6,7 +6,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import FormElement from "@/components/UI/Form/FormElement";
-import { clearRegisterError, loginUser } from "@/features/userSlice";
+import { changeInitialState, loginUser } from "@/features/userSlice";
 import logo from '@/assets/images/logo/igrovuz-logo-lg.svg';
 import { Button } from "@/components/UI/Button/Button";
 import { ImageContainer } from "@/components/UI/ImageContainer/ImageContainer";
@@ -30,7 +30,7 @@ const Login = () => {
     });
 
     useEffect(() => {
-        dispatch(clearRegisterError());
+        dispatch(changeInitialState());
     }, [dispatch]);
 
     const inputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {

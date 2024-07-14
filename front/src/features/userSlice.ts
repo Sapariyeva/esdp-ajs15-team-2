@@ -240,6 +240,13 @@ const userSlice = createSlice({
         changeUserEmail(state, action) {
             state.userEmail = action.payload;
         },
+        changeInitialState(state) {
+            state.user = null;
+            state.userEmail = "";
+            state.loading = false;
+            state.registerError = null;
+            state.loginError = null;
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -356,6 +363,6 @@ const userSlice = createSlice({
     },
 });
 
-export const { clearRegisterError, changeUserEmail } = userSlice.actions;
+export const { clearRegisterError, changeUserEmail, changeInitialState } = userSlice.actions;
 
 export default userSlice.reducer;

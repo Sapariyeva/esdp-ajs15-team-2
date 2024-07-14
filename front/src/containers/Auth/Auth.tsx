@@ -5,7 +5,7 @@ import { Button } from '@/components/UI/Button/Button';
 import { ImageContainer } from '@/components/UI/ImageContainer/ImageContainer';
 import { useEffect } from 'react';
 import { useAppDispatch } from '@/app/hooks';
-import { changeUserEmail } from '@/features/userSlice';
+import { changeInitialState } from '@/features/userSlice';
 
 // Страница аутентификации
 const Auth = () => {
@@ -13,7 +13,7 @@ const Auth = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        dispatch(changeUserEmail(''));
+        dispatch(changeInitialState());
     }, [navigate]);
 
     return (
