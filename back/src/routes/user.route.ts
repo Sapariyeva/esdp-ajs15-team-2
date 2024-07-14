@@ -28,8 +28,14 @@ export class UserRoute implements IRoute {
         this.router.delete('/logout', authValidate, this.controller.logoutUser);
         // Поиск пользователя по почте
         this.router.get('/find_by_email/:email', this.controller.findByEmail);
+        // Поиск пользователя по токену сброса пароля
+        this.router.get('/find_by_reset_password_token/:token', this.controller.findByResetPasswordToken);
         // Отправка ссылки для подтверждения сброса пароля
-        this.router.post('/request_password_reset', this.controller.sendResetPasswordEmail);
+        this.router.post('/request_password_reset', this.controller.resetPasswordEmail);
+        // Повторная отправка письма для сброса пароля
+        this.router.post('/resend_password_reset', this.controller.resendResetPasswordEmail);
+        // Сброс пароля
+        this.router.post('/reset_password/:token', this.controller.resetPassword);
         // Аутентификация через Google
         this.router.get('/auth/google', this.controller.googleAuth);
         this.router.get('/auth/google/callback', this.controller.googleAuthCallback);

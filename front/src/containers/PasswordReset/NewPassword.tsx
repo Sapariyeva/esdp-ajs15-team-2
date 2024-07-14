@@ -3,9 +3,10 @@ import logo from '@/assets/images/logo/igrovuz-logo-lg.svg';
 import { Button } from '@/components/UI/Button/Button';
 import FormElement from '@/components/UI/Form/FormElement';
 import Loading from '@/components/UI/Loading/Loading';
-import { clearRegisterError } from '@/features/userSlice';
+import { clearRegisterError, getUserFindByResetPasswordToken, resetPassword } from '@/features/userSlice';
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import { useParams } from 'react-router-dom';
 
 // Страница для изменения пароля
 interface IPasswordResetState {
@@ -13,19 +14,36 @@ interface IPasswordResetState {
     confirmPassword: string;
 }
 const NewPassword = () => {
-    const { registerError, loading } = useAppSelector(state => state.user);
-
+    const { registerError, loading, user } = useAppSelector(state => state.user);
     const dispatch = useAppDispatch();
+    const { token } = useParams<{ token: string }>(); // Извлекаем токен из URL
 
     const [state, setState] = useState<IPasswordResetState>({
         password: "", confirmPassword: ""
     });
-
     const [passwordError, setPasswordError] = useState<string | undefined>(undefined);
+    const [showInvalidLinkMessage, setShowInvalidLinkMessage] = useState(false);
+    const [passwordChanged, setPasswordChanged] = useState(false); // Состояние для отслеживания успешного изменения пароля
     
     useEffect(() => {
+        setShowInvalidLinkMessage(false);
         dispatch(clearRegisterError());
-    }, [dispatch]);
+        dispatch(getUserFindByResetPasswordToken(token!));
+        if (user?.resetPasswordToken) {
+            setShowInvalidLinkMessage(false);
+        } else {
+            setShowInvalidLinkMessage(true);
+        }
+    }, [dispatch, token, user?.resetPasswordToken]);
+
+    useEffect(() => {
+        if (showInvalidLinkMessage) {
+            const timer = setTimeout(() => {
+                window.close();
+            }, 5000);
+            return () => clearTimeout(timer); // Очистка таймера при размонтировании компонента
+        }
+    }, [showInvalidLinkMessage]);
     
     const inputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -43,6 +61,17 @@ const NewPassword = () => {
             return;
         }
         setPasswordError(undefined);
+        dispatch(resetPassword({ password: state.password, resetPasswordToken: token! })).unwrap().then(() => {
+            setShowInvalidLinkMessage(false);
+            setPasswordChanged(true); // Устанавливаем флаг успешного изменения пароля
+            const timer = setTimeout(() => {
+                window.close();
+            }, 5000);
+            return () => clearTimeout(timer); // Очистка таймера при размонтировании компонента
+        }).catch(error => {
+            // Обработка ошибок при сбросе пароля
+            console.error('Ошибка при сбросе пароля:', error);
+        });        
     };
 
     const getErrorsBy = (name: string) => {
@@ -53,7 +82,13 @@ const NewPassword = () => {
     };
 
     if(loading) return <Loading/>
-    
+    if(showInvalidLinkMessage) return <>
+        <h1 style={{textAlign: 'center', marginTop: "20%", color: "#9069cd"}}>Ссылка недействительна</h1>
+    </>
+    if(passwordChanged) return <>
+        <h1 style={{textAlign: 'center', marginTop: "20%", color: "#9069cd"}}>Пароль успешно изменен!</h1>
+    </>
+
     return (
         <Container disableGutters sx={{ margin: 0 }} maxWidth={false}>
             <Grid display="flex" justifyContent="flex-end" alignItems={"end"}>

@@ -1,5 +1,5 @@
 import { RequestHandler } from "express";
-import { LoginDto, ResetPasswordRequestDto, UserDto, UsernameDto } from "../dto/user.dto";
+import { LoginDto, ResetPasswordDto, ResetPasswordRequestDto, UserDto, UsernameDto } from "../dto/user.dto";
 import { validate } from "class-validator";
 import { UserService } from "../services/user.service";
 import { formatErrors } from "../helpers/formatErrors";
@@ -168,12 +168,61 @@ export class UserController {
   }
 
   // Отправка письма для сброса пароля
-  sendResetPasswordEmail: RequestHandler = async (req, res): Promise<void> => {
+  resetPasswordEmail: RequestHandler = async (req, res): Promise<void> => {
     const resetPasswordRequestDto = new ResetPasswordRequestDto();
     resetPasswordRequestDto.email = req.body.email;
     try {
-      await this.service.sendResetPasswordEmail(resetPasswordRequestDto.email);
+      await this.service.resetPasswordEmail(resetPasswordRequestDto.email);
       res.send({ message: 'Ссылка для сброса пароля отправлена на ваш email' });
+    } catch (e) {
+      res.status(500).send({ error: { message: (e as Error).message}});
+    }
+  }
+
+  // Повторная отправка письма для сброса пароля
+  resendResetPasswordEmail: RequestHandler = async (req, res): Promise<void> => {
+    const email = req.body.email;
+    try {
+      await this.service.resendResetPasswordEmail(email);
+      res.send({ message: 'Ссылка для сброса пароля повторно отправлена на ваш email' });
+    } catch (e) {
+      res.status(500).send({ error: { message: (e as Error).message}});
+    }
+  }
+
+  // Поиск пользователя по токену для сброса пароля
+  findByResetPasswordToken: RequestHandler = async (req, res): Promise<void> => {
+    try {
+      const user = await this.service.findByResetPasswordToken(req.params.token);
+      
+      if (user) {
+        res.send(user);
+      } else {
+        res.send(null);
+      }
+    } catch (error) {
+      res.status(500).send({ error: { message: 'Ошибка поиска пользователя' } });
+    }
+  }
+
+  // Функция для сброса пароля
+  resetPassword: RequestHandler = async (req, res): Promise<void> => {
+    const resetPasswordDto = new ResetPasswordDto();
+    resetPasswordDto.resetPasswordToken = req.params.token;
+    resetPasswordDto.password = req.body.password;
+    
+    const errors = await validate(resetPasswordDto, { 
+      whitelist: true, 
+      validationError: { target: false, value: false } 
+    });
+    if (errors.length > 0) {
+      res.status(400).send(formatErrors(errors));
+      return;
+    }
+
+    try {
+      await this.service.resetPassword(resetPasswordDto);
+      res.send({ message: 'Пароль успешно изменен' });
     } catch (e) {
       res.status(500).send({ error: { message: (e as Error).message}});
     }

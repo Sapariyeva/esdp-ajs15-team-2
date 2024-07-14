@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, BeforeInsert } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, BeforeInsert, BeforeUpdate } from 'typeorm';
 import bcrypt from 'bcrypt';
 import { randomUUID } from "crypto";
 
@@ -28,9 +28,12 @@ export class User extends BaseEntity {
     @Column({ nullable: true })
     resetPasswordToken?: string;
 
-    @Column({ type: 'timestamp', nullable: true })
-    resetPasswordExpires?: Date;
-
+    @BeforeInsert()
+    @BeforeUpdate()
+    capitalizeUsername(): void {
+        this.username = this.username.charAt(0).toUpperCase() + this.username.slice(1).toLowerCase();
+    }
+    
     @BeforeInsert()
     generateToken(): void {
         this.token = randomUUID();

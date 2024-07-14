@@ -6,11 +6,12 @@ interface Props {
     image: string;
     style?: React.CSSProperties
     onClick?: MouseEventHandler<HTMLDivElement>
+    isClicked?: boolean
 }
 
-export function Card({ title, image, style, onClick }: Props) {
+export function Card({ title, image, style, onClick, isClicked }: Props) {
     return (
-        <div className="card"onClick={onClick}>
+        <div className={`card ${isClicked ? 'clicked' : ''}`} onClick={onClick}>
             <div className="card-image-container">
                 <img src={image} alt={title} className="card-image" />
             </div>

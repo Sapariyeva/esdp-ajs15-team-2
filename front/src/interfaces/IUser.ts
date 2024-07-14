@@ -6,4 +6,5 @@ export interface IUser {
     role: 'specialist' | 'admin';
     password?: string;
     isEmailConfirmed: boolean;
+    resetPasswordToken?: string | null;
 }

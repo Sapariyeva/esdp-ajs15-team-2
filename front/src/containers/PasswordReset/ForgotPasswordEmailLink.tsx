@@ -1,17 +1,18 @@
 import { Container, Grid } from '@mui/material';
 import logo from '@/assets/images/logo/igrovuz-logo-lg.svg';
+import { Button } from '@/components/UI/Button/Button';
+import { Title } from '@/components/UI/Title/Title';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
-import { changeUserEmail, getUserFindByEmail, resendConfirmEmail } from '@/features/userSlice';
-import { Button } from '@/components/UI/Button/Button';
+import { changeUserEmail, getUserFindByEmail, resendResetPassword } from '@/features/userSlice';
 import { useEffect } from 'react';
-import { Title } from '@/components/UI/Title/Title';
 
-// Страница подтверждения почты
-const EmailLink = () => {
+// Страница "Забыли пароль"
+const ForgotPasswordEmailLink = () => {
     const { user, userEmail } = useAppSelector(state => state.user);
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
+
     useEffect(() => {
         const interval = setInterval(() => {
             dispatch(getUserFindByEmail(userEmail));
@@ -21,12 +22,14 @@ const EmailLink = () => {
     }, [userEmail, dispatch]);
 
     useEffect(() => {
-        if (user?.isEmailConfirmed) {
+        console.log(user);
+        
+        if (user?.resetPasswordToken === "") {
             dispatch(changeUserEmail(''));
-            navigate('/username_registration');
+            navigate('/');
         }
     }, [user, navigate, dispatch]);
-
+    
     return (
         <Container disableGutters sx={{ margin: 0 }} maxWidth={false}>
             <Grid display="flex" justifyContent="space-between" alignItems={"end"}>
@@ -54,17 +57,17 @@ const EmailLink = () => {
                     style={{marginBottom: 0}}
                 />
                 <Title
-                    text="Перейдите по ссылке для завершения регистрации"
+                    text="Перейдите по ссылке для сброса пароля"
                     style={{marginTop: 0}}
                 />
             </Grid>
             <Grid display="flex" justifyContent="center" marginTop={"20px"}>
                 <Button
-                    className='Registr_btn'
-                    title="Отправить ещё раз"
-                    onClick={() => dispatch(resendConfirmEmail(userEmail))}
+                    className='Retry_btn'
+                    title="Отправить еще раз"
                     size="lg"
                     type="primary"
+                    onClick={() => dispatch(resendResetPassword(userEmail))}
                 >
                 </Button>
             </Grid>
@@ -72,4 +75,4 @@ const EmailLink = () => {
     )
 }
 
-export default EmailLink;
+export default ForgotPasswordEmailLink;

@@ -36,4 +36,9 @@ export class UserRepository extends Repository<User> {
     async saveUser(user: User): Promise<User> {
         return await this.save(user);
     }
+
+    //Функция для сброса пароля
+    async resetPassword(user: User): Promise<User> {
+        return await this.save(user);
+    }
 }

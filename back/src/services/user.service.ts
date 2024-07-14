@@ -1,7 +1,7 @@
 import { User } from "../entities/user.entity";
 import { UserRepository } from "../repositories/user.repository";
 import { IUser } from "../interfaces/IUser.interface";
-import { LoginDto } from "../dto/user.dto";
+import { LoginDto, ResetPasswordDto } from "../dto/user.dto";
 import bcrypt from 'bcrypt';
 import { randomUUID } from "crypto";
 import { sendMessageByMail } from "../middlewares/sendMessagesByMail";
@@ -27,6 +27,21 @@ export class UserService {
             </ul>
             <p>Для подтверждения регистрации перейдите по ссылке:</p><p><a href="http://localhost:8000/users/confirm/${user.token}">Подтвердить регистрацию</a></p>
         `;
+
+        await sendMessageByMail( 'igro.vuz@yandex.ru', user.email, subject, text, html);
+    }
+
+    // Отправка письма для сброса пароля
+    async sendResetPasswordEmail(user: User): Promise<void> {
+        const subject = 'Сброс пароля';
+        const text = `Для сброса пароля перейдите по ссылке: http://localhost:5173/new_password/${user.resetPasswordToken}`;
+        const html = `
+        <h2>Сброс пароля</h2>
+        <i>Ваши данные:</i>
+        <ul>
+            <li>login: ${user.email}</li>
+        </ul>
+        <p>Для сброса пароля перейдите по ссылке:</p><p><a href="http://localhost:5173/new_password/${user.resetPasswordToken}">Сбросить пароль</a></p>`;
 
         await sendMessageByMail( 'igro.vuz@yandex.ru', user.email, subject, text, html);
     }
@@ -139,22 +154,50 @@ export class UserService {
     }
 
     // Отправка письма для сброса пароля
-    async sendResetPasswordEmail(email: string): Promise<void> {
+    async resetPasswordEmail(email: string): Promise<void> {
         const user = await this.repository.findByEmail(email);
         if (!user || !user.isEmailConfirmed) {
             throw new Error('Пользователь с таким email не найден');
         }
 
         user.resetPasswordToken = randomUUID();
-        user.resetPasswordExpires = new Date(Date.now() + 3600000); // 1 час
 
         await this.repository.saveUser(user);
-
-        const subject = 'Сброс пароля';
-        const text = `Для сброса пароля перейдите по ссылке: http://localhost:8000/users/reset-password/${user.resetPasswordToken}`;
-        const html = `<p>Для сброса пароля перейдите по ссылке:</p><p><a href="http://localhost:8000/users/reset-password/${user.resetPasswordToken}">Сбросить пароль</a></p>`;
-
-        await sendMessageByMail( 'igrovuz@gmail.com', user.email, subject, text, html);
+        await this.sendResetPasswordEmail(user);
     }
 
+    // Повторная отправка письма для сброса пароля
+    async resendResetPasswordEmail(email: string): Promise<void> {
+        const user = await this.repository.findByEmail(email);
+        if (user) {
+            await this.repository.saveUser(user);
+            await this.sendResetPasswordEmail(user);
+        } else {
+            throw new Error('Пользователь с таким email не найден');
+        }
+    }
+
+    // Поиск пользователя по токену сброса пароля
+    async findByResetPasswordToken(resetPasswordToken: string): Promise<User | null> {
+        const user = await this.repository.findByResetPasswordToken(resetPasswordToken);
+        if (user) {
+            delete user.password;
+        }
+        return user;
+    }
+
+    // Функция для сброса пароля
+    async resetPassword(resetPasswordDto: ResetPasswordDto): Promise<User | null> {
+        const salt = await bcrypt.genSalt(SALT_WORK_FACTORY);
+        const user = await this.repository.findByResetPasswordToken(resetPasswordDto.resetPasswordToken);
+        if (user) {
+            user.password = await bcrypt.hash(resetPasswordDto.password, salt);
+            user.resetPasswordToken = '';
+            user.generateToken();
+            const updatedUser = await this.repository.saveUser(user);
+            delete updatedUser.password;
+            return updatedUser;
+        }
+        return null;
+    }
 }

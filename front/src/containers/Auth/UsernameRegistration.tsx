@@ -2,10 +2,10 @@ import { Alert, Box, Container, Grid } from '@mui/material';
 import logo from '@/assets/images/logo/igrovuz-logo-lg.svg';
 import { Button } from '@/components/UI/Button/Button';
 import FormElement from '@/components/UI/Form/FormElement';
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
-import { setUsername } from '@/features/userSlice';
+import { clearRegisterError, setUsername } from '@/features/userSlice';
 import Loading from '@/components/UI/Loading/Loading';
 
 // Страница для добавления имени пользователя
@@ -22,6 +22,10 @@ const UsernameRegistration = () => {
     const [state, setState] = useState<IRegisterState>({
         username: ""
     });
+
+    useEffect(() => {
+        dispatch(clearRegisterError());
+    }, [dispatch]);
     
     const inputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;

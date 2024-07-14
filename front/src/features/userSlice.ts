@@ -8,7 +8,7 @@ interface IState {
     loading: boolean;
     registerError: null | string | userResponseValidateError;
     loginError: null | string;
-    registerEmail: string;
+    userEmail: string;
 }
 
 type userRequest = {
@@ -17,6 +17,11 @@ type userRequest = {
     username?: string;
     token?: string;
 };
+
+type userResetPassword =  {
+    password: string;
+    resetPasswordToken: string;
+}
 
 type userResponseError = {
     error: { message: string };
@@ -32,9 +37,10 @@ const initialState: IState = {
     loading: false,
     registerError: null,
     loginError: null,
-    registerEmail: ""
+    userEmail: "",
 };
 
+// Запрос на регистрацию
 export const registerUser = createAsyncThunk<IUser, userRequest, { rejectValue: userResponseError | userResponseValidateError }>(
     "auth/register",
     async (userData, { rejectWithValue }) => {
@@ -53,6 +59,7 @@ export const registerUser = createAsyncThunk<IUser, userRequest, { rejectValue: 
     }
 );
 
+// Запрос на вход
 export const loginUser = createAsyncThunk<IUser, userRequest, { rejectValue: string }>(
     "auth/login",
     async (userData, { rejectWithValue }) => {
@@ -73,6 +80,7 @@ export const loginUser = createAsyncThunk<IUser, userRequest, { rejectValue: str
     }
 );
 
+// Повторная отправка письма с подтверждением почты
 export const resendConfirmEmail = createAsyncThunk(
     "auth/resend_confirmation",
     async (email: string, { rejectWithValue }) => {
@@ -91,6 +99,7 @@ export const resendConfirmEmail = createAsyncThunk(
     }
 );
 
+// Изменение имени пользователя
 export const setUsername = createAsyncThunk<IUser, userRequest, { rejectValue: userResponseValidateError }>(
     "auth/set_username",
     async (userData, { rejectWithValue }) => {
@@ -107,6 +116,7 @@ export const setUsername = createAsyncThunk<IUser, userRequest, { rejectValue: u
     }
 );
 
+// Выход пользователя
 export const logoutUser = createAsyncThunk<void>(
     "auth/logout",
     async (_, { rejectWithValue }) => {
@@ -124,6 +134,7 @@ export const logoutUser = createAsyncThunk<void>(
     }
 );
 
+// Поиск пользователя по email
 export const getUserFindByEmail = createAsyncThunk(
     "auth/get_user_find_by_email",
     async (email: string, { rejectWithValue }) => {
@@ -142,7 +153,27 @@ export const getUserFindByEmail = createAsyncThunk(
     }
 )
 
-export const resetPassword = createAsyncThunk<IUser, string, { rejectValue: string }>(
+// Поиск пользователя по токену сброса пароля
+export const getUserFindByResetPasswordToken = createAsyncThunk(
+    "auth/get_user_find_by_reset_password_token",
+    async (token: string, { rejectWithValue }) => {
+        try {
+            const response = await axiosApi.get<IUser>(`/users/find_by_reset_password_token/${token}`);
+            return response.data;
+        } catch (err) {
+            if (isAxiosError(err)) {
+                const error: AxiosError<userResponseError> = err;
+                return rejectWithValue(
+                    error.response?.data?.error?.message || "Произошла неизвестная ошибка"
+                );
+            }
+            throw err;
+        }
+    }
+)
+
+// Запрос на сброс пароля
+export const resetPasswordEmail = createAsyncThunk<IUser, string, { rejectValue: string }>(
     "auth/request_password_reset",
     async (email, { rejectWithValue }) => {
         try {
@@ -160,17 +191,37 @@ export const resetPassword = createAsyncThunk<IUser, string, { rejectValue: stri
     }
 );
 
-export const changePassword = createAsyncThunk<IUser, userRequest, { rejectValue: string }>(
-    "auth/change_password",
-    async (userData, { rejectWithValue }) => {
+// Повторная отправка письма для сброса пароля
+export const resendResetPassword = createAsyncThunk(
+    "auth/resend_password_reset",
+    async (email: string, { rejectWithValue }) => {
         try {
-            const response = await axiosApi.post<IUser>("/users/change_password", userData);
+            const response = await axiosApi.post(`/users/resend_password_reset`, { email });
             return response.data;
         } catch (err) {
             if (isAxiosError(err)) {
                 const error: AxiosError<userResponseError> = err;
                 return rejectWithValue(
                     error.response?.data?.error?.message || "Произошла неизвестная ошибка"
+                );
+            }
+            throw err;
+        }
+    }
+);
+
+// Изменение пароля
+export const resetPassword = createAsyncThunk<IUser, userResetPassword, { rejectValue: userResponseError | userResponseValidateError }>(
+    "auth/reset_password",
+    async (resetPassword, { rejectWithValue }) => {
+        try {
+            const response = await axiosApi.post<IUser>(`/users/reset_password/${resetPassword.resetPasswordToken}`, {password:resetPassword.password});
+            return response.data;
+        } catch (err) {
+            if (isAxiosError(err)) {
+                const error: AxiosError<userResponseError> = err;
+                return rejectWithValue(
+                    error.response?.data || { error: { message: "Произошла неизвестная ошибка" } }
                 );
             }
             throw err;
@@ -186,9 +237,9 @@ const userSlice = createSlice({
             state.registerError = null;
             state.loginError = null;
         },
-        changeRegisterEmail(state, action) {
-            state.registerEmail = action.payload;
-        }
+        changeUserEmail(state, action) {
+            state.userEmail = action.payload;
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -244,17 +295,41 @@ const userSlice = createSlice({
             .addCase(logoutUser.fulfilled, () => {
                 return initialState;
             })
-            .addCase(resetPassword.pending, (state) => {
+            .addCase(resetPasswordEmail.pending, (state) => {
                 state.loading = true;
                 state.loginError = null;
             })
-            .addCase(resetPassword.fulfilled, (state) => {
+            .addCase(resetPasswordEmail.fulfilled, (state) => {
                 state.loading = false;
                 state.loginError = null;
             })
-            .addCase(resetPassword.rejected, (state, action) => {
+            .addCase(resetPasswordEmail.rejected, (state, action) => {
                 state.loading = false;
                 state.loginError = action.payload || null;
+            })
+            .addCase(resendResetPassword.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(resendResetPassword.fulfilled, (state) => {
+                state.loading = false;
+            })
+            .addCase(resendResetPassword.rejected, (state) => {
+                state.loading = false;
+            })
+            .addCase(resetPassword.pending, (state) => {
+                state.loading = true;
+                state.registerError = null;
+            })
+            .addCase(resetPassword.fulfilled, () => {
+                return initialState;
+            })
+            .addCase(resetPassword.rejected, (state, action) => {
+                state.loading = false;
+                if (Array.isArray(action.payload)) {
+                    state.registerError = action.payload;
+                } else {
+                    state.registerError = action.payload?.error.message ?? "Произошла неизвестная ошибка";
+                }
             })
             .addCase(getUserFindByEmail.pending, (state) => {
                 state.loading = true;
@@ -268,9 +343,19 @@ const userSlice = createSlice({
             .addCase(getUserFindByEmail.rejected, (state) => {
                 state.loading = false;
             })
+            .addCase(getUserFindByResetPasswordToken.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(getUserFindByResetPasswordToken.fulfilled, (state, action) => {
+                state.user = action.payload;
+                state.loading = false;
+            })
+            .addCase(getUserFindByResetPasswordToken.rejected, (state) => {
+                state.loading = false;
+            })
     },
 });
 
-export const { clearRegisterError, changeRegisterEmail } = userSlice.actions;
+export const { clearRegisterError, changeUserEmail } = userSlice.actions;
 
 export default userSlice.reducer;

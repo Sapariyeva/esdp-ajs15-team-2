@@ -5,7 +5,7 @@ import { Button } from '@/components/UI/Button/Button';
 import { ImageContainer } from '@/components/UI/ImageContainer/ImageContainer';
 import { useEffect } from 'react';
 import { useAppDispatch } from '@/app/hooks';
-import { changeRegisterEmail } from '@/features/userSlice';
+import { changeUserEmail } from '@/features/userSlice';
 
 // Страница аутентификации
 const Auth = () => {
@@ -13,7 +13,7 @@ const Auth = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        dispatch(changeRegisterEmail(''));
+        dispatch(changeUserEmail(''));
     }, [navigate]);
 
     return (
@@ -54,7 +54,7 @@ const Auth = () => {
                         </Button>
                     </Grid>
                     <Grid display="flex" justifyContent="center">
-                        <Link href="#" variant="body1" color={"#9069CD"}>
+                        <Link href="/reset_password" variant="body1" color={"#9069CD"}>
                             {"Забыли пароль?"}
                         </Link>
                     </Grid>

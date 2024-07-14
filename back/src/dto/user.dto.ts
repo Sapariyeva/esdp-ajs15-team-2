@@ -1,5 +1,5 @@
 import { Expose } from "class-transformer";
-import { IsEmail, IsNotEmpty, IsOptional, IsString, MinLength } from "class-validator";
+import { IsEmail, IsNotEmpty, IsOptional, IsString, Matches, MinLength } from "class-validator";
 import { registerDecorator, ValidationOptions, ValidationArguments } from 'class-validator';
 
 // Функция для валидации пароля
@@ -43,8 +43,8 @@ export class UserDto {
 // DTO для добавления имени пользователя
 @Expose()
 export class UsernameDto {
-  @IsString({message: "Имя проверяющего должно быть строкой"})
   @IsNotEmpty({message: "Укажите имя проверяющего"})
+  @Matches(/^[A-Za-zА-Яа-яЁё\s]+$/, {message: 'Имя пользователя не должно содержать цифры'})
   username!: string;
 
   @IsString({message: "Токен должен быть строкой"})
@@ -74,4 +74,8 @@ export class ResetPasswordDto {
   @IsNotEmpty({message: "Укажите пароль"})
   @IsStrongPassword({message: "Пароль должен иметь длину не менее 8 символов, содержать хотя бы одну заглавную букву, одну строчную букву, одну цифру и один специальный символ."})
   password!: string;
+
+  @IsString({message: "Токен должен быть строкой"})
+  @IsNotEmpty({message: "Укажите токен"})
+  resetPasswordToken!: string;
 }

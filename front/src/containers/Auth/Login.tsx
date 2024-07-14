@@ -6,7 +6,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import FormElement from "@/components/UI/Form/FormElement";
-import { clearRegisterError, loginUser, resetPassword } from "@/features/userSlice";
+import { clearRegisterError, loginUser } from "@/features/userSlice";
 import logo from '@/assets/images/logo/igrovuz-logo-lg.svg';
 import { Button } from "@/components/UI/Button/Button";
 import { ImageContainer } from "@/components/UI/ImageContainer/ImageContainer";
@@ -122,7 +122,7 @@ const Login = () => {
                             </Button>
                         </Grid>
                         <Grid display="flex" justifyContent="center">
-                            <Link href="#" variant="body1" color={"#9069CD"} onClick={() => dispatch(resetPassword(state.email))}>
+                            <Link href="/reset_password" variant="body1" color={"#9069CD"} >
                                 {"Забыли пароль?"}
                             </Link>
                         </Grid>

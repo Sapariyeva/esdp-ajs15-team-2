@@ -5,7 +5,7 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
-import { changeRegisterEmail, clearRegisterError, registerUser } from "@/features/userSlice";
+import { changeUserEmail, clearRegisterError, registerUser } from "@/features/userSlice";
 import FormElement from "@/components/UI/Form/FormElement";
 import logo from '@/assets/images/logo/igrovuz-logo-lg.svg';
 import { Button } from "@/components/UI/Button/Button";
@@ -34,7 +34,7 @@ const Register = () => {
 
     useEffect(() => {
         dispatch(clearRegisterError());
-        dispatch(changeRegisterEmail(''));
+        dispatch(changeUserEmail(''));
     }, [dispatch]);
 
     const inputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -55,7 +55,7 @@ const Register = () => {
         setPasswordError(undefined);
         dispatch(registerUser({ email: state.email, password: state.password })).unwrap().then(() => {
             navigate("/email_link");
-            dispatch(changeRegisterEmail(state.email));
+            dispatch(changeUserEmail(state.email));
         });
     };
 

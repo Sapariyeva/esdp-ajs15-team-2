@@ -12,6 +12,12 @@
 
   &:hover {
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+  }
+  
+  &.clicked {
+    box-shadow: 0px 0px 16px 4px rgb(20 195 20);
+    transition: none;
   }
 
   .card-image-container {

@@ -6,8 +6,11 @@ import UsernameRegistration from "@/containers/Auth/UsernameRegistration";
 import Games from "@/containers/Games/Games";
 import { Help } from "@/containers/Help/Help";
 import Main from "@/containers/Main/Main";
+import ForgotPassword from "@/containers/PasswordReset/ForgotPassword";
+import ForgotPasswordEmailLink from "@/containers/PasswordReset/ForgotPasswordEmailLink";
+import NewPassword from "@/containers/PasswordReset/NewPassword";
 import { Profile } from "@/containers/Profile/Profile";
-import Info from "@/containers/Survey/Info";
+import Survey from "@/containers/Survey/Survey";
 import { Route, Routes as RouterRoutes } from "react-router-dom";
 
 export const Routes = () => {
@@ -17,9 +20,12 @@ export const Routes = () => {
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />
       <Route path="/email_link" element={<EmailLink />} />
+      <Route path="/reset_password" element={<ForgotPassword />} />
+      <Route path="/reset_password_email_link" element={<ForgotPasswordEmailLink />} />
+      <Route path="/new_password/:token" element={<NewPassword />} />
       <Route path="/username_registration" element={<UsernameRegistration />} />
       <Route path="/main" element={<Main />} />
-      <Route path="/survey" element={<Info />} />
+      <Route path="/survey" element={<Survey />} />
       <Route path="/games" element={<Games />} />
       <Route path="/profile" element={<Profile />} />
       <Route path="/help" element={<Help />} />
