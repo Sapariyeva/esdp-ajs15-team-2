@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Input } from "@/components/UI/Input/Input";
 import { Button } from "@/components/UI/Button/Button";
 import { Modal } from "@/components/UI/Modal/Modal";
@@ -11,9 +12,10 @@ interface userData {
 }
 
 export function Profile() {
+  const { t } = useTranslation();
   //TODO: Удален setUserData как неиспользуемый. Ошибка при npm run build
   const [userData] = useState<userData>({ 
-    reviewerName: "Test", studentName: "student", id: 0
+    reviewerName: "John", studentName: "Jane", id: 0
   });
   const [isEditingReviewer, setIsEditingReviewer] = useState(false);
   const [isEditingStudent, setIsEditingStudent] = useState(false);
@@ -72,7 +74,7 @@ export function Profile() {
           style={{ display: "flex", gap: 20, alignItems: "center" }}
         >
           <h2 style={{ maxWidth: 410 }}>
-            Профиль <span>{userData.reviewerName}</span>
+            {t('profile')} <span>{userData.reviewerName}</span>
           </h2>
           <img
             src={settingsHeart}
@@ -87,7 +89,7 @@ export function Profile() {
         >
           <Input
             type="name"
-            placeholder="Имя проверяющего"
+            placeholder={t('reviewer_name')}
             required
             style={{ width: 300 }}
           />
@@ -98,7 +100,7 @@ export function Profile() {
           />
           <Input
             type="password"
-            placeholder="Пароль"
+            placeholder={t('password')}
             required
             style={{ width: 300 }}
           />
@@ -112,14 +114,14 @@ export function Profile() {
               }}
             >
               <Button
-                title="Сохранить"
+                title={t('save')}
                 onClick={saveReviewerProfile}
                 size="lg"
                 type="primary"
                 style={{ width: 137 }}
               />
               <Button
-                title="Отмена"
+                title={t('cancel')}
                 onClick={cancelEditReviewerProfile}
                 size="lg"
                 type="default"
@@ -141,7 +143,7 @@ export function Profile() {
           }}
         >
           <h2 style={{ maxWidth: 318 }}>
-            Студент <span>{userData.studentName}</span>
+            {t('student')} <span>{userData.studentName}</span>
           </h2>
           <img
             src={settingsHeart}
@@ -150,14 +152,14 @@ export function Profile() {
             style={{ width: 24, height: 24, cursor: "pointer" }}
           />
           <Button
-            title="Экспорт данных студента"
+            title={t('export_student_data')}
             onClick={exportOnClick}
             size="lg"
             type="default"
             style={{ width: 296 }}
           />
           <Button
-            title="Импорт данных студента"
+            title={t('import_student_data')}
             onClick={importOnClick}
             size="lg"
             type="default"
@@ -173,12 +175,13 @@ export function Profile() {
         >
           <Input
             type="name"
-            placeholder="Имя студента"
+            placeholder={t('student_name')}
             required
             style={{ width: 300 }}
           />
           <Input
             type="name"
+            //TODO: В данном инпуте будет дата рождения, заменить placeholder
             placeholder="10 / 10 / 10"
             required
             style={{ width: 300 }}
@@ -199,14 +202,14 @@ export function Profile() {
               }}
             >
               <Button
-                title="Сохранить"
+                title={t('save')}
                 onClick={saveStudentProfile}
                 size="lg"
                 type="primary"
                 style={{ width: 137 }}
               />
               <Button
-                title="Отмена"
+                title={t('cancel')}
                 onClick={cancelEditStudentProfile}
                 size="lg"
                 type="default"
@@ -228,22 +231,22 @@ export function Profile() {
           }}
           onClick={handleDeleteProfile}
         >
-          Удалить профиль
+          {t('delete_profile')}
         </div>
       </div>
 
       <Modal
         visible={isModalVisible}
-        title="Вы уверены, что хотите удалить профиль?"
+        title={t('confirm_delete_profile')}
         onClose={closeModal}
         style={{ textAlign: "center" }}
       >
         <p style={{ color: "#FF6057" }}>
-          Данные студента останутся в базе данных
+          {t('student_data_remain')}
         </p>
         <div style={{ display: "flex", justifyContent: "center", gap: 12 }}>
           <Button
-            title="Да"
+            title={t('yes')}
             onClick={() => {
               deleteProfile();
               closeModal();
@@ -253,7 +256,7 @@ export function Profile() {
             style={{ width: 111 }}
           />
           <Button
-            title="Отмена"
+            title={t('cancel')}
             onClick={closeModal}
             size="lg"
             type="primary"

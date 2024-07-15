@@ -3,6 +3,7 @@ import {
     Alert, Box, Container, Grid
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import FormElement from "@/components/UI/Form/FormElement";
 import { changeUserEmail, clearRegisterError, resetPasswordEmail } from "@/features/userSlice";
@@ -12,12 +13,13 @@ import { ImageContainer } from "@/components/UI/ImageContainer/ImageContainer";
 import { Title } from "@/components/UI/Title/Title";
 import Loading from "@/components/UI/Loading/Loading";
 
-// Страница авторизации
+// Страница для ввода почты для сброса пароля
 interface IForgotPasswordState {
     email: string;
 }
 
 const ForgotPassword = () => {
+    const { t } = useTranslation();
     const { loginError, loading } = useAppSelector(state => state.user);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
@@ -65,7 +67,7 @@ const ForgotPassword = () => {
                         </Button>
                         <Button
                             className='Support_btn'
-                            title="Поддержка"
+                            title={t("support")}
                             type="default"
                             style={{borderRadius: 8, fontSize: 20}}
                         >
@@ -76,7 +78,7 @@ const ForgotPassword = () => {
                     </Grid>
                     <Grid display="flex" justifyContent="center">
                         <Title
-                            text="Сбросить пароль"
+                            text={t("reset_password")}
                         />
                     </Grid>
                     <Box
@@ -103,7 +105,7 @@ const ForgotPassword = () => {
                         <Grid display="flex" justifyContent="center" marginTop={"20px"} marginBottom={"8px"}>
                             <Button
                                 className='Registr_btn'
-                                title="Продолжить"
+                                title={t('continue')}
                                 size="lg"
                                 type="primary"
                             >

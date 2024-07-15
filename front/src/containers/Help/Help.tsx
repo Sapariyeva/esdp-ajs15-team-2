@@ -1,15 +1,17 @@
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {FAQItem} from '@/containers/Help/FAQItem/FAQItem';
 import { Button } from '@/components/UI/Button/Button';
 import { Title } from '@/components/UI/Title/Title';
 import { Modal } from '@/components/UI/Modal/Modal';
-import { useState } from 'react';
 import './Help.css';
 
 export function Help () {
+    const { t } = useTranslation();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const faqs = Array.from({ length: 20 }, (_, index) => ({
-        question: `Вопрос ${index + 1}: Как этим пользоваться?`,
-        answer: 'Инструкция по использованию находится здесь.',
+        question: `${t('question')} ${index + 1}: ${t('how_to_use')}`,
+        answer: t('usage_instruction_here'),
     }));
 
     const openModal = () => {
@@ -22,25 +24,25 @@ export function Help () {
 
   return (
     <div className="help-page">
-        <Title style={{fontSize: '32px'}} text='Что-то идёт не так?'/>
+        <Title style={{fontSize: '32px'}} text={t('something_wrong')} />
         <div className="help-header">
-            <Button style={{width: '290px', height: '58px', fontSize: '20px'}} size='lg' title="Помощь специалиста ABA" type='primary' />
-            <Button style={{marginLeft: '20px'}} size='lg' title="Техническая поддержка" type='default'/>
+            <Button style={{width: '290px', height: '58px', fontSize: '20px'}} size='lg' title={t('aba_help')} type='primary' />
+            <Button style={{marginLeft: '20px'}} size='lg' title={t('technical_support')} type='default'/>
         </div>
         <div className="help-video">
-            <Title style={{fontSize: '32px', marginTop: '50px'}} text='Руководство по приложению:'></Title>
+            <Title style={{fontSize: '32px', marginTop: '50px'}} text={`${t('app_manual')}:`}></Title>
             <div className="video-placeholder">
                 <div className="play-button">▶</div>
             </div>
-            <a href="#" className="video-link" onClick={openModal}>Читать руководство по приложению</a>
+            <a href="#" className="video-link" onClick={openModal}>{t('read_app_manual')}</a>
         </div>
         <div className="faq-section">
-            <Title style={{fontSize: '32px', marginTop: '50px'}} text='Часто задаваемые вопросы:'></Title>
+            <Title style={{fontSize: '32px', marginTop: '50px'}} text={t('faq')}></Title>
             {faqs.map((faq, index) => (
             <FAQItem key={index} question={faq.question} answer={faq.answer} />
             ))}
         </div>
-        <Modal visible={isModalOpen} title="Руководство по приложению" onClose={closeModal}>
+        <Modal visible={isModalOpen} title={t('app_manual')} onClose={closeModal}>
             <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Unde iusto enim corrupti necessitatibus autem excepturi asperiores. Maxime quos, accusantium ea, vel possimus dolorem fugiat autem voluptates quasi architecto saepe nulla!
             Suscipit atque possimus fugit optio, voluptatem harum quaerat ad, amet aliquam modi officia unde? Beatae minus illo aliquid ad quae ipsum tempore sit nesciunt voluptates, quidem, nemo possimus temporibus. Aspernatur!
             Quibusdam cum culpa non, quaerat expedita eaque. Maiores est officiis nam unde, animi rem eligendi, quis explicabo, recusandae beatae voluptatem ducimus aliquam fugiat nobis culpa voluptatum ea ratione voluptates sunt.
@@ -145,5 +147,5 @@ export function Help () {
         </Modal>
     </div>
   );
-};
+}
 

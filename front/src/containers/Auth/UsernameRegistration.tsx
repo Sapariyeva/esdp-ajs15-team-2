@@ -1,9 +1,10 @@
 import { Alert, Box, Container, Grid } from '@mui/material';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import logo from '@/assets/images/logo/igrovuz-logo-lg.svg';
 import { Button } from '@/components/UI/Button/Button';
 import FormElement from '@/components/UI/Form/FormElement';
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { clearRegisterError, setUsername } from '@/features/userSlice';
 import Loading from '@/components/UI/Loading/Loading';
@@ -14,6 +15,7 @@ interface IRegisterState {
 }
 
 const UsernameRegistration = () => {
+    const { t } = useTranslation();
     const { registerError, loading } = useAppSelector(state => state.user);
 
     const dispatch = useAppDispatch();
@@ -58,7 +60,7 @@ const UsernameRegistration = () => {
             <Grid display="flex" justifyContent="flex-end" alignItems={"end"}>
                 <Button
                     className='Support_btn'
-                    title="Поддержка"
+                    title={t('support')}
                     type="default"
                     style={{borderRadius: 8, fontSize: 20}}
                 >
@@ -78,7 +80,7 @@ const UsernameRegistration = () => {
             >
                 <FormElement
                     required
-                    label="Имя проверяющего"
+                    label={t('reviewer_name')}
                     name="username"
                     onChange={inputChangeHandler}
                     value={state.username}
@@ -91,7 +93,7 @@ const UsernameRegistration = () => {
                 <Grid display="flex" justifyContent="center" marginTop={"20px"}>
                     <Button
                         className='Registr_btn'
-                        title="Продолжить"
+                        title={t('continue')}
                         size="lg"
                         type="primary"
                     >

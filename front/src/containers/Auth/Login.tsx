@@ -1,9 +1,7 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import {
-    Alert, Box, Container,
-    Grid, Link
-} from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { Alert, Box, Container, Grid } from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import FormElement from "@/components/UI/Form/FormElement";
 import { changeInitialState, loginUser } from "@/features/userSlice";
@@ -21,6 +19,7 @@ interface ILoginState {
 }
 
 const Login = () => {
+    const { t } = useTranslation();
     const { loginError, loading } = useAppSelector(state => state.user);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
@@ -66,7 +65,7 @@ const Login = () => {
                         </Button>
                         <Button
                             className='Support_btn'
-                            title="Поддержка"
+                            title={t("support")}
                             type="default"
                             style={{borderRadius: 8, fontSize: 20}}
                         >
@@ -77,7 +76,7 @@ const Login = () => {
                     </Grid>
                     <Grid display="flex" justifyContent="center">
                         <Title
-                            text="Вход"
+                            text={t('login')}
                         />
                     </Grid>
                     <Box
@@ -103,7 +102,7 @@ const Login = () => {
                         <FormElement
                             required
                             name="password"
-                            label="Пароль"
+                            label={t('password')}
                             type="password"
                             onChange={inputChangeHandler}
                             value={state.password}
@@ -115,15 +114,15 @@ const Login = () => {
                         <Grid display="flex" justifyContent="center" marginTop={"20px"} marginBottom={"8px"}>
                             <Button
                                 className='Registr_btn'
-                                title="Продолжить"
+                                title={t('continue')}
                                 size="lg"
                                 type="primary"
                             >
                             </Button>
                         </Grid>
                         <Grid display="flex" justifyContent="center">
-                            <Link href="/reset_password" variant="body1" color={"#9069CD"} >
-                                {"Забыли пароль?"}
+                            <Link to="/reset_password" color='#9069CD'>
+                                {t('forgot_password')}
                             </Link>
                         </Grid>
                     </Box>

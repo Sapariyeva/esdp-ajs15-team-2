@@ -1,12 +1,13 @@
 import { Alert, Box, Container, Grid } from '@mui/material';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import logo from '@/assets/images/logo/igrovuz-logo-lg.svg';
 import { Button } from '@/components/UI/Button/Button';
 import FormElement from '@/components/UI/Form/FormElement';
 import Loading from '@/components/UI/Loading/Loading';
 import { clearRegisterError, getUserFindByResetPasswordToken, resetPassword } from '@/features/userSlice';
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
-import { useParams } from 'react-router-dom';
 
 // Страница для изменения пароля
 interface IPasswordResetState {
@@ -14,6 +15,7 @@ interface IPasswordResetState {
     confirmPassword: string;
 }
 const NewPassword = () => {
+    const { t } = useTranslation();
     const { registerError, loading, user } = useAppSelector(state => state.user);
     const dispatch = useAppDispatch();
     const { token } = useParams<{ token: string }>(); // Извлекаем токен из URL
@@ -57,7 +59,7 @@ const NewPassword = () => {
     const submitFormHandler = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (state.password !== state.confirmPassword) {
-            setPasswordError("Пароли не совпадают");
+            setPasswordError(t("passwords_not_match"));
             return;
         }
         setPasswordError(undefined);
@@ -94,7 +96,7 @@ const NewPassword = () => {
             <Grid display="flex" justifyContent="flex-end" alignItems={"end"}>
                 <Button
                     className='Support_btn'
-                    title="Поддержка"
+                    title={t("support")}
                     type="default"
                     style={{borderRadius: 8, fontSize: 20}}
                 >
@@ -116,7 +118,7 @@ const NewPassword = () => {
                     <FormElement
                         required
                         name="password"
-                        label="Пароль"
+                        label={t("password")}
                         type="password"
                         onChange={inputChangeHandler}
                         value={state.password}
@@ -128,7 +130,7 @@ const NewPassword = () => {
                     <FormElement
                         required
                         name="confirmPassword"
-                        label="Повторите пароль"
+                        label={t("repeat_password")}
                         type="password"
                         onChange={inputChangeHandler}
                         value={state.confirmPassword}
@@ -140,7 +142,7 @@ const NewPassword = () => {
                     <Grid display="flex" justifyContent="center" marginTop={"20px"}>
                         <Button
                             className='Registr_btn'
-                            title="Продолжить"
+                            title={t("continue")}
                             size="lg"
                             type="primary"
                         >

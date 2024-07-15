@@ -4,6 +4,7 @@ import {
     Grid
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import { changeInitialState, changeUserEmail, registerUser } from "@/features/userSlice";
 import FormElement from "@/components/UI/Form/FormElement";
@@ -22,6 +23,7 @@ interface IRegisterState {
 }
 
 const Register = () => {
+    const { t } = useTranslation();
     const { registerError, loading } = useAppSelector(state => state.user);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
@@ -81,7 +83,7 @@ const Register = () => {
                         </Button>
                         <Button
                             className='Support_btn'
-                            title="Поддержка"
+                            title={t("support")}
                             type="default"
                             style={{borderRadius: 8, fontSize: 20}}
                         >
@@ -92,7 +94,7 @@ const Register = () => {
                     </Grid>
                     <Grid display="flex" justifyContent="center">
                         <Title
-                            text="Регистрация"
+                            text={t('registration')}
                         />
                     </Grid>
                     <Box
@@ -119,7 +121,7 @@ const Register = () => {
                         <FormElement
                             required
                             name="password"
-                            label="Пароль"
+                            label={t('password')}
                             type="password"
                             onChange={inputChangeHandler}
                             value={state.password}
@@ -131,7 +133,7 @@ const Register = () => {
                         <FormElement
                             required
                             name="confirmPassword"
-                            label="Повторите пароль"
+                            label={t('repeat_password')}
                             type="password"
                             onChange={inputChangeHandler}
                             value={state.confirmPassword}
@@ -143,7 +145,7 @@ const Register = () => {
                         <Grid display="flex" justifyContent="center" marginTop={"20px"}>
                             <Button
                                 className='Registr_btn'
-                                title="Продолжить"
+                                title={t('continue')}
                                 size="lg"
                                 type="primary"
                             >

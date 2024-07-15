@@ -1,14 +1,16 @@
-import { Container, Grid, Link } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { Container, Grid } from '@mui/material';
+import { Link, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import logo from '@/assets/images/logo/igrovuz-logo-lg.svg';
 import { Button } from '@/components/UI/Button/Button';
 import { ImageContainer } from '@/components/UI/ImageContainer/ImageContainer';
-import { useEffect } from 'react';
 import { useAppDispatch } from '@/app/hooks';
 import { changeInitialState } from '@/features/userSlice';
 
 // Страница аутентификации
 const Auth = () => {
+    const { t } = useTranslation();
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
@@ -24,7 +26,7 @@ const Auth = () => {
                     <Grid display="flex" justifyContent="flex-end">
                         <Button
                             className='Support_btn'
-                            title="Поддержка"
+                            title={t("support")}
                             type="default"
                             style={{borderRadius: 8, fontSize: 20}}
                         >
@@ -36,7 +38,7 @@ const Auth = () => {
                     <Grid display="flex" justifyContent="center">
                         <Button
                             className='Registr_btn'
-                            title="Регистрация"
+                            title={t('registration')}
                             onClick={() => navigate('/register')}
                             size="lg"
                             type="primary"
@@ -46,7 +48,7 @@ const Auth = () => {
                     <Grid display="flex" justifyContent="center">
                         <Button
                             className='Login_btn'
-                            title="Войти"
+                            title={t('login')}
                             onClick={() => navigate('/login')}
                             size="lg"
                             type="default"
@@ -54,8 +56,8 @@ const Auth = () => {
                         </Button>
                     </Grid>
                     <Grid display="flex" justifyContent="center">
-                        <Link href="/reset_password" variant="body1" color={"#9069CD"}>
-                            {"Забыли пароль?"}
+                        <Link to="/reset_password" color='#9069CD'>
+                            {t('forgot_password')}
                         </Link>
                     </Grid>
                 </Grid>

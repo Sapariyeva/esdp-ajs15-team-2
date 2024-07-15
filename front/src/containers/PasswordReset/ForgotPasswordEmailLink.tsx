@@ -1,14 +1,16 @@
 import { Container, Grid } from '@mui/material';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import logo from '@/assets/images/logo/igrovuz-logo-lg.svg';
 import { Button } from '@/components/UI/Button/Button';
 import { Title } from '@/components/UI/Title/Title';
-import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { changeUserEmail, getUserFindByEmail, resendResetPassword } from '@/features/userSlice';
-import { useEffect } from 'react';
 
 // Страница "Забыли пароль"
 const ForgotPasswordEmailLink = () => {
+    const { t } = useTranslation();
     const { user, userEmail } = useAppSelector(state => state.user);
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
@@ -42,7 +44,7 @@ const ForgotPasswordEmailLink = () => {
                 </Button>
                 <Button
                     className='Support_btn'
-                    title="Поддержка"
+                    title={t("support")}
                     type="default"
                     style={{borderRadius: 8, fontSize: 20}}
                 >
@@ -53,18 +55,18 @@ const ForgotPasswordEmailLink = () => {
             </Grid>
             <Grid display="flex" alignItems="center" flexDirection={"column"}>
                 <Title
-                    text="Ссылка отправлена на почту."
+                    text={t('password_reset_email_sent')}
                     style={{marginBottom: 0}}
                 />
                 <Title
-                    text="Перейдите по ссылке для сброса пароля"
+                    text={t('follow_link_to_reset_password')}
                     style={{marginTop: 0}}
                 />
             </Grid>
             <Grid display="flex" justifyContent="center" marginTop={"20px"}>
                 <Button
                     className='Retry_btn'
-                    title="Отправить еще раз"
+                    title={t('resend_email')}
                     size="lg"
                     type="primary"
                     onClick={() => dispatch(resendResetPassword(userEmail))}

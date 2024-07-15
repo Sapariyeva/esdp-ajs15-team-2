@@ -1,14 +1,16 @@
 import { Container, Grid } from '@mui/material';
-import logo from '@/assets/images/logo/igrovuz-logo-lg.svg';
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import logo from '@/assets/images/logo/igrovuz-logo-lg.svg';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { changeUserEmail, getUserFindByEmail, resendConfirmEmail } from '@/features/userSlice';
 import { Button } from '@/components/UI/Button/Button';
-import { useEffect } from 'react';
 import { Title } from '@/components/UI/Title/Title';
 
 // Страница подтверждения почты
 const EmailLink = () => {
+    const { t } = useTranslation();
     const { user, userEmail } = useAppSelector(state => state.user);
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
@@ -39,7 +41,7 @@ const EmailLink = () => {
                 </Button>
                 <Button
                     className='Support_btn'
-                    title="Поддержка"
+                    title={t('support')}
                     type="default"
                     style={{borderRadius: 8, fontSize: 20}}
                 >
@@ -50,18 +52,18 @@ const EmailLink = () => {
             </Grid>
             <Grid display="flex" alignItems="center" flexDirection={"column"}>
                 <Title
-                    text="Ссылка отправлена на почту."
+                    text={t('email_link_sent')}
                     style={{marginBottom: 0}}
                 />
                 <Title
-                    text="Перейдите по ссылке для завершения регистрации"
+                    text={t('complete_registration_via_link')}
                     style={{marginTop: 0}}
                 />
             </Grid>
             <Grid display="flex" justifyContent="center" marginTop={"20px"}>
                 <Button
                     className='Registr_btn'
-                    title="Отправить ещё раз"
+                    title={t('resend_email')}
                     onClick={() => dispatch(resendConfirmEmail(userEmail))}
                     size="lg"
                     type="primary"

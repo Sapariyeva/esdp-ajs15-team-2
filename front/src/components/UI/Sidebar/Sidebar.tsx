@@ -1,4 +1,5 @@
 import React, { MouseEventHandler } from 'react';
+import { useTranslation } from 'react-i18next';
 import igrovuzLogo from '@/assets/images/logo/igrovuz-logo-sm.svg';
 import helpLogo from '@/assets/images/sidebar-icons/help.svg';
 import homeLogo from '@/assets/images/sidebar-icons/home.svg';
@@ -19,6 +20,8 @@ interface Props {
 }
 
 export function Sidebar ({style, onClickLogout, onClickGame, onClickProfile, onClickStatistics, onClickHelp, onClickMain}: Props) {
+    const { t } = useTranslation();
+
     return (
       <nav className="sidebar" style={style}>
         <img src={igrovuzLogo} alt="igrovuzLogo" className="sidebar-logo" />
@@ -26,37 +29,37 @@ export function Sidebar ({style, onClickLogout, onClickGame, onClickProfile, onC
             <li className="sidebar-menu-item" onClick={onClickMain}>
                 <div className="sidebar-menu-item-inner">
                     <img src={homeLogo} alt="home-logo" />
-                    <p>Главная</p>
+                    <p>{t('home')}</p>
                 </div>
             </li>
             <li className="sidebar-menu-item" onClick={onClickStatistics}>
                 <div className="sidebar-menu-item-inner">
                     <img src={statisticsLogo} alt="statistics-logo" />
-                    <p>Статистика</p>
+                    <p>{t('statistics')}</p>
                 </div>
             </li>
             <li className="sidebar-menu-item" onClick={onClickProfile}>
                 <div className="sidebar-menu-item-inner">
                     <img src={profileLogo} alt="profile-logo" />
-                    <p>Профиль</p>
+                    <p>{t('profile')}</p>
                 </div>
             </li>
             <li className="sidebar-menu-item" onClick={onClickGame}>
                 <div className="sidebar-menu-item-inner">
                     <img src={settingsLogo} alt="settings-logo" />
-                    <p>Настройки игр</p>
+                    <p>{t('settings')}</p>
                 </div>
             </li>
             <li className="sidebar-menu-item" onClick={onClickHelp}>
                 <div className="sidebar-menu-item-inner">
                     <img src={helpLogo} alt="help-logo" />
-                    <p>Помощь</p>
+                    <p>{t('help')}</p>
                 </div>
             </li>
             <li className="sidebar-menu-item" onClick={onClickLogout}>
                 <div className="sidebar-menu-item-inner">
                     <img src={logout} alt="logout-logo" />
-                    <p>Выход</p>
+                    <p>{t('logout')}</p>
                 </div>
             </li>
         </ul>
