@@ -1,0 +1,153 @@
+.game {
+    margin-top: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card-deck {
+    position: relative;
+    height: 200px;
+    width: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 50px;
+}
+
+.card {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* padding: 10px; */
+    text-align: center;
+    align-content: center;
+    border-radius: 5px;
+    background-color: white;
+    cursor: grab;
+    user-select: none;
+    transition: transform 0.3s, top 0.3s;
+}
+
+.card:nth-child(1) {
+    transform: translate(0px, 0px) rotate(0deg);
+    z-index: 6;
+}
+
+.card:nth-child(2) {
+    transform: translate(0px, 0px) rotate(-15deg);
+    z-index: 5;
+}
+
+/* .card:nth-child(3) {
+    transform: translate(0px, 0px) rotate(0deg);
+    z-index: 4;
+}
+
+.card:nth-child(4) {
+    transform: translate(0px, 0px) rotate(5deg);
+    z-index: 3;
+}
+
+.card:nth-child(5) {
+    transform: translate(0px, 0px) rotate(-5deg);
+    z-index: 2;
+}
+
+.card:nth-child(6) {
+    transform: translate(0px, 0px) rotate(5deg);
+    z-index: 1;
+} */
+
+.card img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.card:active {
+    cursor: grabbing;
+}
+
+.drop-zones {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.drop-zone img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+}
+
+.drop-zone {
+    width: 400px;
+    height: 300px;
+    margin: 10px;
+    padding: 10px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    transition: 0.3s;
+    position: relative;
+}
+
+.drop-zone:hover {
+    background-color: #f0f0f0;
+}
+
+.drop-zone.dragging {
+    background-color: lightgray;
+}
+
+.game-buttons {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+    padding-bottom: 50px;
+}
+
+.drop-zone.highlight::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(88, 167, 0, 0.2);
+    border-radius: 10px;
+    pointer-events: none;
+}
+
+.drop-zone.highlight-incorrect::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 96, 87, 0.2);
+    border-radius: 10px;
+    pointer-events: none;
+}
+
+.gif-container {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+}
+
+.encouragement-gif {
+    width: 150px;
+    height: 150px;
+}

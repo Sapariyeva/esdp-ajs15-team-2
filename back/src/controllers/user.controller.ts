@@ -1,11 +1,11 @@
 import { RequestHandler } from "express";
-import { LoginDto, ResetPasswordDto, ResetPasswordRequestDto, UserDto, UsernameDto } from "../dto/user.dto";
 import { validate } from "class-validator";
-import { UserService } from "../services/user.service";
-import { formatErrors } from "../helpers/formatErrors";
 import { plainToInstance } from "class-transformer";
-import { IRequestWithUser } from "../interfaces/IRequestWithUser.interface";
 import passport from 'passport';
+import { LoginDto, ResetPasswordDto, ResetPasswordRequestDto, UserDto, UsernameDto } from "@/dto/user.dto";
+import { UserService } from "@/services/user.service";
+import { formatErrors } from "@/helpers/formatErrors";
+import { IRequestWithUser } from "@/interfaces/IRequestWithUser.interface";
 
 export class UserController {
   private service: UserService;
@@ -17,6 +17,7 @@ export class UserController {
   // Регистрация пользователя
   register: RequestHandler = async (req, res): Promise<void> => {
     const userDto = new UserDto();
+    // projections - оставляем только необходимые поля
     userDto.email = req.body.email;
     userDto.password = req.body.password;
 

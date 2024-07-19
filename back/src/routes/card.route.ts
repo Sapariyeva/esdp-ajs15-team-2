@@ -1,7 +1,7 @@
-import { CardController } from '../controllers/card.controller';
-import { IRoute } from '../interfaces/IRoute.interface';
-import { upload } from '../middlewares/upload';
 import { Router } from 'express';
+import { IRoute } from '@/interfaces/IRoute.interface';
+import { CardController } from '@/controllers/card.controller';
+import { upload } from '@/middlewares/upload';
 
 export class CardRoute implements IRoute {
   public path = '/cards';
@@ -14,7 +14,10 @@ export class CardRoute implements IRoute {
   }
 
   private init() {
-    this.router.get('/', this.controller.getCards);
-    this.router.post('/', upload.single('image'), upload.single('video'), this.controller.createCard);
+    this.router.get('/', this.controller.getAllCards);
+    this.router.get('/:id', this.controller.getCard);
+    this.router.post('/create', upload.single('image'), this.controller.createCard);
+    this.router.delete('/delete/:id', this.controller.deleteCard);
+    this.router.put('/update/:id', this.controller.updateCard);
   }
 }

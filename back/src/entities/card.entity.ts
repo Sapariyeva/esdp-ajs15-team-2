@@ -1,16 +1,20 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+/* eslint-disable indent */
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
-@Entity("cards")
+@Entity({ name: 'card' })
 export class Card {
   @PrimaryGeneratedColumn()
   id!: number;
 
   @Column()
-  title!: string;
+  name!: string;
 
   @Column()
   image!: string;
 
   @Column()
   video!: string;
+
+  @Column()
+  audio!: string;
 }

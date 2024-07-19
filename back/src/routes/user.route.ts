@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import { IRoute } from '../interfaces/IRoute.interface';
-import { authValidate } from '../middlewares/authValidate';
-import { UserController } from '../controllers/user.controller';
+import { IRoute } from '@/interfaces/IRoute.interface';
+import { authValidate } from '@/middlewares/authValidate';
+import { UserController } from '@/controllers/user.controller';
 
 export class UserRoute implements IRoute {
     public path = '/users';

@@ -18,7 +18,7 @@ class App {
         this.initMiddlewares(appInit.middlewares);
         this.initRoutes(appInit.controllers);
 
-        this.app.get('/api', (req, res) => {
+        this.app.get('/hc', (req, res) => {
             res.json({ hello: 'Hello World!'});
         });
     }

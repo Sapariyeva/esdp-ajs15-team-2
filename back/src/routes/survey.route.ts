@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { SurveyController } from "../controllers/survey.controller";
+import { SurveyController } from "@/controllers/survey.controller";
 
 export class SurveyRoute {
     public path = '/surveys';

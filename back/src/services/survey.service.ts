@@ -1,6 +1,6 @@
-import { SurveyDto } from "../dto/survey.dto";
-import { Survey } from "../entities/survey.entity";
-import { SurveyRepository } from "../repositories/survey.repository";
+import { SurveyDto } from "@/dto/survey.dto";
+import { Survey } from "@/entities/survey.entity";
+import { SurveyRepository } from "@/repositories/survey.repository";
 
 export class SurveyService {
     private repository: SurveyRepository;
