@@ -14,6 +14,10 @@ export class UserRoute implements IRoute {
     }
  
     private init() {
+        // Отключение пользователя
+        this.router.patch('/:id', this.controller.disconnectUser);
+        // Получение всех пользователей
+        this.router.get('/', this.controller.getUsers)
         // Регистрация нового пользователя
         this.router.post('/register', this.controller.register);
         // Подтверждение почты

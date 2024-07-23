@@ -17,6 +17,9 @@ export class User extends BaseEntity {
     password?: string;
 
     @Column()
+    status!: boolean;
+
+    @Column()
     token!: string;
 
     @Column({ default: 'specialist' })

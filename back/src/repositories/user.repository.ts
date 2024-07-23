@@ -41,4 +41,20 @@ export class UserRepository extends Repository<User> {
     async resetPassword(user: User): Promise<User> {
         return await this.save(user);
     }
+
+    // Функция для отключения пользователя и смены его статуса
+    async disconnectUser(id: number): Promise<User> {
+        const user = await this.findOne({
+            where: { id },
+        });
+        if (!user) throw new Error('wrong cocktail');
+        user.status = false;
+        await this.update({ id }, { status: false })
+        return user
+    }
+
+    // Функция для получения всех пользователей
+    async getUsers(): Promise<User[]> {
+        return await this.find()
+    }
 }

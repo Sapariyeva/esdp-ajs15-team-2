@@ -117,9 +117,19 @@
   "jump": "Jump",
   "smell": "Smell",
   "fly": "Fly",
+  "shout": "Shout",
   "usage_instruction_here": "Usage instruction is here.",
   "question": "Question",
   "how_to_use": "How to use this?",
   "app_already_open": "The application is already open in another tab",
-  "reset_password": "Reset password"
+  "reset_password": "Reset password",
+  "success_criterion_achieved": "Success criterion achieved",
+  "success_criterion_not_achieved": "The success criterion has not been reached",
+  "right": "Right",
+  "game_ended": "Game ended!",
+  "end_game": "End Game",
+  "restart_game": "Restart Game",
+  "correct_placements": "Correct placements",
+  "incorrect_placements": "Incorrect placements",
+  "percentage_of_correct_answers": "Percentage of correct answers"
 }

@@ -1,3 +1,4 @@
+import Admin from "@/containers/Admin/Admin";
 import Auth from "@/containers/Auth/Auth";
 import EmailLink from "@/containers/Auth/EmailLink";
 import Login from "@/containers/Auth/Login";
@@ -12,6 +13,7 @@ import NewPassword from "@/containers/PasswordReset/NewPassword";
 import { Profile } from "@/containers/Profile/Profile";
 import Survey from "@/containers/Survey/Survey";
 import { Route, Routes as RouterRoutes } from "react-router-dom";
+import Users from "../AdminComponents/Users/Users";
 
 export const Routes = () => {
   return (
@@ -29,6 +31,8 @@ export const Routes = () => {
       <Route path="/games" element={<Games />} />
       <Route path="/profile" element={<Profile />} />
       <Route path="/help" element={<Help />} />
+      <Route path="/admin_page" element={<Admin />} />
+      <Route path="/admin_page/users" element={<Users/>} />
     </RouterRoutes>
   );
 };

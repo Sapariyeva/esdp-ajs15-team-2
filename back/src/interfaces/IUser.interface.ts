@@ -5,4 +5,5 @@ export interface IUser {
     email: string;
     token?: string;
     role: 'specialist' | 'admin';
+    status: boolean;
 }

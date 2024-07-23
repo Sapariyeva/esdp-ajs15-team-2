@@ -30,7 +30,7 @@ export function Configure({ visible, onClose, startGame }: ConfigureProps) {
       sound, successCriterion
     } = useAppSelector(state => state.configure);
 
-    const [selectedContents, setSelectedContents] = useState('photo');
+    const [selectedContents, setSelectedContents] = useState(t('photo'));
 
     const games = [
         { value: t('show'), label: t('show') },

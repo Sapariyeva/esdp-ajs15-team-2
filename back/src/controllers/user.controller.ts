@@ -14,6 +14,23 @@ export class UserController {
     this.service = new UserService();
   }
 
+  // Получение списка пользователей
+  getUsers: RequestHandler = async (req, res): Promise<void> => {
+    const users = await this.service.getUsers();
+    res.send(users);
+  }
+
+  // Отключение пользователя
+  disconnectUser: RequestHandler = async (req, res): Promise<void> => {
+    try {
+        const user = await this.service.disconnectUser(Number(req.params.id));
+        res.send(user)
+    }
+    catch (e) {
+        res.status(400).send({ message: (e as Error).message });
+    }
+}
+
   // Регистрация пользователя
   register: RequestHandler = async (req, res): Promise<void> => {
     const userDto = new UserDto();
