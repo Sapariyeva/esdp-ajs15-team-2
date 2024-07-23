@@ -9,12 +9,20 @@ export class CardRepository extends Repository<Card> {
     super(Card, appDataSource.createEntityManager());
   }
 
-  async getAllCards(name: string[]): Promise<Card[]> {
+  async getAllCardsByTitle(title: string[]): Promise<Card[]> {
     return await this.find({
       where: {
-        name: In(name),
+        title: In(title),
       },
     });
+  }
+
+  async getAllCards(): Promise<Card[]> {
+    return await this.find();
+  }
+
+  async getShowCards(): Promise<Card[]> {
+    return await this.createQueryBuilder().where({}).orderBy('RAND()').take(2).getMany();
   }
 
   async getCard(id: number) {

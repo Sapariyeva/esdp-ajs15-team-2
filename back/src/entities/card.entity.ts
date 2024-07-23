@@ -7,14 +7,17 @@ export class Card {
   id!: number;
 
   @Column()
-  name!: string;
+  title!: string;
 
   @Column()
   image!: string;
 
-  @Column()
-  video!: string;
+  // @Column()
+  // video!: string;
 
-  @Column()
-  audio!: string;
+  // @Column()
+  // category!: [];
+
+  // @Column()
+  // audio!: string;
 }

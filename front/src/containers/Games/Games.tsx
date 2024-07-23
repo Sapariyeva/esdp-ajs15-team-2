@@ -42,7 +42,7 @@ function Games() {
                 sessionFormat === t('sorting') ? (
                     <GameSort endGame={endGame} restartGame={restartGame} />
                   ) : sessionFormat === t('show') ? (
-                    <GameShow />
+                    <GameShow endGame={endGame} restartGame={restartGame}/>
                   ) : sessionFormat === t('name') ? (
                     <GameNameIt />
                   ): null

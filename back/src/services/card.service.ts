@@ -12,8 +12,37 @@ export class CardService {
     this.repository = new CardRepository();
   }
 
-  getAllCards = async (name: string[]): Promise<Card[]> => {
-    return await this.repository.getAllCards(name);
+  getAllCardsByTitle = async (title: string[]): Promise<Card[]> => {
+    return await this.repository.getAllCardsByTitle(title);
+  };
+
+  getAllCards = async (): Promise<Card[]> => {
+    return await this.repository.getAllCards();
+  }
+
+  getShowCards = async (title: string[]): Promise<any[]> => {
+    const matchedCards = await this.repository.getAllCardsByTitle(title);
+
+    const getCards= async () => {
+      const randomCards = await this.repository.getShowCards();
+      return randomCards;
+    };
+
+    const result: any[] = [];
+
+    for (const card of matchedCards) {
+      const randomCards = await getCards();
+
+      const cardSet = [
+        { id: randomCards[0].id, image: randomCards[0].image, title: randomCards[0].title },
+        { id: randomCards[1].id, image: randomCards[1].image, title: randomCards[1].title },
+        { id: card.id, image: card.image, title: card.title },
+      ];
+
+      result.push(cardSet);
+    }
+
+    return result;
   };
 
   getCard = async (id: number): Promise<Card> => {
