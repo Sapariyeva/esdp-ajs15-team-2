@@ -5,15 +5,16 @@ import { useAppSelector } from "@/app/hooks";
 
 
 const Home = () => {
-    const { users } = useAppSelector(store => store.user);
+    const { users } = useAppSelector(store => store.admin);
     const [onlineUsers, setOnlineUsers] = useState<number>(0);
-    const [countUsers,] = useState<number>(users.length);
+    const [countUsers, setCountUsers] = useState<number>(users.length);
 
     useEffect(() => {
-        if (users.length > 0) {
-            const onlineUsersCount = users.filter(user => user.status).length;
-            setOnlineUsers(onlineUsersCount);
-        }
+        const totalUsers = users.length;
+        const onlineUsersCount = users.filter(user => user.status).length;
+
+        setCountUsers(totalUsers);
+        setOnlineUsers(onlineUsersCount);
     }, [users]);
 
     return (
@@ -31,7 +32,6 @@ const Home = () => {
                                     <div className="icon">
                                         <i className="ion ion-person-add" />
                                     </div>
-                                    {/* <Link className="small-box-footer" to="/users">More info <i className="fas fa-arrow-circle-right" /></Link> */}
                                 </div>
                             </div>
                             <div className="col-lg-3 col-6">
@@ -43,7 +43,6 @@ const Home = () => {
                                     <div className="icon">
                                         <i className="ion ion-stats-bars" />
                                     </div>
-                                    {/* <Link className="small-box-footer" to="/users">More info <i className="fas fa-arrow-circle-right" /></Link> */}
                                 </div>
                             </div>
                         </div>

@@ -7,7 +7,6 @@ import { getUsers, disconnectUser } from '@/features/adminSlice';
 
 interface IData {
     id: number;
-    login: string;
     username: string;
     email: string;
     status: boolean;
@@ -15,7 +14,7 @@ interface IData {
 
 const Users = () => {
     const dispatch = useAppDispatch();
-    const { users } = useAppSelector(store => store.user);
+    const { users } = useAppSelector(store => store.admin);
     const [sortBy, setSortBy] = useState<string | null>(null);
     const [sortOrder, setSortOrder] = useState('asc');
 
@@ -35,7 +34,6 @@ const Users = () => {
         const comparison = sortOrder === 'asc' ? 1 : -1;
         const _sortBy = sortBy;
         const sortFunctions: { [key: string]: (a: IData, b: IData) => number } = {
-            login: (a, b) => comparison * a.login.localeCompare(b.login),
             username: (a, b) => comparison * a.username.localeCompare(b.username),
             email: (a, b) => comparison * a.email.localeCompare(b.email),
             status: (a, b) => comparison * (a.status === b.status ? 0 : (a.status ? -1 : 1)),
@@ -59,12 +57,12 @@ const Users = () => {
                 <table>
                     <thead>
                         <tr>
-                            <th className="login">
+                            {/* <th className="login">  ///заменю на какое-нибудь другое поле
                                 Login
                                 <button onClick={() => handleSort('login')}>
                                     <VerticalAlignMiddleOutlined />
                                 </button>
-                            </th>
+                            </th> */}
                             <th className="username">
                                 Username
                                 <button onClick={() => handleSort('username')}>
@@ -88,7 +86,7 @@ const Users = () => {
                     <tbody>
                         {sortedData.map((user: IData, index: any) => (
                             <tr key={index}>
-                                <td className="login">{user.login}</td>
+                                {/* <td className="login">{user.login}</td> */}
                                 <td className="username">{user.username}</td>
                                 <td className="email">{user.email}</td>
                                 <td className="status">
