@@ -13,7 +13,7 @@ export class User extends BaseEntity {
     @Column()
     email!: string;
 
-    @Column()
+    @Column({ default: 'qwerty123' }) // Значение по умолчанию для пароля
     password?: string;
 
     @Column()

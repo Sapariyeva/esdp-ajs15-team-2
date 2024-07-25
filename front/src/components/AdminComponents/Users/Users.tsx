@@ -1,15 +1,16 @@
 import { useEffect, useState } from 'react';
 import { Badge } from 'antd';
 import './Users.css';
-import { VerticalAlignMiddleOutlined, ApiOutlined } from '@ant-design/icons';
+import { VerticalAlignMiddleOutlined } from '@ant-design/icons';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
-import { getUsers, disconnectUser } from '@/features/adminSlice';
+import { getUsers } from '@/features/adminSlice';
 
 interface IData {
     id: number;
     username: string;
     email: string;
     status: boolean;
+    isEmailConfirmed: boolean;
 }
 
 const Users = () => {
@@ -37,6 +38,7 @@ const Users = () => {
             username: (a, b) => comparison * a.username.localeCompare(b.username),
             email: (a, b) => comparison * a.email.localeCompare(b.email),
             status: (a, b) => comparison * (a.status === b.status ? 0 : (a.status ? -1 : 1)),
+            confirmed: (a, b) => comparison * (a.isEmailConfirmed === b.isEmailConfirmed ? 0 : (a.isEmailConfirmed ? -1 : 1)),
         };
         if (_sortBy && sortFunctions[_sortBy]) {
             return sortFunctions[_sortBy](a, b);
@@ -45,39 +47,33 @@ const Users = () => {
         }
     });
 
-    const handleDissconnect = (id: number) => {
-        dispatch(disconnectUser(id)).then(() => {
-            dispatch(getUsers());
-        });
-    };
-
     return (
         <>
             <div className="users-table">
                 <table>
                     <thead>
                         <tr>
-                            {/* <th className="login">  ///заменю на какое-нибудь другое поле
-                                Login
-                                <button onClick={() => handleSort('login')}>
-                                    <VerticalAlignMiddleOutlined />
-                                </button>
-                            </th> */}
                             <th className="username">
                                 Username
-                                <button onClick={() => handleSort('username')}>
+                                <button style={{ borderRadius: '5px' }} onClick={() => handleSort('username')}>
                                     <VerticalAlignMiddleOutlined />
                                 </button>
                             </th>
                             <th className="email">
                                 Email
-                                <button onClick={() => handleSort('email')}>
+                                <button style={{ borderRadius: '5px' }} onClick={() => handleSort('email')}>
                                     <VerticalAlignMiddleOutlined />
                                 </button>
                             </th>
                             <th className="status">
                                 Status
-                                <button onClick={() => handleSort('status')}>
+                                <button style={{ borderRadius: '5px' }} onClick={() => handleSort('status')}>
+                                    <VerticalAlignMiddleOutlined />
+                                </button>
+                            </th>
+                            <th className="confirmed">
+                                Email_confirmed
+                                <button style={{ borderRadius: '5px' }} onClick={() => handleSort('confirmed')}>
                                     <VerticalAlignMiddleOutlined />
                                 </button>
                             </th>
@@ -86,7 +82,6 @@ const Users = () => {
                     <tbody>
                         {sortedData.map((user: IData, index: any) => (
                             <tr key={index}>
-                                {/* <td className="login">{user.login}</td> */}
                                 <td className="username">{user.username}</td>
                                 <td className="email">{user.email}</td>
                                 <td className="status">
@@ -94,9 +89,12 @@ const Users = () => {
                                         status={user.status ? 'success' : 'error'}
                                         text={user.status ? 'online' : 'offline'}
                                     />
-                                    {user.status && (
-                                        <button className='disable' onClick={() => handleDissconnect(user.id)}><ApiOutlined /></button>
-                                    )}
+                                </td>
+                                <td className="confirmed">{user.isEmailConfirmed}
+                                    <Badge
+                                        status={user.isEmailConfirmed ? 'processing' : 'default'}
+                                        text={user.isEmailConfirmed ? 'да' : 'нет'}
+                                    />
                                 </td>
                             </tr>
                         ))}

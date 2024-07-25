@@ -14,6 +14,7 @@ import { Profile } from "@/containers/Profile/Profile";
 import Survey from "@/containers/Survey/Survey";
 import { Route, Routes as RouterRoutes } from "react-router-dom";
 import Users from "../AdminComponents/Users/Users";
+import Students from "@/containers/Student/Student";
 
 export const Routes = () => {
   return (
@@ -33,6 +34,7 @@ export const Routes = () => {
       <Route path="/help" element={<Help />} />
       <Route path="/admin_page" element={<Admin />} />
       <Route path="/admin_page/users" element={<Users/>} />
+      <Route path="/students" element={<Students />} />
     </RouterRoutes>
   );
 };
