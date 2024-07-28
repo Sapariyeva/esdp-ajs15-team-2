@@ -1,7 +1,6 @@
 import { Container, Grid } from '@mui/material';
 import { Button } from '@/components/UI/Button/Button';
 import { Title } from '@/components/UI/Title/Title';
-import { Card } from '@/components/UI/Card/Card';
 import friends from '@/assets/images/find/friends.jpg';
 import google from '@/assets/images/find/google.jpg';
 import social from '@/assets/images/find/social.jpg';
@@ -10,6 +9,7 @@ import { ISurvey } from '@/interfaces/ISurvey';
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { createSurvey } from '@/features/surveySlice';
+import { CardSurvey } from '@/components/UI/CardSurvey/CardSurvey';
 
 // Страница с выбором варианта "Как вы узнали о ИгроВУЗ?"
 const Survey = () => {
@@ -61,28 +61,28 @@ const Survey = () => {
                 />
             </Grid>
             <Grid display="flex" alignItems="center" flexDirection={"row"} justifyContent={"space-evenly"} >
-                <Card
+                <CardSurvey
                     title="От друзей, родных или знакомых"
                     image={friends}
                     onClick={() => handleClick(0, "От друзей, родных или знакомых")}
                     isClicked={clickedCard === 0}
-                ></Card>
-                <Card
+                ></CardSurvey>
+                <CardSurvey
                     title="Из социальных сетей"
                     image={social}
                     onClick={() => handleClick(1, "Из социальных сетей")}
                     isClicked={clickedCard === 1}
-                ></Card>
-                <Card
+                ></CardSurvey>
+                <CardSurvey
                     title="Из поиска Google/Yandex"
                     image={google}
                     onClick={() => handleClick(2, "Из поиска Google/Yandex")}
                     isClicked={clickedCard === 2}
-                ></Card>
+                ></CardSurvey>
             </Grid>
             <Grid display="flex" justifyContent="center" marginTop={"20px"}>
                 <Button
-                    className='Continue_btn'
+                    className={`Continue_btn ${clickedCard === null ? 'Disabled' : ''}`}
                     title="Продолжить"
                     onClick={() => surveyCreate(state)}
                     size="lg"

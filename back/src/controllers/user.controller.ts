@@ -20,17 +20,6 @@ export class UserController {
     res.send(users);
   }
 
-  // Отключение пользователя
-  disconnectUser: RequestHandler = async (req, res): Promise<void> => {
-    try {
-        const user = await this.service.disconnectUser(Number(req.params.id));
-        res.send(user)
-    }
-    catch (e) {
-        res.status(400).send({ message: (e as Error).message });
-    }
-}
-
   // Регистрация пользователя
   register: RequestHandler = async (req, res): Promise<void> => {
     const userDto = new UserDto();
@@ -54,6 +43,7 @@ export class UserController {
       );
       res.send(newUser);
     } catch (e) {
+      console.log(e);
       if ((e as { message: string }).message === 'Email уже используется') {
         res.status(401).send({ error: { message: 'Пользователь уже существует' } });
       } else {

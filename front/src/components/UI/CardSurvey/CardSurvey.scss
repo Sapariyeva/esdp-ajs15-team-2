@@ -1,0 +1,68 @@
+.cardSurvey {
+  width: 100%;
+  max-width: 400px;
+  height: 100%;
+  max-height: 336px;
+  border: 1px solid #e8e8e8;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s;
+  margin: 16px;
+
+  &:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+  }
+
+  &.cardSurvey-clicked {
+    box-shadow: 0px 0px 16px 4px rgb(20 195 20);
+    transition: none;
+  }
+
+  .cardSurvey-image-container {
+    width: 100%;
+    height: 263px;
+    position: relative;
+    overflow: hidden;
+    .cardSurvey-image {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+  .cardSurvey-content {
+    padding: 0px 63px 37px 64px;
+    height: 73px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    .cardSurvey-title {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 600;
+      color: #1c1b1f;
+      line-height: 26px;
+      margin-top: 20px;
+    }
+  }
+}
+@media (min-width: 600px) {
+  .cardSurvey {
+    flex: 1 1 calc(50% - 32px);
+  }
+}
+@media (min-width: 900px) {
+  .cardSurvey {
+    flex: 1 1 calc(33.333% - 32px);
+  }
+}
+@media (min-width: 1200px) {
+  .cardSurvey {
+    flex: 1 1 calc(25% - 32px);
+  }
+}
