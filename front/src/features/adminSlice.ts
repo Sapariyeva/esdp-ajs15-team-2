@@ -25,18 +25,6 @@ export const getUsers = createAsyncThunk('get/users', async () => {
     }
 })
 
-// Запрос на отключение пользователя
-export const disconnectUser = createAsyncThunk('patch/users', async (id: number) => {
-    try {
-        const response = await axiosApi.patch(`/users/${id}`);
-        return response.data;
-    } catch (error) {
-        console.log(error);
-        throw error;
-    }
-})
-
-
 export const adminSlice = createSlice({
     name: "users",
     initialState,
@@ -52,19 +40,6 @@ export const adminSlice = createSlice({
                 state.users = action.payload 
             })
             .addCase(getUsers.rejected, (state, action) => {
-                state.loading = true
-                state.error = action.error as Error
-            })
-
-            .addCase(disconnectUser.pending, (state) => {
-                state.loading = true
-                state.error = null
-            })
-            .addCase(disconnectUser.fulfilled, (state, action) => {
-                state.loading = false
-                state.users = [action.payload]
-            })
-            .addCase(disconnectUser.rejected, (state, action) => {
                 state.loading = true
                 state.error = action.error as Error
             })

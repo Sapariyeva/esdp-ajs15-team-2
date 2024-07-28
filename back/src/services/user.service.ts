@@ -206,9 +206,4 @@ export class UserService {
         return await this.repository.getUsers()
     }
 
-    // Функция для отключения пользователя и смены его статуса
-    public async disconnectUser(id: number): Promise<IUser | null> {
-        const user = await this.repository.disconnectUser(id)
-        return user || null;
-    }
 }

@@ -26,7 +26,8 @@ export function Button({title, onClick, size, type, style, className}: Props) {
         <button 
             className={`button ${buttonSizeClassName[size!]} ${buttonTypeClassName[type!]} ${className}`} 
             onClick={onClick}
-            style={style}>
+            style={style} 
+            >
             <span className="button-title">{title}</span>
         </button>
     )

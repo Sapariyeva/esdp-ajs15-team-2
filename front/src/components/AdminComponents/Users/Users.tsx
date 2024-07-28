@@ -9,7 +9,6 @@ interface IData {
     id: number;
     username: string;
     email: string;
-    status: boolean;
     isEmailConfirmed: boolean;
 }
 
@@ -37,7 +36,6 @@ const Users = () => {
         const sortFunctions: { [key: string]: (a: IData, b: IData) => number } = {
             username: (a, b) => comparison * a.username.localeCompare(b.username),
             email: (a, b) => comparison * a.email.localeCompare(b.email),
-            status: (a, b) => comparison * (a.status === b.status ? 0 : (a.status ? -1 : 1)),
             confirmed: (a, b) => comparison * (a.isEmailConfirmed === b.isEmailConfirmed ? 0 : (a.isEmailConfirmed ? -1 : 1)),
         };
         if (_sortBy && sortFunctions[_sortBy]) {
@@ -65,12 +63,6 @@ const Users = () => {
                                     <VerticalAlignMiddleOutlined />
                                 </button>
                             </th>
-                            <th className="status">
-                                Status
-                                <button style={{ borderRadius: '5px' }} onClick={() => handleSort('status')}>
-                                    <VerticalAlignMiddleOutlined />
-                                </button>
-                            </th>
                             <th className="confirmed">
                                 Email_confirmed
                                 <button style={{ borderRadius: '5px' }} onClick={() => handleSort('confirmed')}>
@@ -84,12 +76,6 @@ const Users = () => {
                             <tr key={index}>
                                 <td className="username">{user.username}</td>
                                 <td className="email">{user.email}</td>
-                                <td className="status">
-                                    <Badge
-                                        status={user.status ? 'success' : 'error'}
-                                        text={user.status ? 'online' : 'offline'}
-                                    />
-                                </td>
                                 <td className="confirmed">{user.isEmailConfirmed}
                                     <Badge
                                         status={user.isEmailConfirmed ? 'processing' : 'default'}

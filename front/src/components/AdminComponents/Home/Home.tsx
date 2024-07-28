@@ -4,15 +4,15 @@ import { useAppSelector } from "@/app/hooks";
 
 const Home = () => {
     const { users } = useAppSelector(store => store.admin);
-    const [onlineUsers, setOnlineUsers] = useState<number>(0);
+    const [isEmailConfirmedUsers, setOnlineUsers] = useState<number>(0);
     const [countUsers, setCountUsers] = useState<number>(users.length);
 
     useEffect(() => {
         const totalUsers = users.length;
-        const onlineUsersCount = users.filter(user => user.status).length;
+        const usersIsEmailConfirmed = users.filter(user => user.isEmailConfirmed).length;
 
         setCountUsers(totalUsers);
-        setOnlineUsers(onlineUsersCount);
+        setOnlineUsers(usersIsEmailConfirmed);
     }, [users]);
 
     return (
@@ -25,18 +25,18 @@ const Home = () => {
                                 <div className="small-box bg-warning">
                                     <div className="inner">
                                         <h3>{countUsers}</h3>
-                                        <p>User Registrations</p>
+                                        <p>List of all users</p>
                                     </div>
                                     <div className="icon">
                                         <i className="ion ion-person-add" />
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-lg-3 col-6">
+                            <div className="col-lg-4 col-6">
                                 <div className="small-box bg-danger">
                                     <div className="inner">
-                                        <h3>{onlineUsers}</h3>
-                                        <p>Online users</p>
+                                        <h3>{isEmailConfirmedUsers}</h3>
+                                        <p>Users who have verified their email address</p>
                                     </div>
                                     <div className="icon">
                                         <i className="ion ion-stats-bars" />
