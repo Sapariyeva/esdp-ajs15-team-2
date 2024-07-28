@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import Users from "../Users/Users";
 import { useAppSelector } from "@/app/hooks";
 
-
-
 const Home = () => {
     const { users } = useAppSelector(store => store.admin);
     const [onlineUsers, setOnlineUsers] = useState<number>(0);

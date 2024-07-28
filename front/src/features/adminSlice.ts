@@ -14,6 +14,7 @@ const initialState: IMessageState = {
     loading: true
 }
 
+// Запрос на получение пользователей
 export const getUsers = createAsyncThunk('get/users', async () => {
     try {
         const response = await axiosApi.get(`/users`);
@@ -24,6 +25,7 @@ export const getUsers = createAsyncThunk('get/users', async () => {
     }
 })
 
+// Запрос на отключение пользователя
 export const disconnectUser = createAsyncThunk('patch/users', async (id: number) => {
     try {
         const response = await axiosApi.patch(`/users/${id}`);
