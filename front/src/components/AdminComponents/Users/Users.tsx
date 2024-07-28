@@ -52,7 +52,7 @@ const Users = () => {
                     <thead>
                         <tr>
                             <th className="username">
-                                Username
+                                Имя пользователя
                                 <button style={{ borderRadius: '5px' }} onClick={() => handleSort('username')}>
                                     <VerticalAlignMiddleOutlined />
                                 </button>
@@ -64,7 +64,7 @@ const Users = () => {
                                 </button>
                             </th>
                             <th className="confirmed">
-                                Email_confirmed
+                                Подтверждение почты
                                 <button style={{ borderRadius: '5px' }} onClick={() => handleSort('confirmed')}>
                                     <VerticalAlignMiddleOutlined />
                                 </button>

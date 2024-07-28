@@ -5,14 +5,10 @@ const SideNav = () => {
     return (
         <>
             <aside className="main-sidebar sidebar-dark-primary elevation-4" style={{ backgroundColor: '#9069CD' }}>
-                <Link className="brand-link" to="/">
-                    <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" className="brand-image img-circle elevation-3" style={{ opacity: '.8' }} />
-                    <span className="brand-text font-weight-light" style={{ color: 'black' }}>AdminLTE 3</span>
-                </Link>
-
-                <ul className="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <h2 className="brand-text font-weight-light" style={{ color: '#1C1B1F', padding: '10px 20px', fontSize: '40px', borderBottom: '1px solid black' }}>ИгроВУЗ</h2>
+                <ul className="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false" style={{fontSize: '20px'}}>
                     {/* Add icons to the links using the .nav-icon class
-         with font-awesome or any other icon font library */}
+                    with font-awesome or any other icon font library */}
 
                     <li className="nav-item">
                         <Link to="/" className="nav-link">

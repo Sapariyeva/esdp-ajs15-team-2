@@ -21,22 +21,22 @@ const Home = () => {
                 <section className="content">
                     <div className="container-fluid">
                         <div className="row">
-                            <div className="col-lg-3 col-6">
+                            <div className="col-lg-2 col-6" style={{marginTop: '10px'}}>
                                 <div className="small-box bg-warning">
-                                    <div className="inner">
+                                    <div className="inner" style={{background: '#FDD231'}}>
                                         <h3>{countUsers}</h3>
-                                        <p>List of all users</p>
+                                        <p>Список всех пользователей</p>
                                     </div>
                                     <div className="icon">
                                         <i className="ion ion-person-add" />
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-lg-4 col-6">
+                            <div className="col-lg-4 col-6" style={{marginTop: '10px'}}>
                                 <div className="small-box bg-danger">
-                                    <div className="inner">
+                                    <div className="inner" style={{background: '#58A700'}}>
                                         <h3>{isEmailConfirmedUsers}</h3>
-                                        <p>Users who have verified their email address</p>
+                                        <p>Пользователи, подтвердившие свой адрес электронной почты</p>
                                     </div>
                                     <div className="icon">
                                         <i className="ion ion-stats-bars" />
