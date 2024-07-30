@@ -1,7 +1,8 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { AxiosError, isAxiosError } from "axios";
 import { IUser } from "../interfaces/IUser";
 import axiosApi from "../api/axiosApi";
-import { AxiosError, isAxiosError } from "axios";
+import { omit } from "lodash";
 
 interface IState {
     user: IUser | null;
@@ -244,7 +245,11 @@ const userSlice = createSlice({
             state.loading = false;
             state.registerError = null;
             state.loginError = null;
-        }
+        },
+        setUser(state, action: PayloadAction<IUser>) {
+            const userWithoutPassword = omit(action.payload, ['password']);
+            state.user = userWithoutPassword as IUser;
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -361,6 +366,6 @@ const userSlice = createSlice({
     },
 });
 
-export const { clearRegisterError, changeUserEmail, changeInitialState } = userSlice.actions;
+export const { clearRegisterError, changeUserEmail, changeInitialState, setUser } = userSlice.actions;
 
 export default userSlice.reducer;

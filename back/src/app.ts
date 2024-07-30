@@ -1,11 +1,12 @@
 import express from 'express';
 import { Application, RequestHandler } from 'express';
+import session from 'express-session';
+import passport from 'passport';
 import { AppInit } from './interfaces/AppInit.interface';
 import { IRoute } from './interfaces/IRoute.interface';
 import { appDataSource } from './dataSource/dataSource';
-import session from 'express-session';
-import passport from 'passport';
 import './config/passportConfig';
+import { UserRoute } from './routes/user.route';
 
 class App {
     public app: Application;
@@ -38,6 +39,7 @@ class App {
         routes.forEach((route) => {
             this.app.use(route.path, route.router);
         });
+        this.app.use('/', new UserRoute().router);
     }
     private initAssets() {
         this.app.use(express.json());
