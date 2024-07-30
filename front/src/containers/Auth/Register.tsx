@@ -160,7 +160,7 @@ const Register = () => {
                             type="facebook"
                         ></ButtonSocial>
                         <ButtonSocial
-                            onClick={() => console.log("click")}
+                            onClick={() => window.location.href = 'http://localhost:8000/users/auth/google'}
                             size="lg"
                             type="google"
                         ></ButtonSocial>

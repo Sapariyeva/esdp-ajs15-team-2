@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import passport from 'passport';
 import { IRoute } from '@/interfaces/IRoute.interface';
 import { authValidate } from '@/middlewares/authValidate';
 import { UserController } from '@/controllers/user.controller';
@@ -39,7 +40,10 @@ export class UserRoute implements IRoute {
         // Сброс пароля
         this.router.post('/reset_password/:token', this.controller.resetPassword);
         // Аутентификация через Google
-        this.router.get('/auth/google', this.controller.googleAuth);
-        this.router.get('/auth/google/callback', this.controller.googleAuthCallback);
+        this.router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+        this.router.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/' }), (req, res) => {
+            // Успешная аутентификация, перенаправляем на нужную страницу.
+            res.redirect(`http://localhost:5173/auth/google/success?user=${encodeURIComponent(JSON.stringify(req.user))}`);
+        });
     }
 }

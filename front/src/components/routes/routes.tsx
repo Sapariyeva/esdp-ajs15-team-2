@@ -1,3 +1,4 @@
+import { Route, Routes as RouterRoutes } from "react-router-dom";
 import Admin from "@/containers/Admin/Admin";
 import Auth from "@/containers/Auth/Auth";
 import EmailLink from "@/containers/Auth/EmailLink";
@@ -12,9 +13,9 @@ import ForgotPasswordEmailLink from "@/containers/PasswordReset/ForgotPasswordEm
 import NewPassword from "@/containers/PasswordReset/NewPassword";
 import { Profile } from "@/containers/Profile/Profile";
 import Survey from "@/containers/Survey/Survey";
-import { Route, Routes as RouterRoutes } from "react-router-dom";
 import Users from "../AdminComponents/Users/Users";
 import Students from "@/containers/Student/Student";
+import { GoogleAuthSuccess } from "@/containers/Auth/GoogleAuthSuccess";
 
 export const Routes = () => {
   return (
@@ -27,6 +28,7 @@ export const Routes = () => {
       <Route path="/reset_password_email_link" element={<ForgotPasswordEmailLink />} />
       <Route path="/new_password/:token" element={<NewPassword />} />
       <Route path="/username_registration" element={<UsernameRegistration />} />
+      <Route path="/auth/google/success" element={<GoogleAuthSuccess />} />
       <Route path="/main" element={<Main />} />
       <Route path="/survey" element={<Survey />} />
       <Route path="/games" element={<Games />} />

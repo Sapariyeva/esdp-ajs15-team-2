@@ -1,3 +1,5 @@
+import dotenv from 'dotenv';
+dotenv.config();
 import cors from 'cors';
 import App from './app';
 import logger from './middlewares/logger';
