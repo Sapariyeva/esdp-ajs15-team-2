@@ -21,6 +21,7 @@ export function GoogleAuthSuccess() {
         const savedLanguage = localStorage.getItem('i18nextLng') || 'en';
         i18n.changeLanguage(savedLanguage).then(() => {
           navigate("/main");
+          window.location.reload(); // Костыль (визуально видно ререндер ключей из словарей на их значения)
         });
       } catch (error) {
         console.error("Error parsing user data:", error);
