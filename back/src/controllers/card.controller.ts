@@ -10,10 +10,10 @@ export class CardController {
     this.service = new CardService();
   }
 
-  getAllCardsByTitle: RequestHandler = async (req, res): Promise<void> => {
-    const { title } = req.body;
+  getAllCardsByCategory: RequestHandler = async (req, res): Promise<void> => {
+    const { category } = req.body;
     try {
-      const cards = await this.service.getAllCardsByTitle(title);
+      const cards = await this.service.getAllCardsByCategory(category);
       res.send(cards);
     } catch (e) {
       res.status(500).send({ message: (e as Error)?.message });

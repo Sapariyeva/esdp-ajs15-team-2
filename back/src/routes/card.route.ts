@@ -14,7 +14,7 @@ export class CardRoute implements IRoute {
   }
 
   private init() {
-    this.router.get('/', this.controller.getAllCardsByTitle);
+    this.router.get('/', this.controller.getAllCardsByCategory);
     this.router.get('/all', this.controller.getAllCards);
     this.router.get('/show', this.controller.getShowCards);
     this.router.get('/:id', this.controller.getCard);

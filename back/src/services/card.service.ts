@@ -1,5 +1,3 @@
-/* eslint-disable prettier/prettier */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { CardDto } from '@/dto/card.dto';
 import { Card } from '@/entities/card.entity';
 import { formatErrors } from '@/helpers/formatErrors';
@@ -14,8 +12,8 @@ export class CardService {
     this.repository = new CardRepository();
   }
 
-  getAllCardsByTitle = async (title: string[]): Promise<Card[]> => {
-    return await this.repository.getAllCardsByTitle(title);
+  getAllCardsByCategory = async (category: string[]): Promise<Card[]> => {
+    return await this.repository.getAllCardsByTitle(category);
   };
 
   getAllCards = async (): Promise<Card[]> => {

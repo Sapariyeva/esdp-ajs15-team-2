@@ -1,7 +1,14 @@
+import axiosApi from '@/api/axiosApi';
+import { ICard } from '@/containers/Games/GameSort/GameSort';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk } from '@reduxjs/toolkit';
 
 interface State {
-  actions: string[];
+  categories: string[];
+  selectedCategories: string[];
+  cards: ICard[];
+  error: Error | null;
+  loading: boolean;
   sessionFormat: string;
   isErrorlessLearning: boolean;
   rotation: number;
@@ -15,10 +22,15 @@ interface State {
   sound: boolean;
   successCriterion: number;
   successStreakCriterion: number;
+  errorHandling: boolean;
 }
 
 const initialState: State = {
-  actions: ['Нюхать', 'Спать', 'Нюхать', 'Нюхать'],
+  categories: [],
+  selectedCategories: [],
+  cards: [],
+  error: null,
+  loading: false,
   sessionFormat: 'Покажи',
   isErrorlessLearning: false,
   rotation: 1,
@@ -32,59 +44,89 @@ const initialState: State = {
   sound: true,
   successCriterion: 0,
   successStreakCriterion: 1,
+  errorHandling: false,
 };
+
+export const fetchCards = createAsyncThunk('fetch/cards', async () => {
+  return await axiosApi.get<ICard[]>('/cards/all').then((res) => res.data);
+});
 
 const configureSlice = createSlice({
   name: 'configure',
   initialState,
   reducers: {
-    setActions(state, action: PayloadAction<string[]>) {
-      state.actions = action.payload;
+    setCategories(state, action: PayloadAction<string[]>) {
+      state.categories = action.payload;
     },
-    setSessionFormat(state, action) {
+    setSelectedCategories(state, action: PayloadAction<string[]>) {
+      state.selectedCategories = action.payload;
+    },
+    setCards(state, action: PayloadAction<ICard[]>) {
+      state.cards = action.payload;
+    },
+    setSessionFormat(state, action: PayloadAction<string>) {
       state.sessionFormat = action.payload;
     },
-    setErrorlessLearning(state, action) {
+    setErrorlessLearning(state, action: PayloadAction<boolean>) {
       state.isErrorlessLearning = action.payload;
     },
-    setRotation(state, action) {
+    setRotation(state, action: PayloadAction<number>) {
       state.rotation = action.payload;
     },
-    setInteractiveEnd(state, action) {
+    setInteractiveEnd(state, action: PayloadAction<boolean>) {
       state.interactiveEnd = action.payload;
     },
-    setEncouragement(state, action) {
+    setEncouragement(state, action: PayloadAction<string>) {
       state.encouragement = action.payload;
     },
-    setEncouragementSwitch(state, action) {
+    setEncouragementSwitch(state, action: PayloadAction<boolean>) {
       state.encouragementSwitch = action.payload;
     },
-    setCardPosition(state, action) {
+    setCardPosition(state, action: PayloadAction<boolean>) {
       state.cardPosition = action.payload;
     },
-    setHints(state, action) {
+    setHints(state, action: PayloadAction<boolean>) {
       state.hints = action.payload;
     },
-    setAutoHints(state, action) {
+    setAutoHints(state, action: PayloadAction<number>) {
       state.autoHints = action.payload;
     },
-    setHintsLimit(state, action) {
+    setHintsLimit(state, action: PayloadAction<number>) {
       state.hintsLimit = action.payload;
     },
-    setSound(state, action) {
+    setSound(state, action: PayloadAction<boolean>) {
       state.sound = action.payload;
     },
-    setSuccessCriterion(state, action) {
+    setSuccessCriterion(state, action: PayloadAction<number>) {
       state.successCriterion = action.payload;
     },
-    setSuccessStreakCriterion(state, action) {
+    setSuccessStreakCriterion(state, action: PayloadAction<number>) {
       state.successStreakCriterion = action.payload;
     },
+    setErrorHandling(state, action: PayloadAction<boolean>) {
+      state.errorHandling = action.payload;
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchCards.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchCards.fulfilled, (state, action) => {
+        state.cards = action.payload;
+        state.loading = false;
+      })
+      .addCase(fetchCards.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error as Error;
+      });
   },
 });
 
 export const {
-  setActions,
+  setCategories,
+  setSelectedCategories,
+  setCards,
   setErrorlessLearning,
   setSessionFormat,
   setRotation,
@@ -98,6 +140,7 @@ export const {
   setSound,
   setSuccessCriterion,
   setSuccessStreakCriterion,
+  setErrorHandling,
 } = configureSlice.actions;
 
 export default configureSlice.reducer;

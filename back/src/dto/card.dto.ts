@@ -1,4 +1,3 @@
-/* eslint-disable indent */
 import { Expose } from 'class-transformer';
 import { IsNotEmpty, IsString } from 'class-validator';
 
@@ -19,7 +18,7 @@ export class CardDto {
   video!: string;
 
   @Expose()
-  @IsString({ message: 'Видео должно быть строкой' })
-  @IsNotEmpty({ message: 'Укажите видео карточки' })
+  @IsString({ message: 'Категория должна быть строкой' })
+  @IsNotEmpty({ message: 'Укажите категорию карточки' })
   category!: string;
 }
