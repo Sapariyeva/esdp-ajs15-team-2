@@ -9,10 +9,10 @@ export class CardRepository extends Repository<Card> {
     super(Card, appDataSource.createEntityManager());
   }
 
-  async getAllCardsByTitle(title: string[]): Promise<Card[]> {
+  async getAllCardsByTitle(category: string[]): Promise<Card[]> {
     return await this.find({
       where: {
-        title: In(title),
+        category: In(category),
       },
     });
   }
