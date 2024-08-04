@@ -1,18 +1,21 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import './GameSort.css';
 import shuffle from 'lodash/shuffle';
 import { message } from "antd";
-
-import jump from './../../public/images/human.png';
-import fly from './../../public/images/fly.png';
-import shout from './../../public/images/shout.png';
-import musicLogo from '../../public/images/music_cast.png'
 import Modal from "antd/es/modal/Modal";
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
+import { useTranslation } from 'react-i18next';
+
+import jump from '@/assets/images/gameImg/images/jump.png';
+import fly from '@/assets/images/gameImg/images/fly.png';
+import shout from '@/assets/images/gameImg/images/shout.png';
+import musicLogo from '@/assets/images/gameImg/images/music_cast.png'
+
 import { ButtonNav } from "@/components/UI/ButtonNav/ButtonNav";
 import { Button } from "@/components/UI/Button/Button";
 import { fetchCards } from "@/features/configureSlice";
+import './GameSort.css';
 
+// Инттерфейс для карточки
 export interface ICard {
     id: number;
     name: string;
@@ -20,6 +23,7 @@ export interface ICard {
     category: string;
 }
 
+// Интерфейс для зоны сброса карты
 interface DropZone {
     category: string;
     image: string;
@@ -31,25 +35,18 @@ interface Props {
 }
 
 export function GameSort({ endGame, restartGame }: Props) {
-    const dispatch = useAppDispatch();
-    const cardsServer = useAppSelector((state) => state.configure.cards);
-    const selectedCategories = useAppSelector((state) => state.configure.selectedCategories);
-    const isLoading = useAppSelector((state) => state.configure.loading);
-    const error = useAppSelector((state) => state.configure.error);
+    const { t } = useTranslation();
 
-    const isErrorlessLearning = useAppSelector((state) => state.configure.isErrorlessLearning);
-    const rotation = useAppSelector((state) => state.configure.rotation);
-    const interactiveEnd = useAppSelector((state) => state.configure.interactiveEnd);
-    const encouragement = useAppSelector((state) => state.configure.encouragement);
-    const encouragementSwitch = useAppSelector((state) => state.configure.encouragementSwitch);
-    const audioRef = useRef<HTMLAudioElement>(null);
-    const sound = useAppSelector((state) => state.configure.sound); 
+    const dispatch = useAppDispatch();
+    const { selectedCategories, error, isErrorlessLearning, 
+        rotation, interactiveEnd, encouragement, encouragementSwitch, 
+        sound, hintsLimit, autoHints, cardPosition, successCriterion, errorHandling
+    } = useAppSelector((state) => state.configure);
+    const cardsServer = useAppSelector((state) => state.configure.cards);
+    const isLoading = useAppSelector((state) => state.configure.loading);
     const hintsEnabled = useAppSelector((state) => state.configure.hints);
-    const hintsLimit = useAppSelector((state) => state.configure.hintsLimit);
-    const autoHints = useAppSelector((state) => state.configure.autoHints);
-    const cardPosition = useAppSelector((state) => state.configure.cardPosition);
-    const successCriterion = useAppSelector((state) => state.configure.successCriterion);
-    const errorHandling = useAppSelector((state) => state.configure.errorHandling);
+
+    const audioRef = useRef<HTMLAudioElement>(null);
 
     const [currentCard, setCurrentCard] = useState<ICard | null>(null);
     const [correct, setCorrect] = useState<number>(0);  
@@ -64,16 +61,18 @@ export function GameSort({ endGame, restartGame }: Props) {
         { category: 'jump', image: jump },
         { category: 'shout', image: shout },
         { category: 'fly', image: fly }
-    ]); 
+    ]); // Начальные зоны для сброса карт
     const [successMessage, setSuccessMessage] = useState<string>(""); 
     const [showGif, setShowGif] = useState<string | null>(null); 
 
+    // Гифки поощерений 
     const encouragementImages: { [key: string]: string } = {
-        'Смайлик': '../../public/gif/smile.gif',
-        'Звезда': '../../public/gif/star.gif',
-        'Аплодисменты': '../../public/gif/applause.gif',
+        'Смайлик': '../../../../public/gif/smile.gif',
+        'Звезда': '../../../../public/gif/star.gif',
+        'Аплодисменты': '../../../../public/gif/applause.gif',
     };
 
+    // Отслеживание звука
     useEffect(() => {
         console.log('Звук:', sound === true ? 'включен' : 'выключен');
         if (audioRef.current) {
@@ -100,32 +99,36 @@ export function GameSort({ endGame, restartGame }: Props) {
         setCards(filteredCards);
     }, [duplicatedCards, selectedCategories]);
 
+    // Завершение игры
     useEffect(() => {
         if (cards.length === 0) {
             const successPercentage = calculateSuccessPercentage(correct, incorrect);
-            if (interactiveEnd) {
+            if (interactiveEnd) { // Если включена интерактивная концовка
                 setShowAnimation(true);
                 setTimeout(() => {
                     setShowAnimation(false);
-                    setIsModalVisible(true);
+                    setIsModalVisible(true); // Модальное окно о резултате игры
                 }, 2000); 
             } else {
                 setIsModalVisible(true);
             }
 
+            // сообщение об КУ в зависимости от процента успешности
             if (successPercentage >= successCriterion) {
-                setSuccessMessage("Критерий успешности достигнут");
+                setSuccessMessage(t('success_criterion_achieved'));
             } else {
-                setSuccessMessage("Критерий успешности не достигнут");
+                setSuccessMessage(t('success_criterion_not_achieved'));
             }
         }
     }, [cards, interactiveEnd, correct, incorrect, successCriterion]);
 
+    // Функция для расчета процента успешности
     function calculateSuccessPercentage(correct: number, incorrect: number) {
         const total = correct + incorrect;
         return total === 0 ? 0 : (correct / total) * 100;
     }
 
+    // Обработчик начала перетаскивания карточки
     function dragStartHandler(e: React.DragEvent<HTMLDivElement>, card: ICard) {
         console.log(e);
         setCurrentCard(card);
@@ -133,15 +136,18 @@ export function GameSort({ endGame, restartGame }: Props) {
         setHighlightIncorrectCategory(null);
     }
 
+    // Обработчик завершения перетаскивания карточки
     function dragEndHandler(e: React.DragEvent<HTMLDivElement>) {
         e.currentTarget.style.background = 'white';
     }
 
+    // Обработчик перетаскивания карточки над зоной сброса
     function dragOverHandler(e: React.DragEvent<HTMLDivElement>) {
         e.preventDefault();
         e.currentTarget.style.background = 'lightgray';
     }
 
+    // Обработчик сброса карточки в зону сброса
     function dropHandler(e: React.DragEvent<HTMLDivElement>, category: string) {
         e.preventDefault();
         if (currentCard) {
@@ -150,10 +156,10 @@ export function GameSort({ endGame, restartGame }: Props) {
                     setShowGif(encouragementImages[encouragement]);
                     setTimeout(() => setShowGif(null), 1000);
                 } else {
-                    message.success('Верно');
+                    message.success(t('right')); // Если нет поощерений
                 }
     
-                setCorrect(prev => prev + 1);
+                setCorrect(prev => prev + 1); // счетчик правильных ответов
                 setCards(prevCards => prevCards.filter(card => card.id !== currentCard.id));
             } else {
                 setIncorrect(prev => {
@@ -246,11 +252,11 @@ export function GameSort({ endGame, restartGame }: Props) {
     };
 
     if (isLoading) {
-        return <div>Загрузка...</div>;
+        return <div>{t('loading')}</div>;
     }
 
     if (error) {
-        return <div>Ошибка: {error.message}</div>;
+        return <div>{t('error')}: {error.message}</div>;
     }
 
     return (
@@ -308,20 +314,20 @@ export function GameSort({ endGame, restartGame }: Props) {
                 closable={false}
                 style={{width:'500px', height: '500px'}}
             >
-                <img src='../../public/gif/unicorn.gif' style={{width:'400px', height: '400px'}}/>
+                <img src='../../../public/gif/unicorn.gif' style={{width:'400px', height: '400px'}}/>
             </Modal>
             <Modal
-                title="Игра завершена!"
+                title={t('game_ended')}
                 open={isModalVisible}
                 onCancel={handleCancel}
                 footer={[
-                    <Button size="md" type="primary" key="endGame" onClick={endGame} title="Завершить игру"></Button>,
-                    <Button size="md" type="default" key="restartGame" onClick={restartGame} title="Перезапустить игру"></Button>
+                    <Button size="md" type="primary" key="endGame" onClick={endGame} title={t('end_game')}></Button>,
+                    <Button size="md" type="default" key="restartGame" onClick={restartGame} title={t('restart_game')}></Button>
                 ]}
             >
-                <p>Верных размещений: {correct}</p>
-                <p>Неверных размещений: {incorrect}</p>
-                <p>Процент правильных ответов: {calculateSuccessPercentage(correct, incorrect).toFixed(2)}%</p>
+                <p>{t('correct_placements')}: {correct}</p>
+                <p>{t('incorrect_placements')}: {incorrect}</p>
+                <p>{t('percentage_of_correct_answers')}: {calculateSuccessPercentage(correct, incorrect).toFixed(2)}%</p>
                 <p>{successMessage}</p>
             </Modal>
         </div>

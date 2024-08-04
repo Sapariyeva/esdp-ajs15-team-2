@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AxiosError, isAxiosError } from "axios";
-import { IUser } from "../interfaces/IUser";
-import axiosApi from "../api/axiosApi";
+import { IUser } from "@/interfaces/IUser";
+import axiosApi from '@/api/axiosApi';
 import { omit } from "lodash";
 
 interface IState {
@@ -47,6 +47,8 @@ export const registerUser = createAsyncThunk<IUser, userRequest, { rejectValue: 
     async (userData, { rejectWithValue }) => {
         try {
             const response = await axiosApi.post<IUser>("/users/register", userData);
+            console.log(response.data);
+            
             return response.data;
         } catch (err) {
             if (isAxiosError(err)) {

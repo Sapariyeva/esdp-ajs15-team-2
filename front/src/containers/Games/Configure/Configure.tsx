@@ -1,29 +1,19 @@
 import { useState, useEffect } from 'react';
 import { Form, Col, Row, Layout, Modal, Button as AntdButton, Switch } from 'antd';
-import { 
-  setSessionFormat, 
-  setErrorlessLearning, 
-  setRotation,
-  setInteractiveEnd,
-  setEncouragement,
-  setEncouragementSwitch,
-  setCardPosition,
-  setHints,
-  setAutoHints,
-  setHintsLimit,
-  setSound,
-  setSuccessCriterion,
-  fetchCards,
-  setSelectedCategories,
-  setErrorHandling
-} from '../../../features/configureSlice';
-import './Configure.css'; 
+import { useTranslation } from 'react-i18next';
+import { setSessionFormat, setErrorlessLearning, setRotation,
+  setInteractiveEnd, setEncouragement, setEncouragementSwitch,
+  setCardPosition, setHints, setAutoHints, setHintsLimit,
+  setSound, setSuccessCriterion, fetchCards, 
+  setSelectedCategories, setErrorHandling
+} from '@/features/configureSlice';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { Title } from '@/components/UI/Title/Title';
 import { Select } from '@/components/UI/Select/Select';
 import { ConfigureButton } from '@/components/UI/ConfigureButton/ConfigureButton';
 import { Slider } from '@/components/UI/Slider/Slider';
 import { Button } from '@/components/UI/Button/Button';
+import './Configure.css';
 
 const { Footer } = Layout;
 
@@ -34,41 +24,34 @@ interface ConfigureProps {
 }
 
 export function Configure({ visible, onClose, startGame }: ConfigureProps) {
-  const [selectedContents, setSelectedContents] = useState('Фото');
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const { t } = useTranslation();
+
   const dispatch = useAppDispatch();
-  const sessionFormat = useAppSelector((state) => state.configure.sessionFormat); 
-  const isErrorlessLearning = useAppSelector((state) => state.configure.isErrorlessLearning); 
-  const rotation = useAppSelector((state) => state.configure.rotation); 
-  const interactiveEnd = useAppSelector((state) => state.configure.interactiveEnd); 
-  const encouragement = useAppSelector((state) => state.configure.encouragement); 
-  const encouragementSwitch = useAppSelector((state) => state.configure.encouragementSwitch); 
-  const cardPosition = useAppSelector((state) => state.configure.cardPosition); 
-  const hints = useAppSelector((state) => state.configure.hints); 
-  const autoHints = useAppSelector((state) => state.configure.autoHints); 
-  const hintsLimit = useAppSelector((state) => state.configure.hintsLimit); 
-  const sound = useAppSelector((state) => state.configure.sound); 
-  const successCriterion = useAppSelector((state) => state.configure.successCriterion); 
-  const cards = useAppSelector((state) => state.configure.cards);
-  const selectedCategories = useAppSelector((state) => state.configure.selectedCategories);
-  const errorHandling = useAppSelector((state)=> state.configure.errorHandling)
+
+  const { sessionFormat, isErrorlessLearning, rotation, interactiveEnd,
+    encouragement, encouragementSwitch, cardPosition, hints, autoHints, hintsLimit,
+    sound, successCriterion, selectedCategories, errorHandling, cards
+  } = useAppSelector(state => state.configure);
+
+  const [selectedContents, setSelectedContents] = useState(t('photo'));
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const games = [
-    { value: 'Покажи', label: 'Покажи' },
-    { value: 'Сортировка', label: 'Сортировка' },
-    { value: 'Назови', label: 'Назови' },
+    { value: t('show'), label: t('show') },
+    { value: t('sorting'), label: t('sorting') },
+    { value: t('name'), label: t('name') },
   ];
 
   const content = [
-    { value: 'Фото', label: 'Фото' },
-    { value: 'Видео', label: 'Видео' },
-    { value: 'Фото/Видео', label: 'Фото/Видео' },
+    { value: t('photo') , label: t('photo') },
+    { value: t('video'), label: t('video') },
+    { value: t('photo_video'), label: t('photo_video')},
   ];
 
   const encouragements = [
-    { value: 'Смайлик', label: 'Смайлик' },
-    { value: 'Звезда', label: 'Звезда' },
-    { value: 'Аплодисменты', label: 'Аплодисменты' },
+    { value: t('smile'), label: t('smile') },
+    { value: t('star'), label: t('star') },
+    { value: t('applause'), label: t('applause')},
   ];
 
   useEffect(() => {
@@ -111,7 +94,7 @@ export function Configure({ visible, onClose, startGame }: ConfigureProps) {
             <Form layout="vertical">
               <Form.Item style={{ margin: '0' }}>
                 <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', width: '315px' }}>
-                  <Title text="Безошибочное изучение" style={{ fontSize: '20px', color: '#1C1B1F', fontWeight: 'normal' }}></Title>
+                  <Title text={t('error_free_learning')} style={{ fontSize: '20px', color: '#1C1B1F', fontWeight: 'normal' }}></Title>
                   <Switch
                     style={{ marginLeft: '30px' }}
                     checked={isErrorlessLearning}
@@ -121,7 +104,7 @@ export function Configure({ visible, onClose, startGame }: ConfigureProps) {
               </Form.Item>
 
               <Form.Item style={{ margin: '0' }}>
-                <Title text="Формат сессии" style={{ margin: '0', paddingBottom: '10px', fontSize: '20px', color: '#1C1B1F', fontWeight: 'bold' }}></Title>
+                <Title text={t('session_format')} style={{ margin: '0', paddingBottom: '10px', fontSize: '20px', color: '#1C1B1F', fontWeight: 'bold' }}></Title>
                 <Select
                   type="inline"
                   options={games}
@@ -131,7 +114,7 @@ export function Configure({ visible, onClose, startGame }: ConfigureProps) {
               </Form.Item>
 
               <Form.Item style={{margin: '0'}}>
-                <Title text="Глаголы в изучении" style={{fontSize: '20px', color: '#1C1B1F', fontWeight: 'bold'}}></Title>
+                <Title text={t('verbs_in_study')} style={{fontSize: '20px', color: '#1C1B1F', fontWeight: 'bold'}}></Title>
                 <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '10px' }}>
                   <ConfigureButton style={{width: '72px', height: '56px'}} label="+" isAddButton onClick={openModal} />
                   {selectedCategories.map((category, index) => (
@@ -141,7 +124,7 @@ export function Configure({ visible, onClose, startGame }: ConfigureProps) {
               </Form.Item>
 
               <Form.Item style={{margin: '0'}}>
-                <Title text="Ротация" style={{margin: '0', paddingBottom: '27px', marginTop: '20px', fontSize: '20px', color: '#1C1B1F', fontWeight: 'normal'}}></Title>
+                <Title text={t('rotation')} style={{margin: '0', paddingBottom: '27px', marginTop: '20px', fontSize: '20px', color: '#1C1B1F', fontWeight: 'normal'}}></Title>
                 <Slider 
                   min={1} max={9}
                   value={rotation}
@@ -150,7 +133,7 @@ export function Configure({ visible, onClose, startGame }: ConfigureProps) {
               </Form.Item>
 
               <Form.Item style={{margin: '0'}}>
-                <Title text="Использовать статичный или динамичный контент" style={{fontSize: '20px', color: '#1C1B1F', fontWeight: 'normal'}}></Title>
+                <Title text={t('use_static_dynamic_content')} style={{fontSize: '20px', color: '#1C1B1F', fontWeight: 'normal'}}></Title>
                 <Select
                   type="inline"
                   options={content}
@@ -161,7 +144,7 @@ export function Configure({ visible, onClose, startGame }: ConfigureProps) {
 
               <Form.Item style={{margin: '0'}}>
                 <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', width: '315px'}}>
-                  <Title text="Интерактивная концовка" style={{fontSize: '20px', color: '#1C1B1F', fontWeight: 'normal'}}></Title>
+                  <Title text={t('interactive_ending')} style={{fontSize: '20px', color: '#1C1B1F', fontWeight: 'normal'}}></Title>
                   <Switch 
                     style={{marginLeft: '30px'}}
                     checked={interactiveEnd}
@@ -172,7 +155,7 @@ export function Configure({ visible, onClose, startGame }: ConfigureProps) {
 
               <Form.Item style={{margin: '0'}}>
                 <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', width: '600px'}}>
-                  <Title text="Анимированное поощрение" style={{fontSize: '20px', color: '#1C1B1F', fontWeight: 'normal'}}></Title>
+                  <Title text={t('animated_reward')} style={{fontSize: '20px', color: '#1C1B1F', fontWeight: 'normal'}}></Title>
                   <Switch 
                     style={{marginLeft: '30px'}}
                     checked={encouragementSwitch}
@@ -192,7 +175,7 @@ export function Configure({ visible, onClose, startGame }: ConfigureProps) {
 
               <Form.Item style={{margin: '0', color: isErrorlessLearning ? '#D9D9D9' : '#1C1B1F'}}>
                 <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', width: '510px', justifyContent: 'space-between'}}>
-                  <Title text="Изменение положения карточки при ошибке" style={{fontSize: '20px', fontWeight: 'normal'}}></Title>
+                  <Title text={t('card_position_change_on_error')} style={{fontSize: '20px', fontWeight: 'normal'}}></Title>
                   <Switch 
                     style={{marginLeft: '30px'}}
                     checked={cardPosition}
@@ -204,20 +187,20 @@ export function Configure({ visible, onClose, startGame }: ConfigureProps) {
 
               <Form.Item style={{margin: '0'}}>
                 <div style={{display: 'flex', flexDirection: 'column', alignItems: 'left', width: '510px', justifyContent: 'space-between'}}>
-                  <Title text="Поведение карточки при ошибке:" style={{fontSize: '20px', fontWeight: 'normal'}}></Title>
+                  <Title text={t('card_behavior_on_error')} style={{fontSize: '20px', fontWeight: 'normal'}}></Title>
                   <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '336px'}}>
-                    <Title text='Откладывание' style={{fontSize: '20px', fontWeight: 'normal', color: errorHandling ? '#D9D9D9' : '#1C1B1F'}}/>
+                    <Title text={t('postponement')} style={{fontSize: '20px', fontWeight: 'normal', color: errorHandling ? '#D9D9D9' : '#1C1B1F'}}/>
                     <Switch 
                       checked={errorHandling}
                       onChange={(checked) => dispatch(setErrorHandling(checked))}
                     />
-                    <Title text='Подмена' style={{fontSize: '20px', fontWeight: 'normal', color: errorHandling ? '#1C1B1F' : '#D9D9D9'}}/>
+                    <Title text={t('replacement')} style={{fontSize: '20px', fontWeight: 'normal', color: errorHandling ? '#1C1B1F' : '#D9D9D9'}}/>
                   </div>
                 </div>
               </Form.Item>
 
               <Form.Item style={{margin: '0', color: isErrorlessLearning ? '#D9D9D9' : '#1C1B1F'}}>
-                <Title text="Критерий успешности (КУ)" style={{margin: '0', paddingBottom: '27px', marginTop: '20px', fontSize: '20px', fontWeight: 'bold'}}></Title>
+                <Title text={t('success_criteria')} style={{margin: '0', paddingBottom: '27px', marginTop: '20px', fontSize: '20px', fontWeight: 'bold'}}></Title>
                 <Slider 
                   min={0} max={100}
                   value={successCriterion}
@@ -227,7 +210,7 @@ export function Configure({ visible, onClose, startGame }: ConfigureProps) {
               </Form.Item>
 
               <Form.Item style={{margin: '0', color: isErrorlessLearning ? '#D9D9D9' : '#1C1B1F'}}>
-                <Title text="Сколько сессий подряд должен быть достигнут КУ"style={{margin: '0', paddingBottom: '27px', marginTop: '20px', fontSize: '20px', fontWeight: 'normal'}}></Title>
+                <Title text={t('consecutive_sessions_for_success')}style={{margin: '0', paddingBottom: '27px', marginTop: '20px', fontSize: '20px', fontWeight: 'normal'}}></Title>
                 <Slider 
                   min={1} max={8} 
                   disabled={isErrorlessLearning}
@@ -236,7 +219,7 @@ export function Configure({ visible, onClose, startGame }: ConfigureProps) {
 
               <Form.Item style={{margin: '0', color: isErrorlessLearning ? '#D9D9D9' : '#1C1B1F'}}>
                 <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', width: '315px'}}>
-                  <Title text="Подсказки" style={{fontSize: '20px', fontWeight: 'normal'}}></Title>
+                  <Title text={t('hints')} style={{fontSize: '20px', fontWeight: 'normal'}}></Title>
                   <Switch 
                     style={{marginLeft: '30px'}}
                     checked={hints}
@@ -247,7 +230,7 @@ export function Configure({ visible, onClose, startGame }: ConfigureProps) {
               </Form.Item>
 
               <Form.Item style={{margin: '0', color: isErrorlessLearning ? '#D9D9D9' : '#1C1B1F'}}>
-                <Title text="Количество ошибок для автоматической подсказки" style={{margin: '0', paddingBottom: '27px', marginTop: '20px', fontSize: '20px', fontWeight: 'normal'}}></Title>
+                <Title text={t('errors_for_auto_hint')} style={{margin: '0', paddingBottom: '27px', marginTop: '20px', fontSize: '20px', fontWeight: 'normal'}}></Title>
                 <Slider
                   min={1} max={3}
                   value={autoHints}
@@ -257,7 +240,7 @@ export function Configure({ visible, onClose, startGame }: ConfigureProps) {
               </Form.Item>
 
               <Form.Item style={{margin: '0', color: isErrorlessLearning ? '#D9D9D9' : '#1C1B1F'}}>
-                <Title text="Лимит подсказок" style={{margin: '0', paddingBottom: '27px', marginTop: '20px', fontSize: '20px', fontWeight: 'normal'}}></Title>
+                <Title text={t('hint_limit')} style={{margin: '0', paddingBottom: '27px', marginTop: '20px', fontSize: '20px', fontWeight: 'normal'}}></Title>
                 <Slider 
                   min={1} max={3}
                   value={hintsLimit}
@@ -268,7 +251,7 @@ export function Configure({ visible, onClose, startGame }: ConfigureProps) {
 
               <Form.Item style={{margin: '0'}}>
                 <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', width: '315px'}}>
-                  <Title text="Звук" style={{fontSize: '20px', color: '#1C1B1F', fontWeight: 'normal'}}></Title>
+                  <Title text={t('sound')} style={{fontSize: '20px', color: '#1C1B1F', fontWeight: 'normal'}}></Title>
                   <Switch 
                     style={{marginLeft: '30px'}}
                     checked={sound}
@@ -282,20 +265,20 @@ export function Configure({ visible, onClose, startGame }: ConfigureProps) {
                   <Button 
                     style={{ width: '108px', height: '58px', margin: '10px', padding: '16px 24px', fontSize: '20px' }} 
                     type="primary" 
-                    title="Начать" 
+                    title={t('start')} 
                     size="md" 
                     onClick={handleStartGame}>
                   </Button>
                   <Button 
                     style={{ width: '363px', height: '58px', margin: '10px', padding: '16px 24px', fontSize: '20px' }} 
                     type="default" 
-                    title="Использовать предыдущие настройки" 
+                    title={t('use_previous_settings')} 
                     size="md">
                   </Button>
                   <Button 
                     style={{ width: '234px', height: '58px', margin: '10px', padding: '16px 24px', fontSize: '20px' }} 
                     type="default" 
-                    title="Поделиться игрой" 
+                    title={t('share_game')} 
                     size="md">
                   </Button>
                 </Form.Item>
@@ -309,7 +292,7 @@ export function Configure({ visible, onClose, startGame }: ConfigureProps) {
         open={isModalVisible} 
         onCancel={closeModal} 
         footer={null} 
-        title="Доступные глаголы:" 
+        title={t('available_verbs')}
         width={800}
         className="custom-modal"
         >
