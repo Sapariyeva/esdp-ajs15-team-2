@@ -1,7 +1,8 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { IUser } from "../interfaces/IUser";
-import axiosApi from "../api/axiosApi";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AxiosError, isAxiosError } from "axios";
+import { IUser } from "@/interfaces/IUser";
+import axiosApi from '@/api/axiosApi';
+import { omit } from "lodash";
 
 interface IState {
     user: IUser | null;
@@ -46,6 +47,8 @@ export const registerUser = createAsyncThunk<IUser, userRequest, { rejectValue: 
     async (userData, { rejectWithValue }) => {
         try {
             const response = await axiosApi.post<IUser>("/users/register", userData);
+            console.log(response.data);
+            
             return response.data;
         } catch (err) {
             if (isAxiosError(err)) {
@@ -244,7 +247,11 @@ const userSlice = createSlice({
             state.loading = false;
             state.registerError = null;
             state.loginError = null;
-        }
+        },
+        setUser(state, action: PayloadAction<IUser>) {
+            const userWithoutPassword = omit(action.payload, ['password']);
+            state.user = userWithoutPassword as IUser;
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -361,6 +368,6 @@ const userSlice = createSlice({
     },
 });
 
-export const { clearRegisterError, changeUserEmail, changeInitialState } = userSlice.actions;
+export const { clearRegisterError, changeUserEmail, changeInitialState, setUser } = userSlice.actions;
 
 export default userSlice.reducer;

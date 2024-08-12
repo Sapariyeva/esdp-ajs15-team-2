@@ -12,12 +12,9 @@ export class Card {
   @Column()
   image!: string;
 
-  // @Column()
-  // video!: string;
+  @Column()
+  video!: string;
 
-  // @Column()
-  // category!: [];
-
-  // @Column()
-  // audio!: string;
+  @Column()
+  category!: string;
 }

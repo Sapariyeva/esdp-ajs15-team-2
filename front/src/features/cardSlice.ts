@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axiosApi from "@/api/axiosApi";
+import axiosApi from '@/api/axiosApi';
 import { ICard } from "@/containers/Games/GameSort/GameSort";
 
 interface CardState {
@@ -11,7 +11,7 @@ interface CardState {
 const initialState: CardState = {
   cards: [],
   error: null,
-  loading: false
+  loading: false,
 };
 
 export const fetchCards = createAsyncThunk('fetch/cards', async () => {

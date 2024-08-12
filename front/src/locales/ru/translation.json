@@ -77,7 +77,7 @@
   "exit_reset_session": "Выйти и сбросить сессию",
   "hint": "Подсказка",
   "success": "Успех",
-  "try_again": "Попробуйте еще",
+  "try_again": "Попробуй еще",
   "something_wrong": "Что-то идёт не так?",
   "aba_help": "Помощь специалиста ABA",
   "technical_support": "Техническая поддержка",
@@ -109,7 +109,7 @@
   "existing_student_deleted": "Существующий студент будет удален",
   "create_new_student": "Создать нового",
   "existing_student": "Существующий студент",
-  "smile": "Смайл",
+  "smile": "Смайлик",
   "star": "Звезда",
   "applause": "Аплодисменты",
   "run": "Бегать",
@@ -129,7 +129,11 @@
   "game_ended": "Игра завершена!",
   "end_game": "Завершить игру",
   "restart_game": "Перезапустить игру",
-  "correct_placements": "Верных размещений",
-  "incorrect_placements": "Неверных размещений",
-  "percentage_of_correct_answers": "Процент правильных ответов"
+  "correct_placements": "Верных ответов",
+  "incorrect_placements": "Неверных ответов",
+  "percentage_of_correct_answers": "Процент правильных ответов",
+  "card_behavior_on_error": "Поведение карточки при ошибке:",
+  "postponement": "Откладывание",
+  "replacement": "Подмена",
+  "error": "Ошибка"
 }

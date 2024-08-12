@@ -131,5 +131,9 @@
   "restart_game": "Restart Game",
   "correct_placements": "Correct placements",
   "incorrect_placements": "Incorrect placements",
-  "percentage_of_correct_answers": "Percentage of correct answers"
+  "percentage_of_correct_answers": "Percentage of correct answers",
+  "card_behavior_on_error": "Card behavior on error:",
+  "postponement": "Postponement",
+  "replacement": "Replacement",
+  "error": "Error"
 }

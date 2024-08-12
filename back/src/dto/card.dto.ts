@@ -1,4 +1,3 @@
-/* eslint-disable indent */
 import { Expose } from 'class-transformer';
 import { IsNotEmpty, IsString } from 'class-validator';
 
@@ -13,18 +12,13 @@ export class CardDto {
   @IsNotEmpty({ message: 'Укажите изображение карточки' })
   image!: string;
 
-  // @Expose()
-  // @IsString({ message: 'Видео должно быть строкой' })
-  // @IsNotEmpty({ message: 'Укажите видео карточки' })
-  // video!: string;
+  @Expose()
+  @IsString({ message: 'Видео должно быть строкой' })
+  @IsNotEmpty({ message: 'Укажите видео карточки' })
+  video!: string;
 
-  // @Expose()
-  // @IsArray({ message: 'Видео должно быть строкой' })
-  // @IsNotEmpty({ message: 'Укажите видео карточки' })
-  // category!: string[];
-
-  // @Expose()
-  // @IsString({ message: 'Звук должен быть строкой' })
-  // @IsNotEmpty({ message: 'Укажите звук карточки' })
-  // audio!: string;
+  @Expose()
+  @IsString({ message: 'Категория должна быть строкой' })
+  @IsNotEmpty({ message: 'Укажите категорию карточки' })
+  category!: string;
 }

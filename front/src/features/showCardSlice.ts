@@ -1,37 +1,48 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axiosApi from "@/api/axiosApi";
+import axiosApi from '@/api/axiosApi';;
 import { IShowCard } from "@/containers/Games/GameShow/GameShow";
 
-interface ShowCardState {
-  cards: IShowCard[];
+interface CardState {
+  showCards: IShowCard[];
   error: Error | null;
   loading: boolean;
 }
 
-const initialState: ShowCardState = {
-  cards: [],
+const initialState: CardState = {
+  showCards: [],
   error: null,
-  loading: false
+  loading: false,
 };
 
-export const fetchCards = createAsyncThunk('fetch/cards', async () => {
-    return await axiosApi.get<IShowCard[]>('/cards').then(res => res.data);
-});
+export const fetchShowCards = createAsyncThunk(
+    'fetch/showCards',
+    async (selectedCategories: string[], { rejectWithValue }) => {
+      try {
+        const response = await axiosApi.get<IShowCard[]>('/cards/show', {
+          params: { category: selectedCategories }
+        });
+        return response.data;
+      } catch (e) {
+        return rejectWithValue((e as Error)?.message);
+      }
+    }
+);
 
 const showCardSlice = createSlice(
   {
-    name: 'cards',
+    name: 'showCards',
     initialState,
     reducers: {},
     extraReducers(builder) {
-      builder.addCase(fetchCards.fulfilled, (state, action) => {
-        state.cards = action.payload;
+      builder.addCase(fetchShowCards.fulfilled, (state, action) => {
+        state.showCards = action.payload; // Преобразование в двумерный массив с размером чанка 3
+        console.log(state.showCards);
         state.loading = false;
-      }).addCase(fetchCards.rejected, (state, action) => {
+      }).addCase(fetchShowCards.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error as Error;
       })
-      .addCase(fetchCards.pending, (state) => {
+      .addCase(fetchShowCards.pending, (state) => {
         state.loading = true;
       })
     },

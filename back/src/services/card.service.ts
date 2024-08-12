@@ -12,31 +12,31 @@ export class CardService {
     this.repository = new CardRepository();
   }
 
-  getAllCardsByTitle = async (title: string[]): Promise<Card[]> => {
-    return await this.repository.getAllCardsByTitle(title);
+  getAllCardsByCategory = async (category: string[]): Promise<Card[]> => {
+    return await this.repository.getAllCardsByTitle(category);
   };
 
   getAllCards = async (): Promise<Card[]> => {
     return await this.repository.getAllCards();
-  }
+  };
 
-  getShowCards = async (title: string[]): Promise<any[]> => {
-    const matchedCards = await this.repository.getAllCardsByTitle(title);
+  getShowCards = async (category: string[]): Promise<Card[][]> => {
+    const matchedCards = await this.repository.getAllCardsByTitle(category);
 
-    const getCards= async () => {
+    const getCards = async () => {
       const randomCards = await this.repository.getShowCards();
       return randomCards;
     };
 
-    const result: any[] = [];
+    const result: Card[][] = [];
 
     for (const card of matchedCards) {
       const randomCards = await getCards();
 
       const cardSet = [
-        { id: randomCards[0].id, image: randomCards[0].image, title: randomCards[0].title },
-        { id: randomCards[1].id, image: randomCards[1].image, title: randomCards[1].title },
-        { id: card.id, image: card.image, title: card.title },
+        { id: randomCards[0].id, image: randomCards[0].image, title: randomCards[0].title, category: randomCards[0].category, video: randomCards[0].video },
+        { id: randomCards[1].id, image: randomCards[1].image, title: randomCards[1].title, category: randomCards[1].category, video: randomCards[1].video },
+        { id: card.id, image: card.image, title: card.title, category: card.category, video: card.video },
       ];
 
       result.push(cardSet);

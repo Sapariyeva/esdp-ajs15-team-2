@@ -1,34 +1,32 @@
-import { useEffect, useState } from 'react';
-import { Flex, Typography } from 'antd';
-import { message } from "antd";
-import Modal from "antd/es/modal/Modal";
-import _ from 'lodash';
-import { useAppDispatch, useAppSelector } from "@/app/hooks";
-import { fetchCards } from '@/features/showCardSlice';
+import { useEffect, useMemo, useState } from 'react';
+import { Flex, Modal, Typography } from 'antd';
+import { GameShowItem } from './GameShowItem';
+import { shuffle } from 'lodash';
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import { fetchShowCards } from '@/features/showCardSlice';
 import { ButtonNav } from '@/components/UI/ButtonNav/ButtonNav';
 import { Button } from '@/components/UI/Button/Button';
-import { GameShowItem } from './GameShowItem';
+import { message } from "antd";
+import { useTranslation } from 'react-i18next';
 
 const { Title } = Typography;
-  
+
 interface Props {
   endGame: () => void;
   restartGame: () => void;
 }
 
 export function GameShow({ endGame, restartGame }: Props) {
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const interactiveEnd = useAppSelector((state) => state.configure.interactiveEnd);
-  const encouragement = useAppSelector((state) => state.configure.encouragement);
-  const encouragementSwitch = useAppSelector((state) => state.configure.encouragementSwitch);
+  const { showCards } = useAppSelector((state) => state.showCards);
+  const { isErrorlessLearning, rotation, interactiveEnd, encouragement, 
+    encouragementSwitch, hintsLimit, autoHints, successCriterion, selectedCategories 
+  } = useAppSelector((state) => state.configure);
   const hintsEnabled = useAppSelector((state) => state.configure.hints);
-  const hintsLimit = useAppSelector((state) => state.configure.hintsLimit);
-  const autoHints = useAppSelector((state) => state.configure.autoHints);
-  const successCriterion = useAppSelector((state) => state.configure.successCriterion);
 
   const [hints, setHints] = useState<boolean>(hintsEnabled); 
-  const [title, setTitle] = useState<string>("");
-  const [status, setStatus] = useState<boolean | null>(null);
+  const [category, setCategory] = useState<string | null>(null);
   const [correct, setCorrect] = useState<number>(0);
   const [incorrect, setIncorrect] = useState<number>(0);
   const [showAnimation, setShowAnimation] = useState<boolean>(false);
@@ -37,111 +35,45 @@ export function GameShow({ endGame, restartGame }: Props) {
   const [showGif, setShowGif] = useState<string | null>(null);
   const [hintCount, setHintCount] = useState<number>(0); 
   const [currentIndex, setCurrentIndex] = useState(0);
-  //TODO: Удален setStateCards как неиспользуемый. Ошибка при npm run build
-  const [stateCards] = useState<IShowCard[][]>([
-    [
-      {
-        id: 1,
-        image: "https://bober.ru/sites/default/files/styles/large_keep_aspect/public/news/2020-08/shutterstock_157245107.jpg?itok=49HBznby",
-        title: "Кричать",
-      },
-      {
-        id: 2,
-        image: "https://ss.sport-express.ru/userfiles/materials/199/1995178/volga.jpg",
-        title: "Плакать",
-      },
-      {
-        id: 3,
-        image: "https://media.istockphoto.com/id/1388204068/ru/%D1%84%D0%BE%D1%82%D0%BE/%D1%81%D1%87%D0%B0%D1%81%D1%82%D0%BB%D0%B8%D0%B2%D1%8B%D0%B9-%D0%BC%D0%BE%D0%BB%D0%BE%D0%B4%D0%BE%D0%B9-%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%BC%D0%B5%D0%BD-%D0%BF%D1%80%D1%8B%D0%B3%D0%B0%D0%B5%D1%82.jpg?s=612x612&w=0&k=20&c=dYJ82FzrHpZaggVQ-rsVZFgtTvlUVV9Y5YLPnKlePd8=",
-        title: "Прыгать",
-      },
-    ],
-    [
-      {
-        id: 1,
-        image: "https://media.istockphoto.com/id/1388204068/ru/%D1%84%D0%BE%D1%82%D0%BE/%D1%81%D1%87%D0%B0%D1%81%D1%82%D0%BB%D0%B8%D0%B2%D1%8B%D0%B9-%D0%BC%D0%BE%D0%BB%D0%BE%D0%B4%D0%BE%D0%B9-%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%BC%D0%B5%D0%BD-%D0%BF%D1%80%D1%8B%D0%B3%D0%B0%D0%B5%D1%82.jpg?s=612x612&w=0&k=20&c=dYJ82FzrHpZaggVQ-rsVZFgtTvlUVV9Y5YLPnKlePd8=",
-        title: "Прыгать",
-      },
-      {
-        id: 2,
-        image: "https://bober.ru/sites/default/files/styles/large_keep_aspect/public/news/2020-08/shutterstock_157245107.jpg?itok=49HBznby",
-        title: "Кричать",
-      },
-      {
-        id: 3,
-        image: "https://cdn.pixabay.com/photo/2020/11/16/09/42/bird-5748517_1280.jpg",
-        title: "Летать",
-      },
-    ],
-    [
-      {
-        id: 1,
-        image: "https://bober.ru/sites/default/files/styles/large_keep_aspect/public/news/2020-08/shutterstock_157245107.jpg?itok=49HBznby",
-        title: "Кричать",
-      },
-      {
-        id: 2,
-        image: "https://ss.sport-express.ru/userfiles/materials/199/1995178/volga.jpg",
-        title: "Плакать",
-      },
-      {
-        id: 3,
-        image: "https://vesti.kz/userdata/news/2023/news_324927/crop_b/photo_192682.jpg",
-        title: "Бегать",
-      },
-    ],
-    [
-      {
-        id: 1,
-        image: "https://media.istockphoto.com/id/1388204068/ru/%D1%84%D0%BE%D1%82%D0%BE/%D1%81%D1%87%D0%B0%D1%81%D1%82%D0%BB%D0%B8%D0%B2%D1%8B%D0%B9-%D0%BC%D0%BE%D0%BB%D0%BE%D0%B4%D0%BE%D0%B9-%D0%B1%D0%B8%D0%B7%D0%BD%D0%B5%D1%81%D0%BC%D0%B5%D0%BD-%D0%BF%D1%80%D1%8B%D0%B3%D0%B0%D0%B5%D1%82.jpg?s=612x612&w=0&k=20&c=dYJ82FzrHpZaggVQ-rsVZFgtTvlUVV9Y5YLPnKlePd8=",
-        title: "Прыгать",
-      },
-      {
-        id: 2,
-        image: "https://cdn.pixabay.com/photo/2020/11/16/09/42/bird-5748517_1280.jpg",
-        title: "Летать",
-      },
-      {
-        id: 3,
-        image: "https://ss.sport-express.ru/userfiles/materials/199/1995178/volga.jpg",
-        title: "Плакать",
-      },
-    ],
-    [
-      {
-        id: 1,
-        image: "https://vesti.kz/userdata/news/2023/news_324927/crop_b/photo_192682.jpg",
-        title: "Бегать",
-      },
-      {
-        id: 2,
-        image: "https://ss.sport-express.ru/userfiles/materials/199/1995178/volga.jpg",
-        title: "Плакать",
-      },
-      {
-        id: 3,
-        image: "https://cdn.pixabay.com/photo/2020/11/16/09/42/bird-5748517_1280.jpg",
-        title: "Летать",
-      },
-    ]
-  ]);
+  const [highlightCategory, setHighlightCategory] = useState<string | null>(null); 
 
   const encouragementImages: { [key: string]: string } = {
-    'Смайл': '../../../../public/gif/smile.gif',
+    'Смайлик': '../../../../public/gif/smile.gif',
     'Звезда': '../../../../public/gif/star.gif',
-    'Аплодисменты': '../../../../public/gif//applause.gif',
+    'Аплодисменты': '../../../../public/gif/applause.gif',
   };
 
   useEffect(() => {
-    dispatch(fetchCards());
+    dispatch(fetchShowCards(selectedCategories));
   }, [dispatch]);
 
-  useEffect(() => {
-    const randomCard = _.sample(stateCards[currentIndex]);
-    if (randomCard) {
-      setTitle(randomCard.title);
+  const duplicatedCards: IShowCard[][] = useMemo(() => {
+    let cards: IShowCard[][] = [];
+    
+    for (let i = 0; i < rotation; i++) {
+      cards = cards.concat(showCards);
     }
-    if (stateCards.length === 0) {
+    
+    return shuffle(cards);
+  }, [rotation, showCards]);
+
+  const [cards, setCards] = useState<IShowCard[][]>(duplicatedCards);
+
+  useEffect(() => {
+    setCards(duplicatedCards);
+  }, [duplicatedCards]);
+
+  useEffect(() => {
+    if (cards[currentIndex] && cards[currentIndex].length >= 3) {
+      const thirdCardCategory = cards[currentIndex][2];
+      if (thirdCardCategory) {
+        setCategory(thirdCardCategory.category); // Обновляем состояние с категорией третьей карточки
+      }
+    } else {
+      setCategory(null); // Если нет третьей карточки, очищаем состояние
+    }
+
+    if (cards.length === 0 && correct + incorrect < 0) {
       const successPercentage = calculateSuccessPercentage(correct, incorrect);
       if (interactiveEnd) {
         setShowAnimation(true);
@@ -154,38 +86,53 @@ export function GameShow({ endGame, restartGame }: Props) {
       }
 
       if (successPercentage >= successCriterion) {
-        setSuccessMessage("Критерий успешности достигнут");
+        setSuccessMessage(t('success_criterion_achieved'));
       } else {
-        setSuccessMessage("Критерий успешности не достигнут");
+        setSuccessMessage(t('success_criterion_not_achieved'));
       }
     }
-  }, [stateCards, interactiveEnd, correct, incorrect, successCriterion]);
+  }, [cards, interactiveEnd, correct, incorrect, successCriterion, currentIndex]);
 
   const handleCancel = () => {
     setIsModalVisible(false);
   };
 
   const handleNextArray = () => {
-    if (currentIndex < stateCards.length - 1) {
+    if (currentIndex < cards.length - 1) {
       setCurrentIndex(currentIndex + 1);
     } else {
       setIsModalVisible(true);
     }
   };
 
-  const check = (cardTitle: string) => {
-    if (title === cardTitle) {
+  const handleHint = () => {
+    if (cards.length > 0) { 
+      const nextCard = cards.find(card => !highlightCategory || card[currentIndex].category !== highlightCategory);
+      if (nextCard) {
+        setHighlightCategory(nextCard[currentIndex].category);
+        setHintCount(prev => { 
+          const newHintCount = prev + 1;
+          if (newHintCount >= hintsLimit) {
+            setHints(false); 
+          }
+
+          return newHintCount;
+        });
+      }
+    }
+  };
+
+  const check = (cardCategory: string) => {
+    if (category === cardCategory) {
       if (encouragementSwitch && encouragementImages[encouragement]) {
         setShowGif(encouragementImages[encouragement]);
         setTimeout(() => setShowGif(null), 1000);
       } else {
-        message.success('Верно');
+        message.success(t('right'));
       }
-      setStatus(true);
-      setCorrect(prev => prev + 1);
-      handleNextArray();
+        setCorrect(prev => prev + 1);
+        handleNextArray();
     } else {
-      setStatus(false);
       setIncorrect(prev => {
         const newIncorrect = prev + 1;
         if (hints && newIncorrect >= autoHints) {
@@ -194,45 +141,53 @@ export function GameShow({ endGame, restartGame }: Props) {
             setHints(false); 
           }
         }
+        if (!isErrorlessLearning) {
+          message.warning(t('try_again'));
+          handleNextArray(); // Переход к следующим картам при ошибке и выключенном isErrorlessLearning
+        }
         return newIncorrect;
       });
     }
   }
-  
+
   function calculateSuccessPercentage(correct: number, incorrect: number) {
     const total = correct + incorrect;
     return total === 0 ? 0 : (correct / total) * 100;
   }
-  
+
   return (
     <>
       <div className='game'>
         <div className="game-buttons">
           <ButtonNav style={{ marginLeft: 30 }} type="close" onClick={endGame} size="sm"></ButtonNav>
-            {hints && (
-              <Button 
-                style={{ marginRight: 100, width: 136, height: 53 }} 
-                type="default" size="md" title="Подсказка"
-              ></Button>
-            )}
+          {hints && (
+              <Button style={{ marginRight: 100, width: 136, height: 53 }} type="default" size="md" title="Подсказка" onClick={handleHint}></Button>
+          )}
         </div>
         {showGif && (
-          <div className="gif-container">
-            <img src={showGif} alt="encouragement" className="encouragement-gif" />
-          </div>
+            <div className="gif-container">
+                <img src={showGif} alt="encouragement" className="encouragement-gif" />
+            </div>
         )}
         <Flex justify='center'>
-          <Title>{title}</Title>
+          <Title>{category}</Title>
         </Flex>
         <Flex wrap="wrap" gap="large" justify="center">
-          {stateCards[currentIndex].map((card) => (
+          {cards[currentIndex] && (isErrorlessLearning
+          ? cards[currentIndex].map((card) => (
             <GameShowItem 
               key={card.id} 
               card={card} 
               check={check}
-              status={status}
             />
-          ))}
+          ))
+          : cards[currentIndex].map((card) => (
+            <GameShowItem 
+              key={card.id} 
+              card={card} 
+              check={check}
+            />
+          )))}
         </Flex>
         <Modal
           open={showAnimation}
@@ -243,18 +198,17 @@ export function GameShow({ endGame, restartGame }: Props) {
           <img src='../../../public/gif/unicorn.gif' style={{width:'400px', height: '400px'}}/>
         </Modal>
         <Modal
-          title="Игра завершена!"
+          title={t('game_ended')}
           open={isModalVisible}
           onCancel={handleCancel}
           footer={[
-            <Button size="md" type="primary" key="endGame" onClick={endGame} title="Завершить игру"></Button>,
-            <Button size="md" type="default" key="restartGame" onClick={restartGame} title="Перезапустить игру"></Button>
+            <Button size="md" type="primary" key="endGame" onClick={endGame} title={t('end_game')}></Button>,
+            <Button size="md" type="default" key="restartGame" onClick={restartGame} title={t('restart_game')}></Button>
           ]}
         >
-          <p>Верных размещений: {correct}</p>
-          <p>Неверных размещений: {incorrect}</p>
-          <p>Процент правильных ответов:{calculateSuccessPercentage(correct, incorrect).toFixed(2)}%
-          </p>
+          <p>{t('correct_placements')}: {correct}</p>
+          <p>{t('incorrect_placements')}: {incorrect}</p>
+          <p>{t('percentage_of_correct_answers')}: {calculateSuccessPercentage(correct, incorrect).toFixed(2)}%</p>
           <p>{successMessage}</p>
         </Modal>
       </div>
@@ -266,4 +220,6 @@ export interface IShowCard {
   id: number;
   title: string;
   image: string;
+  category: string;
+  video: string;
 }

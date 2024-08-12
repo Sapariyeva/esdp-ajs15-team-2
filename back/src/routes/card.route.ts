@@ -14,11 +14,11 @@ export class CardRoute implements IRoute {
   }
 
   private init() {
-    this.router.get('/', this.controller.getAllCardsByTitle);
+    this.router.get('/', this.controller.getAllCardsByCategory);
     this.router.get('/all', this.controller.getAllCards);
     this.router.get('/show', this.controller.getShowCards);
     this.router.get('/:id', this.controller.getCard);
-    this.router.post('/', upload.single('image'), this.controller.createCard);
+    this.router.post('/', upload.single('image'), upload.single('video'), this.controller.createCard);
     this.router.delete('/delete/:id', this.controller.deleteCard);
     this.router.put('/update/:id', this.controller.updateCard);
   }

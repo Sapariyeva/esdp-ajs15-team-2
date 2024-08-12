@@ -10,10 +10,10 @@ export class CardController {
     this.service = new CardService();
   }
 
-  getAllCardsByTitle: RequestHandler = async (req, res): Promise<void> => {
-    const { title } = req.body;
+  getAllCardsByCategory: RequestHandler = async (req, res): Promise<void> => {
+    const { category } = req.body;
     try {
-      const cards = await this.service.getAllCardsByTitle(title);
+      const cards = await this.service.getAllCardsByCategory(category);
       res.send(cards);
     } catch (e) {
       res.status(500).send({ message: (e as Error)?.message });
@@ -27,14 +27,21 @@ export class CardController {
     } catch (e) {
       res.status(500).send({ message: (e as Error)?.message });
     }
-  }
+  };
 
   getShowCards: RequestHandler = async (req, res): Promise<void> => {
-    const { title } = req.body;
+    const { category } = req.query;
     try {
-      const cards = await this.service.getShowCards(title);
+      const categoriesArray: string[] = Array.isArray(category)
+        ? category.filter((c): c is string => typeof c === 'string')
+        : category
+          ? [category as string]
+          : [];
+
+      const cards = await this.service.getShowCards(categoriesArray);
       res.send(cards);
     } catch (e) {
+      console.error('Error fetching cards:', e);
       res.status(500).send({ message: (e as Error)?.message });
     }
   };
@@ -53,8 +60,7 @@ export class CardController {
       const cardDto = plainToInstance(CardDto, req.body);
       if (req.file) {
         cardDto.image = req.file.filename;
-        // cardDto.video = req.file.filename;
-        // cardDto.audio = req.file.filename;
+        cardDto.video = req.file.filename;
       }
       const card = await this.service.createCard(cardDto);
       res.send(card);
