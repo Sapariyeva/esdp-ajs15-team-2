@@ -10,15 +10,19 @@ const options: DataSourceOptions & SeederOptions = {
     type: 'mysql',
     host: 'localhost',
     port: 3306,
-    username: 'igrovuz',
-    password: "Igrovuz2024~!",
-    database: 'esdp',
+    // username: 'root',
+    // password: "4452133AM",
+    // database: 'esdp',
+    username: 'root',
+    password: '780780',
+    database: 'test',
     synchronize: true,
     logging: true,
     entities: [`src/entities/*{.ts,.js}`],
-    seeds: [ MainSeeder ],
+    seeds: [MainSeeder],
     factories: [UserFactory]
 }
+
 
 /**
  * Данная конфигурация нужна при запуске команды docker compose up
