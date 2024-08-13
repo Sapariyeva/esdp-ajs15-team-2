@@ -55,24 +55,6 @@ export class CardController {
     }
   };
 
-  // createCard: RequestHandler = async (req, res): Promise<void> => {
-  //   try {
-  //     const cardDto = plainToInstance(CardDto, req.body);
-  //     if (req.file) {
-  //       cardDto.image = req.file.filename;
-  //       cardDto.video = req.file.filename;
-  //     }
-  //     const card = await this.service.createCard(cardDto);
-  //     res.send(card);
-  //   } catch (e) {
-  //     if (Array.isArray(0)) {
-  //       console.log(e);
-  //       res.status(400).send({ message: e, detailedMessage: (e as Error)?.message });
-  //     } else {
-  //       res.status(500).send({ message: e, detailedMessage: (e as Error)?.message });
-  //     }
-  //   }
-  // };
   createCard: RequestHandler = async (req, res) => {
     try {
         const optionDto = plainToInstance(CardDto, req.body);

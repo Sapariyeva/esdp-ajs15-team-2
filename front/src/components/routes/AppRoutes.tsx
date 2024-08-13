@@ -18,6 +18,7 @@ import Students from "@/containers/Student/Student";
 import { GoogleAuthSuccess } from "@/containers/Auth/GoogleAuthSuccess";
 import { useAppSelector } from "@/app/hooks";
 import { ProtectedRoute } from "../ProtectedRoute/ProtectedRoute";
+import GameSettings from "@/containers/GameSettings/GamesSettings";
 
 export const AppRoutes = () => {
   const { user } = useAppSelector((state) => state.user);
@@ -43,7 +44,7 @@ export const AppRoutes = () => {
       </Route>
       <Route element={<ProtectedRoute isAllowed={!!user} allowedRoles={['admin']} redirectPath="/login" />}>
         <Route path="/admin_page" element={<Admin />} />
-        <Route path="/admin_page/users" element={<Users />} />
+        <Route path="/admin_page/settings" element={<GameSettings/>} />
       </Route>
     </Routes>
   );

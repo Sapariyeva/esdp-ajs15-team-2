@@ -29,9 +29,6 @@ export class CardRepository extends Repository<Card> {
     return await this.findOne({ where: { id } });
   }
 
-  // async createCard(cardDto: CardDto) {
-  //   return await this.save(cardDto);
-  // }
 
   async createOptions(options: CardDto): Promise<Card> {
     return await this.save(options);

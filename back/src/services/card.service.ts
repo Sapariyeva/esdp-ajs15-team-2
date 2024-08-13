@@ -54,17 +54,6 @@ export class CardService {
     return card;
   };
 
-  // createCard = async (data: CardDto): Promise<Card> => {
-  //   const errors = await validate(data, {
-  //     whitelist: true,
-  //     validationError: { value: false, target: false },
-  //   });
-  //   if (errors?.length) {
-  //     throw formatErrors(errors);
-  //   }
-  //   return await this.repository.createCard(data);
-  // };
-
   async createOptions(data: CardDto): Promise<Card> {
     const errors = await validate(plainToInstance(CardDto, data), {
         whitelist: true,
