@@ -14,7 +14,7 @@ import { Profile } from "@/containers/Profile/Profile";
 import Survey from "@/containers/Survey/Survey";
 import { Route, Routes as RouterRoutes } from "react-router-dom";
 import Users from "../AdminComponents/Users/Users";
-import { Employees } from "@/containers/Emplyees/Employees";
+import { Employees } from "@/containers/Employees/Employees";
 import { Students } from "@/containers/Student/Student";
 
 export const Routes = () => {
