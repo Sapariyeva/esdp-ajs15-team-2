@@ -17,4 +17,4 @@ export function FAQItem({ question, answer }: Props) {
       {isOpen && <div className="faq-answer">{answer}</div>}
     </div>
   );
-};
+}

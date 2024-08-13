@@ -4,6 +4,7 @@ import { Input } from "@/components/UI/Input/Input";
 import { Button } from "@/components/UI/Button/Button";
 import { Modal } from "@/components/UI/Modal/Modal";
 import settingsHeart from "@/assets/images/icons/settings_heart.svg";
+import { Theme, useMediaQuery } from "@mui/material";
 
 interface userData {
   reviewerName: string;
@@ -18,23 +19,10 @@ export function Profile() {
     reviewerName: "John", studentName: "Jane", id: 0
   });
   const [isEditingReviewer, setIsEditingReviewer] = useState(false);
-  const [isEditingStudent, setIsEditingStudent] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
-
-  function exportOnClick(): void {
-    throw new Error("Function not implemented.");
-  }
-
-  function importOnClick(): void {
-    throw new Error("Function not implemented.");
-  }
 
   function editReviewerProfile(): void {
     setIsEditingReviewer(true);
-  }
-
-  function editStudentProfile(): void {
-    setIsEditingStudent(true);
   }
 
   function handleDeleteProfile(): void {
@@ -49,14 +37,6 @@ export function Profile() {
     setIsEditingReviewer(false);
   }
 
-  function saveStudentProfile(): void {
-    setIsEditingStudent(false);
-  }
-
-  function cancelEditStudentProfile(): void {
-    setIsEditingStudent(false);
-  }
-
   function closeModal(): void {
     setIsModalVisible(false);
   }
@@ -66,8 +46,15 @@ export function Profile() {
     throw new Error("Function not implemented.");
   }
 
+  const isSmallScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
+
+  const inputSize = isSmallScreen ? '180px' : '300px';
+  const buttonWidth = isSmallScreen ? '90px' : '120px';
+  const buttonFontSize = isSmallScreen ? '10px' : '14px';
+  const buttonSpacing = isSmallScreen ? '4px' : '8px';
+
   return (
-    <div>
+    <div style={{ marginLeft: isSmallScreen ? '16px' : '24px', marginTop: isSmallScreen ? '20px' : '26px' }}>
       <div>
         <div
           className="reviewer-section-wrapper"
@@ -80,7 +67,7 @@ export function Profile() {
             src={settingsHeart}
             alt="settings heart icon"
             onClick={editReviewerProfile}
-            style={{ width: 24, height: 24, cursor: "pointer" }}
+            style={{ width: 24, height: 24, cursor: "pointer", position: 'fixed', top: isSmallScreen ? 28 : 33, left: isSmallScreen ? 160 : 235 }}
           />
         </div>
         <div
@@ -88,150 +75,65 @@ export function Profile() {
           style={{ display: "flex", flexDirection: "column" }}
         >
           <Input
-            type="name"
-            placeholder={t('reviewer_name')}
-            required
-            style={{ width: 300 }}
-          />
-          <Input
             type="email"
             placeholder="example@gmail.com"
-            style={{ width: 300 }}
+            style={{ width: inputSize }}
           />
           <Input
             type="password"
             placeholder={t('password')}
             required
-            style={{ width: 300 }}
+            style={{ width: inputSize }}
           />
           {isEditingReviewer && (
-            <div
-              className="edit-btns-wrapper"
-              style={{
-                width: 300,
-                display: "flex",
-                justifyContent: "space-between",
-              }}
-            >
-              <Button
-                title={t('save')}
-                onClick={saveReviewerProfile}
-                size="lg"
-                type="primary"
-                style={{ width: 137 }}
+            <>
+              <Input
+                type="password"
+                placeholder={t('repeat_password')}
+                required
+                style={{ width: inputSize }}
               />
-              <Button
-                title={t('cancel')}
-                onClick={cancelEditReviewerProfile}
-                size="lg"
-                type="default"
-                style={{ width: 137 }}
-              />
-            </div>
+              <div
+                className="edit-btns-wrapper"
+                style={{
+                  maxWidth: '300px',
+                  display: "flex",
+                  justifyContent: "space-between",
+                  gap: buttonSpacing,
+                }}
+              >
+                <Button
+                  title={t('save')}
+                  onClick={saveReviewerProfile}
+                  size="md"
+                  type="primary"
+                  style={{ width: buttonWidth,  fontSize: buttonFontSize }}
+                />
+                <Button
+                  title={t('cancel')}
+                  onClick={cancelEditReviewerProfile}
+                  size="md"
+                  type="default"
+                  style={{ width: buttonWidth,fontSize: buttonFontSize }}
+                />
+              </div>
+            </>
           )}
-        </div>
-      </div>
-
-      <div style={{ marginTop: 168 }}>
-        <div
-          className="student-section-wrapper"
-          style={{
-            display: "flex",
-            gap: 20,
-            alignItems: "center",
-            marginBottom: 8,
-          }}
-        >
-          <h2 style={{ maxWidth: 318 }}>
-            {t('student')} <span>{userData.studentName}</span>
-          </h2>
-          <img
-            src={settingsHeart}
-            alt="settings heart icon"
-            onClick={editStudentProfile}
-            style={{ width: 24, height: 24, cursor: "pointer" }}
-          />
-          <Button
-            title={t('export_student_data')}
-            onClick={exportOnClick}
-            size="lg"
-            type="default"
-            style={{ width: 296 }}
-          />
-          <Button
-            title={t('import_student_data')}
-            onClick={importOnClick}
-            size="lg"
-            type="default"
-            style={{ width: 296 }}
-          />
-        </div>
-        <div
-          className="inputs-wrapper"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
-          <Input
-            type="name"
-            placeholder={t('student_name')}
-            required
-            style={{ width: 300 }}
-          />
-          <Input
-            type="name"
-            //TODO: В данном инпуте будет дата рождения, заменить placeholder
-            placeholder="10 / 10 / 10"
-            required
-            style={{ width: 300 }}
-          />
-          <Input
-            type="id"
-            placeholder={`ID: ${userData.id}`}
-            required
-            style={{ width: 300 }}
-          />
-          {isEditingStudent && (
-            <div
-              className="edit-btns-wrapper"
-              style={{
-                width: 300,
-                display: "flex",
-                justifyContent: "space-between",
-              }}
-            >
-              <Button
-                title={t('save')}
-                onClick={saveStudentProfile}
-                size="lg"
-                type="primary"
-                style={{ width: 137 }}
-              />
-              <Button
-                title={t('cancel')}
-                onClick={cancelEditStudentProfile}
-                size="lg"
-                type="default"
-                style={{ width: 137 }}
-              />
-            </div>
-          )}
-        </div>
-        <div
-          style={{
-            fontWeight: 500,
-            fontSize: 16,
-            lineHeight: "19.36px",
-            color: "#9069CD",
-            textDecoration: "underline",
-            cursor: "pointer",
-            marginTop: 154,
-            marginBottom: 50,
-          }}
-          onClick={handleDeleteProfile}
-        >
-          {t('delete_profile')}
+          <div
+            style={{
+              fontWeight: 500,
+              fontSize: 16,
+              lineHeight: "19.36px",
+              color: "#9069CD",
+              textDecoration: "underline",
+              cursor: "pointer",
+              marginTop: 50,
+              marginBottom: 50,
+            }}
+            onClick={handleDeleteProfile}
+          >
+            {t('delete_profile')}
+          </div>
         </div>
       </div>
 
@@ -251,14 +153,14 @@ export function Profile() {
               deleteProfile();
               closeModal();
             }}
-            size="lg"
+            size="md"
             type="default"
             style={{ width: 111 }}
           />
           <Button
             title={t('cancel')}
             onClick={closeModal}
-            size="lg"
+            size="md"
             type="primary"
             style={{ width: 111 }}
           />
