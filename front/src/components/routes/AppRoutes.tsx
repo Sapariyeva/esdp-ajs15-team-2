@@ -13,7 +13,6 @@ import ForgotPasswordEmailLink from "@/containers/PasswordReset/ForgotPasswordEm
 import NewPassword from "@/containers/PasswordReset/NewPassword";
 import { Profile } from "@/containers/Profile/Profile";
 import Survey from "@/containers/Survey/Survey";
-import Users from "../AdminComponents/Users/Users";
 import Students from "@/containers/Student/Student";
 import { GoogleAuthSuccess } from "@/containers/Auth/GoogleAuthSuccess";
 import { useAppSelector } from "@/app/hooks";
