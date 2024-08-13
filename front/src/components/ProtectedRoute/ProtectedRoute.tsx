@@ -1,15 +1,22 @@
-import { Navigate, Outlet } from "react-router-dom";
+import { useAppSelector } from '@/app/hooks';
+import { Navigate, Outlet } from 'react-router-dom';
 
-interface IProps {
-  isAllowed?: boolean;
+interface Props {
+  isAllowed: boolean;
   redirectPath: string;
-};
+  allowedRoles?: string[];
+}
 
-const ProtectedRoute = ({ isAllowed, redirectPath }: IProps) => {
-    if (isAllowed) {
-        return <Navigate to={redirectPath} />;
-    }
-    return <Outlet />;
-};
+export function ProtectedRoute({ isAllowed, redirectPath , allowedRoles}: Props) {
+  const { user } = useAppSelector((state) => state.user);
+  
+  if (!isAllowed) {
+    return <Navigate to={redirectPath} />;
+  }
 
-export default ProtectedRoute;
+  if (allowedRoles && user?.role && !allowedRoles.includes(user?.role)) {
+    return <Navigate to={redirectPath} />;
+  }
+
+  return <Outlet />;
+}

@@ -90,7 +90,7 @@ export function Configure({ visible, onClose, startGame }: ConfigureProps) {
       >
         <Row justify="center" style={{ marginTop: '20px' }}>
           <Col style={{ maxWidth: '900px' }}>
-            <Title style={{fontSize: '32px', color: '#1C1B1F'}} text="Настройка сессии" level={1}></Title>
+            <Title style={{fontSize: '32px', color: '#1C1B1F'}} text={t('session_settings')} level={1}></Title>
             <Form layout="vertical">
               <Form.Item style={{ margin: '0' }}>
                 <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', width: '315px' }}>

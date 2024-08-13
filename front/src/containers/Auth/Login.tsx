@@ -20,7 +20,7 @@ interface ILoginState {
 
 const Login = () => {
     const { t } = useTranslation();
-    const { loginError, loading } = useAppSelector(state => state.user);
+    const { loginError, loading, user } = useAppSelector(state => state.user);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
@@ -31,6 +31,16 @@ const Login = () => {
     useEffect(() => {
         dispatch(changeInitialState());
     }, [dispatch]);
+
+    useEffect(() => {
+        if (user) {
+            if (user.role === 'admin') {
+                navigate('/admin_page');
+            } else {
+                navigate('/main');
+            }
+        }
+    }, [user, navigate]);
 
     const inputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -44,9 +54,7 @@ const Login = () => {
     const submitFormHandler = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        dispatch(loginUser({ ...state })).unwrap().then(() => {
-            navigate("/main");
-        });
+        dispatch(loginUser({ ...state })).unwrap();
     };
 
     if(loading) return <Loading/>
