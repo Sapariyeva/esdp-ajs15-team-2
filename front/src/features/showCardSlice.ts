@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axiosApi from '@/api/axiosApi';;
-import { IShowCard } from "@/containers/Games/GameShow/GameShow";
+import { axiosApiClient } from "../helpers/axiosApiClient";
+import { IShowCard } from "../components/GameShow";
 
 interface CardState {
   showCards: IShowCard[];
@@ -18,9 +18,10 @@ export const fetchShowCards = createAsyncThunk(
     'fetch/showCards',
     async (selectedCategories: string[], { rejectWithValue }) => {
       try {
-        const response = await axiosApi.get<IShowCard[]>('/cards/show', {
+        const response = await axiosApiClient.get<IShowCard[]>('/cards/show', {
           params: { category: selectedCategories }
         });
+        console.log(response.data);
         return response.data;
       } catch (e) {
         return rejectWithValue((e as Error)?.message);
@@ -35,7 +36,7 @@ const showCardSlice = createSlice(
     reducers: {},
     extraReducers(builder) {
       builder.addCase(fetchShowCards.fulfilled, (state, action) => {
-        state.showCards = action.payload; // Преобразование в двумерный массив с размером чанка 3
+        state.showCards = action.payload;
         console.log(state.showCards);
         state.loading = false;
       }).addCase(fetchShowCards.rejected, (state, action) => {
