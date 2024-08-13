@@ -1,12 +1,12 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Flex, Typography } from 'antd';
 import { GameShowItem } from './GameShowItem';
-import { useAppDispatch, useAppSelector } from '../app/hook';
-import { ButtonNav } from './UI/ButtonNav/ButtonNav';
-import { Button } from './UI/Button/Button';
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import { ButtonNav } from '@/components/UI/ButtonNav/ButtonNav';
+import { Button } from '@/components/UI/Button/Button';
 import Modal from "antd/es/modal/Modal";
 import { message } from "antd";
-import { fetchShowCards } from '../features/ShowCardSlice';
+import { fetchShowCards } from '@/features/showCardSlice';
 import { shuffle } from 'lodash';
 
 const { Title } = Typography;

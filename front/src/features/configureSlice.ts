@@ -1,7 +1,8 @@
-import axiosApi from '@/api/axiosApi';
-import { ICard } from '@/containers/Games/GameSort/GameSort';
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { createAsyncThunk } from '@reduxjs/toolkit';
+import axiosApi from "@/api/axiosApi";
+import { ICard } from "@/containers/Games/GameSort/GameSort";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { t } from "i18next";
 
 interface State {
   categories: string[];
@@ -31,11 +32,11 @@ const initialState: State = {
   cards: [],
   error: null,
   loading: false,
-  sessionFormat: 'Покажи',
+  sessionFormat: t("show"),
   isErrorlessLearning: false,
   rotation: 1,
   interactiveEnd: false,
-  encouragement: 'Звезда',
+  encouragement: t("star"),
   encouragementSwitch: false,
   cardPosition: false,
   hints: false,
@@ -47,12 +48,12 @@ const initialState: State = {
   errorHandling: false,
 };
 
-export const fetchCards = createAsyncThunk('fetch/cards', async () => {
-  return await axiosApi.get<ICard[]>('/cards/all').then((res) => res.data);
+export const fetchCards = createAsyncThunk("fetch/cards", async () => {
+  return await axiosApi.get<ICard[]>("/cards/all").then((res) => res.data);
 });
 
 const configureSlice = createSlice({
-  name: 'configure',
+  name: "configure",
   initialState,
   reducers: {
     setCategories(state, action: PayloadAction<string[]>) {

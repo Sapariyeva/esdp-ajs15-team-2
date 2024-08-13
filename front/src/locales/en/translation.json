@@ -146,5 +146,7 @@
   "are_you_sure_you_want_to_remove_the_employee": "Are you sure you want to remove the employee?",
   "student_list": "List of your students",
   "add_new_student": "Add new student",
-  "are_you_sure_you_want_to_remove_the_student": "Are you sure you want to remove the student?"
+  "are_you_sure_you_want_to_remove_the_student": "Are you sure you want to remove the student?",
+  "card_behavior_on_error": "Card behavior in case of error:",
+  "session_setup": "Session setup"
 }
