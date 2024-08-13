@@ -6,8 +6,8 @@
 }
 
 @mixin button-type($type) {
-  @if $type == 'back' {
-  } @else if $type == 'close' {
+  @if $type == "back" {
+  } @else if $type == "close" {
   }
 }
 

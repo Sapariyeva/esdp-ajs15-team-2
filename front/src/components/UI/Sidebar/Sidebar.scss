@@ -26,6 +26,10 @@
   width: 100%;
 }
 
+.sidebar-menu-item:last-child {
+  margin-top: 100px;
+}
+
 .sidebar-menu-item-inner {
   display: flex;
   align-items: center;
@@ -49,4 +53,96 @@
 
 .sidebar-menu-item p:hover {
   color: #fff;
+}
+
+/* Main container styles */
+.main-container {
+  display: flex;
+  margin-left: 240px;
+  padding: 20px;
+  margin-top: 50px;
+}
+
+.content {
+  flex: 1;
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.user-info {
+  background-color: #ffa726;
+  padding: 10px;
+  border-radius: 5px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  img {
+    margin-right: 10px;
+  }
+}
+
+.user-info-text {
+  p {
+    margin: 0;
+  }
+}
+
+.add-student-link {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.features {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.feature-item {
+  flex: 1;
+  background-color: #f3e5f5;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: start;
+  margin: 0 10px;
+  font-size: 1.2em;
+  display: flex;
+  flex-direction: column;
+  transition: background-color 0.3s ease;
+
+  img {
+    max-width: 100px;
+    max-height: 100px;
+  }
+  p {
+    max-height: 60px;
+  }
+
+  &:hover {
+    background-color: #f9fff2;
+  }
+}
+
+.feature-item-img {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+.feature-item-text {
+  height: 100px;
+  display: flex;
+}
+
+.verbs-banner {
+  .button-title {
+    font-size: 111px;
+  }
 }

@@ -67,5 +67,5 @@ export function Select({ options, defaultValue, onChange, type = 'default', styl
       )}
     </div>
   );
-};
+}
 

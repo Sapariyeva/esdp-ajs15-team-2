@@ -22,5 +22,5 @@ export function Modal ({ visible, title, onClose, children, style }: Props) {
       </div>
     </div>
   );
-};
+}
   

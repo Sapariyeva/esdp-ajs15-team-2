@@ -1,4 +1,11 @@
-@mixin button-size($width, $height, $border-radius, $padding-y, $padding-x, $font-size) {
+@mixin button-size(
+  $width,
+  $height,
+  $border-radius,
+  $padding-y,
+  $padding-x,
+  $font-size
+) {
   width: $width;
   height: $height;
   border-radius: $border-radius;
@@ -47,27 +54,52 @@
   @include button-size(300px, 58px, 8px, 16px, 16px, 20px);
 }
 
+@media (max-width: 1366px) {
+  .button-size-lg {
+    @include button-size(300px, 58px, 8px, 16px, 16px, 20px);
+  }
+}
+
 @include button-type(primary, #9069cd, #fff, #9069cd, #674b94, #9069cd);
 @include button-type(default, #ffffff, #1c1b1f, #1c1b1f, #e4e3e3, #ffffff);
 
 .Support_btn {
   border: 0.62px solid black;
-  padding: 16px 24px;
+  width: 136px;
+  height: 53px;
   margin: 40px 100px 0 0;
+
+  @media (max-width: 1360px) {
+    width: 100px;
+    height: 43px;
+    .button-title {
+      font-size: 15px;
+    }
+  }
 }
 
 .Back_btn {
   margin: 40px 0 0 24px;
-}
+  width: 58px;
+  height: 58px;
 
-.Back_btn::after {
-  margin-top: 20px;
-  content: url('@/assets/images/icons/arrow_back.svg');
-}
+  &::after {
+    content: url("@/assets/images/icons/arrow_back.svg");
+    display: block;
+    width: 100%;
+    height: 100%;
+    transform: scale(1); // Обычный размер
+  }
 
-.Back_btn:hover {
-  transform: scale(1.1);
-  transition: 0.3s;
+  @media (max-width: 1360px) {
+    width: 48px;
+    height: 48px;
+    margin: 30px 0 0 20px;
+
+    &::after {
+      transform: scale(0.8); // Уменьшенный размер
+    }
+  }
 }
 
 .Disabled {

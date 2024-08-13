@@ -22,9 +22,10 @@
 
   .cardSurvey-image-container {
     width: 100%;
-    height: 263px;
+    height: 263px; // Можно изменить для адаптивности
     position: relative;
     overflow: hidden;
+
     .cardSurvey-image {
       position: absolute;
       top: 0;
@@ -34,6 +35,7 @@
       object-fit: cover;
     }
   }
+
   .cardSurvey-content {
     padding: 0px 63px 37px 64px;
     height: 73px;
@@ -41,6 +43,7 @@
     align-items: center;
     justify-content: center;
     gap: 10px;
+
     .cardSurvey-title {
       margin: 0;
       font-size: 20px;
@@ -50,19 +53,39 @@
       margin-top: 20px;
     }
   }
-}
-@media (min-width: 600px) {
-  .cardSurvey {
-    flex: 1 1 calc(50% - 32px);
+
+  @media (max-width: 1300px) {
+    .cardSurvey-content {
+      padding: 10px;
+      margin-top: 0;
+      height: 40px;
+      .cardSurvey-title {
+        margin-top: 0;
+        font-size: 16px;
+        line-height: 20px;
+      }
+    }
+
+    .cardSurvey-image-container {
+      height: 200px;
+    }
   }
-}
-@media (min-width: 900px) {
-  .cardSurvey {
-    flex: 1 1 calc(33.333% - 32px);
+
+  @media (min-width: 600px) {
+    .cardSurvey {
+      flex: 1 1 calc(50% - 32px);
+    }
   }
-}
-@media (min-width: 1200px) {
-  .cardSurvey {
-    flex: 1 1 calc(25% - 32px);
+
+  @media (min-width: 900px) {
+    .cardSurvey {
+      flex: 1 1 calc(33.333% - 32px);
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .cardSurvey {
+      flex: 1 1 calc(25% - 32px);
+    }
   }
 }

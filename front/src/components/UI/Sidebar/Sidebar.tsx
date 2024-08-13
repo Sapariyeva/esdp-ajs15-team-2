@@ -6,6 +6,8 @@ import homeLogo from '@/assets/images/sidebar-icons/home.svg';
 import settingsLogo from '@/assets/images/sidebar-icons/settings.svg';
 import statisticsLogo from '@/assets/images/sidebar-icons/statistics.svg';
 import profileLogo from '@/assets/images/sidebar-icons/profile.svg';
+import employeesLogo from '@/assets/images/sidebar-icons/employees.svg'
+import studentsLogo from '@/assets/images/sidebar-icons/students.svg'
 import logout from '@/assets/images/sidebar-icons/logout.svg';
 import './Sidebar.scss';
 
@@ -14,12 +16,14 @@ interface Props {
     onClickLogout?: MouseEventHandler<HTMLLIElement>
     onClickGame?: MouseEventHandler<HTMLLIElement>
     onClickProfile?: MouseEventHandler<HTMLLIElement>
+    onClickEmployees?: MouseEventHandler<HTMLLIElement>
+    onClickStudents?: MouseEventHandler<HTMLLIElement>
     onClickStatistics?: MouseEventHandler<HTMLLIElement>
     onClickHelp?: MouseEventHandler<HTMLLIElement>
     onClickMain?: MouseEventHandler<HTMLLIElement>
 }
 
-export function Sidebar ({style, onClickLogout, onClickGame, onClickProfile, onClickStatistics, onClickHelp, onClickMain}: Props) {
+export function Sidebar ({style, onClickLogout, onClickGame, onClickProfile, onClickStatistics, onClickHelp, onClickMain, onClickEmployees, onClickStudents}: Props) {
     const { t } = useTranslation();
 
     return (
@@ -36,6 +40,18 @@ export function Sidebar ({style, onClickLogout, onClickGame, onClickProfile, onC
                 <div className="sidebar-menu-item-inner">
                     <img src={statisticsLogo} alt="statistics-logo" />
                     <p>{t('statistics')}</p>
+                </div>
+            </li>
+            <li className="sidebar-menu-item" onClick={onClickEmployees}>
+                <div className="sidebar-menu-item-inner">
+                    <img src={employeesLogo} alt="emoloyees-logo" />
+                    <p>{t('emoloyees')}</p>
+                </div>
+            </li>
+            <li className="sidebar-menu-item" onClick={onClickStudents}>
+                <div className="sidebar-menu-item-inner">
+                    <img src={studentsLogo} alt="students-logo" />
+                    <p>{t('students')}</p>
                 </div>
             </li>
             <li className="sidebar-menu-item" onClick={onClickProfile}>
@@ -65,4 +81,4 @@ export function Sidebar ({style, onClickLogout, onClickGame, onClickProfile, onC
         </ul>
       </nav>
     );
-};
+}
