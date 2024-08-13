@@ -16,6 +16,7 @@ import Survey from "@/containers/Survey/Survey";
 import Users from "../AdminComponents/Users/Users";
 import Students from "@/containers/Student/Student";
 import { GoogleAuthSuccess } from "@/containers/Auth/GoogleAuthSuccess";
+import GameSettings from "@/containers/GameSettings/GamesSettings";
 
 export const Routes = () => {
   return (
@@ -37,6 +38,7 @@ export const Routes = () => {
       <Route path="/admin_page" element={<Admin />} />
       <Route path="/admin_page/users" element={<Users/>} />
       <Route path="/students" element={<Students />} />
+      <Route path="/admin_page/settings" element={<GameSettings/>} />
     </RouterRoutes>
   );
 };
