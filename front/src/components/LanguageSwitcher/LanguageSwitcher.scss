@@ -17,3 +17,25 @@
 .languageSwitcher button:hover {
   background-color: #ccc;
 }
+
+.languageSwitcher {
+  .select-container.default {
+    position: fixed;
+    top: 45px;
+    right: 240px;
+    .arrow {
+      display: none;
+    }
+    .select-options {
+      top: 45px;
+    }
+    .select-header {
+      border: #fff;
+      color: #1c1b1f;
+
+      &.active {
+        color: #fff;
+      }
+    }
+  }
+}

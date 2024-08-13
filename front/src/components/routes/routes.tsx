@@ -1,4 +1,3 @@
-import { Route, Routes as RouterRoutes } from "react-router-dom";
 import Admin from "@/containers/Admin/Admin";
 import Auth from "@/containers/Auth/Auth";
 import EmailLink from "@/containers/Auth/EmailLink";
@@ -13,25 +12,26 @@ import ForgotPasswordEmailLink from "@/containers/PasswordReset/ForgotPasswordEm
 import NewPassword from "@/containers/PasswordReset/NewPassword";
 import { Profile } from "@/containers/Profile/Profile";
 import Survey from "@/containers/Survey/Survey";
+import { Route, Routes as RouterRoutes } from "react-router-dom";
 import Users from "../AdminComponents/Users/Users";
-import Students from "@/containers/Student/Student";
-import { GoogleAuthSuccess } from "@/containers/Auth/GoogleAuthSuccess";
+import { Employees } from "@/containers/Emplyees/Employees";
+import { Students } from "@/containers/Student/Student";
 
 export const Routes = () => {
   return (
     <RouterRoutes>
       <Route path="/" element={<Auth />} />
       <Route path="/register" element={<Register />} />
-      <Route path="/login" element={<Login />} />
+      <Route path="/login" element={<Login />} /> 
       <Route path="/email_link" element={<EmailLink />} />
       <Route path="/reset_password" element={<ForgotPassword />} />
       <Route path="/reset_password_email_link" element={<ForgotPasswordEmailLink />} />
       <Route path="/new_password/:token" element={<NewPassword />} />
       <Route path="/username_registration" element={<UsernameRegistration />} />
-      <Route path="/auth/google/success" element={<GoogleAuthSuccess />} />
-      <Route path="/main" element={<Main />} />
+      <Route path="/main" element={<Main />} />       
       <Route path="/survey" element={<Survey />} />
-      <Route path="/games" element={<Games />} />
+      <Route path="/games" element={<Games />} /> {/* не готово */}
+      <Route path="/employees" element={<Employees />} />
       <Route path="/profile" element={<Profile />} />
       <Route path="/help" element={<Help />} />
       <Route path="/admin_page" element={<Admin />} />
