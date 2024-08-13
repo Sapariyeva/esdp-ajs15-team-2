@@ -1,4 +1,4 @@
-import { Container, Grid } from '@mui/material';
+import { Container, Grid, useMediaQuery, Theme } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -18,52 +18,63 @@ const Auth = () => {
         dispatch(changeInitialState());
     }, [navigate]);
 
+    const isTabletOrLarger = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));
+    const isDesktopOrLarger = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'));
+    const isLargeScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('lg'));
+    const buttonSize = isLargeScreen ? 'md' : 'lg';
+
     return (
         <Container disableGutters maxWidth="xl">
-            <Grid display="flex">
-                <ImageContainer />
-                <Grid container direction="column" width={'50%'}>
-                    <Grid display="flex" justifyContent="flex-end">
-                        <Button
-                            className='Support_btn'
-                            title={t("support")}
-                            type="default"
-                            style={{borderRadius: 8, fontSize: 20}}
-                        >
-                        </Button>
-                    </Grid>
-                    <Grid display="flex" justifyContent="center" margin={'150px 0 100px'}>
+            <Grid container display="flex">
+                <ImageContainer style={{ flex: 1 }} />
+                <Grid
+                    container
+                    direction="column"
+                    width={isDesktopOrLarger ? '50%' : '100%'}
+                    style={{ flex: 1 }}
+                >
+                    {isDesktopOrLarger && (
+                        <Grid item display="flex" justifyContent="flex-end" width="100%">
+                            <Button
+                                className='Support_btn'
+                                title={t("support")}
+                                type="default"
+                                style={{borderRadius: 8, fontSize: 20}}
+                            />
+                        </Grid>
+                    )}
+                    <Grid item display="flex" justifyContent="center" margin={isTabletOrLarger ? '150px 0 100px' : '100px 0 60px'}>
                         <img src={logo} alt="Логотип" />
                     </Grid>
-                    <Grid display="flex" justifyContent="center">
+                    <Grid item display="flex" justifyContent="center">
                         <Button
                             className='Registr_btn'
                             title={t('registration')}
                             onClick={() => navigate('/register')}
-                            size="lg"
+                            size={buttonSize} 
                             type="primary"
-                            style={{marginBottom: 15, borderRadius: 8}}>
-                        </Button>
+                            style={{marginBottom: 15, borderRadius: 8}}
+                        />
                     </Grid>
-                    <Grid display="flex" justifyContent="center">
+                    <Grid item display="flex" justifyContent="center">
                         <Button
                             className='Login_btn'
                             title={t('login')}
                             onClick={() => navigate('/login')}
-                            size="lg"
+                            size={buttonSize} 
                             type="default"
-                            style={{borderRadius: 8, marginBottom: 8}}>
-                        </Button>
+                            style={{borderRadius: 8, marginBottom: 8}}
+                        />
                     </Grid>
-                    <Grid display="flex" justifyContent="center">
-                        <Link to="/reset_password" color='#9069CD'>
+                    <Grid item display="flex" justifyContent="center">
+                        <Link to="/reset_password" style={{ color: '#9069CD' }}>
                             {t('forgot_password')}
                         </Link>
                     </Grid>
                 </Grid>
             </Grid>
-        </Container >
-    )
+        </Container>
+    );
 }
 
 export default Auth;

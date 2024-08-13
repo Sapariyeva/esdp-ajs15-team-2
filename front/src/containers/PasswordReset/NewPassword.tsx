@@ -1,4 +1,4 @@
-import { Alert, Box, Container, Grid } from '@mui/material';
+import { Alert, Box, Container, Grid, useMediaQuery, Theme } from '@mui/material';
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -14,6 +14,7 @@ interface IPasswordResetState {
     password: string;
     confirmPassword: string;
 }
+
 const NewPassword = () => {
     const { t } = useTranslation();
     const { registerError, loading, user } = useAppSelector(state => state.user);
@@ -25,8 +26,14 @@ const NewPassword = () => {
     });
     const [passwordError, setPasswordError] = useState<string | undefined>(undefined);
     const [showInvalidLinkMessage, setShowInvalidLinkMessage] = useState(false);
-    const [passwordChanged, setPasswordChanged] = useState(false); // Состояние для отслеживания успешного изменения пароля
-    
+    const [passwordChanged, setPasswordChanged] = useState(false);
+
+    const isTabletOrLarger = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));
+    const isDesktopOrLarger = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'));
+    const isLargeScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('lg'));
+    const buttonSize = isLargeScreen ? 'md' : 'lg';
+    const inputSize = isLargeScreen ? '200px' : '300px';
+
     useEffect(() => {
         setShowInvalidLinkMessage(false);
         dispatch(clearRegisterError());
@@ -43,10 +50,10 @@ const NewPassword = () => {
             const timer = setTimeout(() => {
                 window.close();
             }, 5000);
-            return () => clearTimeout(timer); // Очистка таймера при размонтировании компонента
+            return () => clearTimeout(timer);
         }
     }, [showInvalidLinkMessage]);
-    
+
     const inputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
 
@@ -65,13 +72,12 @@ const NewPassword = () => {
         setPasswordError(undefined);
         dispatch(resetPassword({ password: state.password, resetPasswordToken: token! })).unwrap().then(() => {
             setShowInvalidLinkMessage(false);
-            setPasswordChanged(true); // Устанавливаем флаг успешного изменения пароля
+            setPasswordChanged(true);
             const timer = setTimeout(() => {
                 window.close();
             }, 5000);
-            return () => clearTimeout(timer); // Очистка таймера при размонтировании компонента
+            return () => clearTimeout(timer);
         }).catch(error => {
-            // Обработка ошибок при сбросе пароля
             console.error('Ошибка при сбросе пароля:', error);
         });        
     };
@@ -83,37 +89,32 @@ const NewPassword = () => {
         }
     };
 
-    if(loading) return <Loading/>
-    if(showInvalidLinkMessage) return <>
-        <h1 style={{textAlign: 'center', marginTop: "20%", color: "#9069cd"}}>Ссылка недействительна</h1>
-    </>
-    if(passwordChanged) return <>
-        <h1 style={{textAlign: 'center', marginTop: "20%", color: "#9069cd"}}>Пароль успешно изменен!</h1>
-    </>
+    if (loading) return <Loading />;
+    if (showInvalidLinkMessage) return <h1 style={{textAlign: 'center', marginTop: "20%", color: "#9069cd"}}>Ссылка недействительна</h1>;
+    if (passwordChanged) return <h1 style={{textAlign: 'center', marginTop: "20%", color: "#9069cd"}}>Пароль успешно изменен!</h1>;
 
     return (
-        <Container disableGutters sx={{ margin: 0 }} maxWidth={false}>
-            <Grid display="flex" justifyContent="flex-end" alignItems={"end"}>
+        <Container disableGutters maxWidth="xl">
+            <Grid container display="flex" justifyContent="flex-end" alignItems="end">
                 <Button
-                    className='Support_btn'
+                    className="Support_btn"
                     title={t("support")}
                     type="default"
-                    style={{borderRadius: 8, fontSize: 20}}
-                >
-                </Button>
+                    style={{ borderRadius: 8, fontSize: 20 }}
+                />
             </Grid>
-            <Grid display="flex" justifyContent="center" margin={'150px 0 30px'}>
-                <img src={logo} alt="Логотип" width={"40%"} />
+            <Grid container display="flex" justifyContent="center" margin={isTabletOrLarger ? '150px 0 30px' : '100px 0 20px'}>
+                <img src={logo} alt="Логотип" width={isDesktopOrLarger ? "40%" : "60%"} />
             </Grid>
-            <Grid display="flex" justifyContent="center" marginTop={"20px"} flexDirection={"column"} alignItems={"center"}>
+            <Grid container display="flex" justifyContent="center" marginTop="20px" flexDirection="column" alignItems="center">
                 <Box
                     component="form"
                     onSubmit={submitFormHandler}
                     noValidate
                     sx={{ mb: 2, width: "100%" }}
-                    display={"flex"}
-                    flexDirection={"column"}
-                    alignItems={"center"}
+                    display="flex"
+                    flexDirection="column"
+                    alignItems="center"
                 >
                     <FormElement
                         required
@@ -125,7 +126,7 @@ const NewPassword = () => {
                         color="success"
                         error={getErrorsBy('password')}
                         margin="dense"
-                        width="300px"
+                        width={inputSize}
                     />
                     <FormElement
                         required
@@ -137,22 +138,21 @@ const NewPassword = () => {
                         color="success"
                         error={passwordError}
                         margin="dense"
-                        width="300px"
+                        width={inputSize}
                     />
-                    <Grid display="flex" justifyContent="center" marginTop={"20px"}>
+                    <Grid display="flex" justifyContent="center" marginTop="20px">
                         <Button
-                            className='Registr_btn'
+                            className="Registr_btn"
                             title={t("continue")}
-                            size="lg"
+                            size={buttonSize}
                             type="primary"
-                        >
-                        </Button>
+                        />
                     </Grid>
                     {registerError && !Array.isArray(registerError) ? <Alert severity="error">{registerError}</Alert> : null}
                 </Box>
             </Grid>
         </Container>
-    )
-}
+    );
+};
 
 export default NewPassword;

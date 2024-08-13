@@ -1,4 +1,4 @@
-import { Alert, Box, Container, Grid } from '@mui/material';
+import { Alert, Box, Container, Grid, Theme, useMediaQuery } from '@mui/material';
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -28,7 +28,7 @@ const UsernameRegistration = () => {
     useEffect(() => {
         dispatch(clearRegisterError());
     }, [dispatch]);
-    
+
     const inputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
 
@@ -53,21 +53,31 @@ const UsernameRegistration = () => {
         }
     };
 
-    if(loading) return <Loading/>
+    if (loading) return <Loading />
+
+    const isTabletOrLarger = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'));
+    const isDesktopOrLarger = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'));
+    const isLargeScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('lg'));
+    const buttonSize = isLargeScreen ? 'md' : 'lg';
+    const inputSize = isLargeScreen ? '200px' : '300px';
+    const logoWidth = isDesktopOrLarger ? '40%' : '60%';
+    const marginTop = isTabletOrLarger ? '150px' : '100px';
+    const marginBottom = isTabletOrLarger ? '50px' : '30px';
 
     return (
-        <Container disableGutters sx={{ margin: 0 }} maxWidth={false}>
-            <Grid display="flex" justifyContent="flex-end" alignItems={"end"}>
-                <Button
-                    className='Support_btn'
-                    title={t('support')}
-                    type="default"
-                    style={{borderRadius: 8, fontSize: 20}}
-                >
-                </Button>
+        <Container disableGutters sx={{ margin: 0 }} maxWidth="xl">
+            <Grid display="flex" justifyContent="flex-end" alignItems="end">
+                {isDesktopOrLarger && (
+                    <Button
+                        className='Support_btn'
+                        title={t('support')}
+                        type="default"
+                        style={{ borderRadius: 8, fontSize: 20 }}
+                    />
+                )}
             </Grid>
-            <Grid display="flex" justifyContent="center" margin={'150px 0 50px'}>
-                <img src={logo} alt="Логотип" width={"40%"} />
+            <Grid display="flex" justifyContent="center" margin={`${marginTop} 0 ${marginBottom}`}>
+                <img src={logo} alt="Логотип" width={logoWidth} />
             </Grid>
             <Box
                 component="form"
@@ -88,21 +98,20 @@ const UsernameRegistration = () => {
                     error={getErrorsBy('username')}
                     margin="dense"
                     type="text"
-                    width="300px"
+                    width={inputSize}
                 />
                 <Grid display="flex" justifyContent="center" marginTop={"20px"}>
                     <Button
                         className='Registr_btn'
                         title={t('continue')}
-                        size="lg"
+                        size={buttonSize}
                         type="primary"
-                    >
-                    </Button>
+                    />
                 </Grid>
                 {registerError && !Array.isArray(registerError) ? <Alert severity="error">{registerError}</Alert> : null}
             </Box>
         </Container>
-    )
+    );
 }
 
 export default UsernameRegistration;

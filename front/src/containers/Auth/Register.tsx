@@ -1,7 +1,7 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import {
     Alert, Box, Container,
-    Grid
+    Grid, useMediaQuery, Theme
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -14,6 +14,7 @@ import { ImageContainer } from "@/components/UI/ImageContainer/ImageContainer";
 import { ButtonSocial } from "@/components/UI/ButtonSosial/ButtonSocial";
 import { Title } from "@/components/UI/Title/Title";
 import Loading from "@/components/UI/Loading/Loading";
+
 
 // Страница регистрации
 interface IRegisterState {
@@ -33,6 +34,13 @@ const Register = () => {
     });
 
     const [passwordError, setPasswordError] = useState<string | undefined>(undefined);
+
+    const isDesktopOrLarger = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'));
+    const isLargeScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('lg'));
+    const buttonSize = isLargeScreen ? 'md' : 'lg';
+    const inputSize = isLargeScreen ? '200px' : '300px';
+    const titleSize = isLargeScreen ? 3 : 1;
+
 
     useEffect(() => {
         dispatch(changeInitialState());
@@ -67,34 +75,41 @@ const Register = () => {
         }
     };
 
-    if(loading) return <Loading/>
+    if (loading) return <Loading />
 
     return (
         <Container disableGutters maxWidth="xl">
-            <Grid display="flex">
-                <ImageContainer />
-                <Grid container direction="column" width={'50%'}>
+            <Grid container display="flex">
+                <ImageContainer style={{ flex: 1 }} />
+                <Grid
+                    container
+                    direction="column"
+                    width={isDesktopOrLarger ? '50%' : '100%'}
+                    style={{ flex: 1 }}
+                >
                     <Grid display="flex" justifyContent="space-between">
                         <Button
                             className="Back_btn"
                             onClick={() => navigate('/')}
-                            style={{border: "none", background: "none"}}
+                            style={{ border: "none", background: "none" }}
                         >
                         </Button>
-                        <Button
-                            className='Support_btn'
-                            title={t("support")}
-                            type="default"
-                            style={{borderRadius: 8, fontSize: 20}}
-                        >
-                        </Button>
+                        {isDesktopOrLarger && (
+                            <Button
+                                className='Support_btn'
+                                title={t("support")}
+                                type="default"
+                                style={{ borderRadius: 8, fontSize: 20 }}
+                            />
+                        )}
                     </Grid>
-                    <Grid display="flex" justifyContent="center" margin={'150px 0 30px'} onClick={() => navigate('/')}>
+                    <Grid display="flex" justifyContent="center" margin={isDesktopOrLarger ? '40px 0 30px' : '100px 0 20px'}>
                         <img className='Logo' src={logo} alt="Логотип" />
                     </Grid>
                     <Grid display="flex" justifyContent="center">
                         <Title
                             text={t('registration')}
+                            level={titleSize}
                         />
                     </Grid>
                     <Box
@@ -116,7 +131,7 @@ const Register = () => {
                             error={getErrorsBy('email')}
                             margin="dense"
                             type="email"
-                            width="300px"
+                            width={inputSize}
                         />
                         <FormElement
                             required
@@ -128,7 +143,7 @@ const Register = () => {
                             color="success"
                             error={getErrorsBy('password')}
                             margin="dense"
-                            width="300px"
+                            width={inputSize}
                         />
                         <FormElement
                             required
@@ -140,45 +155,44 @@ const Register = () => {
                             color="success"
                             error={passwordError}
                             margin="dense"
-                            width="300px"
+                            width={inputSize}
                         />
                         <Grid display="flex" justifyContent="center" marginTop={"20px"}>
                             <Button
                                 className='Registr_btn'
                                 title={t('continue')}
-                                size="lg"
+                                size={buttonSize}
                                 type="primary"
-                            >
-                            </Button>
+                            />
                         </Grid>
                         {registerError && !Array.isArray(registerError) ? <Alert severity="error">{registerError}</Alert> : null}
                     </Box>
                     <Grid display="flex" justifyContent="center">
                         <ButtonSocial
                             onClick={() => console.log("click")}
-                            size="lg"
+                            size={buttonSize}
                             type="facebook"
-                        ></ButtonSocial>
+                        />
                         <ButtonSocial
-                            onClick={() => window.location.href = 'http://localhost:8000/users/auth/google'}
-                            size="lg"
+                            onClick={() => console.log("click")}
+                            size={buttonSize}
                             type="google"
-                        ></ButtonSocial>
+                        />
                         <ButtonSocial
                             onClick={() => console.log("click")}
-                            size="lg"
+                            size={buttonSize}
                             type="apple"
-                        ></ButtonSocial>
+                        />
                         <ButtonSocial
                             onClick={() => console.log("click")}
-                            size="lg"
+                            size={buttonSize}
                             type="vk"
-                        ></ButtonSocial>
+                        />
                         <ButtonSocial
                             onClick={() => console.log("click")}
-                            size="lg"
+                            size={buttonSize}
                             type="yandex"
-                        ></ButtonSocial>
+                        />
                     </Grid>
                 </Grid>
             </Grid>
