@@ -22,7 +22,7 @@ export class CardService {
 
   getShowCards = async (category: string[]): Promise<Card[][]> => {
     const matchedCards = await this.repository.getAllCardsByTitle(category);
-
+    
     const getCards = async () => {
       const randomCards = await this.repository.getShowCards();
       return randomCards;
@@ -33,15 +33,51 @@ export class CardService {
     for (const card of matchedCards) {
       const randomCards = await getCards();
 
-      const cardSet = [
-        { id: randomCards[0].id, image: randomCards[0].image, title: randomCards[0].title, category: randomCards[0].category, video: randomCards[0].video },
-        { id: randomCards[1].id, image: randomCards[1].image, title: randomCards[1].title, category: randomCards[1].category, video: randomCards[1].video },
-        { id: card.id, image: card.image, title: card.title, category: card.category, video: card.video },
-      ];
+      const uniqueCardIds = new Set<number>();
+      const uniqueCardSet: Card[] = [];
 
-      result.push(cardSet);
+      if (!uniqueCardIds.has(card.id)) {
+        uniqueCardSet.push({
+          id: card.id,
+          image: card.image,
+          title: card.title,
+          category: card.category,
+          video: card.video
+        });
+        uniqueCardIds.add(card.id);
+      }
+
+      for (const randCard of randomCards) {
+        if (uniqueCardSet.length >= 3) break;
+
+        if (!uniqueCardIds.has(randCard.id)) {
+          uniqueCardSet.push({
+            id: randCard.id,
+            image: randCard.image,
+            title: randCard.title,
+            category: randCard.category,
+            video: randCard.video
+          });
+          uniqueCardIds.add(randCard.id);
+        }
+      }
+
+      while (uniqueCardSet.length < 3) {
+        const randCard = randomCards[Math.floor(Math.random() * randomCards.length)];
+        
+        if (!uniqueCardIds.has(randCard.id)) {
+          uniqueCardSet.push({
+            id: randCard.id,
+            image: randCard.image,
+            title: randCard.title,
+            category: randCard.category,
+            video: randCard.video
+          });
+          uniqueCardIds.add(randCard.id);
+        }
+      }
+      result.push(uniqueCardSet);
     }
-
     return result;
   };
 
