@@ -266,25 +266,25 @@ export function Configure({ visible, onClose, startGame }: ConfigureProps) {
                 </div>
               </Form.Item>
 
-              <Footer style={{ backgroundColor: 'white', borderTop: '2px solid whitesmoke', padding: '0', marginTop: 20 }}>
+              <Footer style={{ backgroundColor: 'white', borderTop: '2px solid whitesmoke', padding: '0' }}>
                 <Form.Item style={{ display: 'flex', justifyContent: 'space-around' }}>
                   <Button 
-                    style={{ maxWidth: '108px', height: '58px', margin: '10px', padding: '16px 24px', fontSize: '20px' }} 
+                    style={{ width: '108px', height: '58px', margin: '10px', padding: '16px 24px', fontSize: '20px' }} 
                     type="primary" 
-                    title={t('start')} 
+                    title={t("start")} 
                     size={buttonSize} 
                     onClick={handleStartGame}>
                   </Button>
                   <Button 
-                    style={{ maxWidth: '363px', minWidth: 250 ,height: '58px', margin: '10px', padding: '16px 24px', fontSize: '20px' }} 
+                    style={{ width: '363px', height: '58px', margin: '10px', padding: '16px 24px', fontSize: '20px' }} 
                     type="default" 
-                    title={t('use_previous_settings')} 
+                    title={t("use_previous_settings")} 
                     size={buttonSize}>
                   </Button>
                   <Button 
-                    style={{ maxWidth: '234px', height: '58px', margin: '10px', padding: '16px 24px', fontSize: '20px' }} 
+                    style={{ width: '234px', height: '58px', margin: '10px', padding: '16px 24px', fontSize: '20px' }} 
                     type="default" 
-                    title={t('share_game')} 
+                    title={t("share_game")} 
                     size={buttonSize}>
                   </Button>
                 </Form.Item>
