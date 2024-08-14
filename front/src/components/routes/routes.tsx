@@ -1,3 +1,4 @@
+import { Route, Routes } from "react-router-dom";
 import Admin from "@/containers/Admin/Admin";
 import Auth from "@/containers/Auth/Auth";
 import EmailLink from "@/containers/Auth/EmailLink";
@@ -12,31 +13,40 @@ import ForgotPasswordEmailLink from "@/containers/PasswordReset/ForgotPasswordEm
 import NewPassword from "@/containers/PasswordReset/NewPassword";
 import { Profile } from "@/containers/Profile/Profile";
 import Survey from "@/containers/Survey/Survey";
-import { Route, Routes as RouterRoutes } from "react-router-dom";
-import Users from "../AdminComponents/Users/Users";
+import { GoogleAuthSuccess } from "@/containers/Auth/GoogleAuthSuccess";
 import { Employees } from "@/containers/Employees/Employees";
+import { useAppSelector } from "@/app/hooks";
+import { ProtectedRoute } from "../ProtectedRoute/ProtectedRoute";
+import GameSettings from "@/containers/GameSettings/GamesSettings";
 import { Students } from "@/containers/Student/Student";
 
-export const Routes = () => {
+export const AppRoutes = () => {
+  const { user } = useAppSelector((state) => state.user);
+
   return (
-    <RouterRoutes>
+    <Routes>
       <Route path="/" element={<Auth />} />
       <Route path="/register" element={<Register />} />
-      <Route path="/login" element={<Login />} /> 
+      <Route path="/login" element={<Login />} />
       <Route path="/email_link" element={<EmailLink />} />
       <Route path="/reset_password" element={<ForgotPassword />} />
       <Route path="/reset_password_email_link" element={<ForgotPasswordEmailLink />} />
       <Route path="/new_password/:token" element={<NewPassword />} />
       <Route path="/username_registration" element={<UsernameRegistration />} />
-      <Route path="/main" element={<Main />} />       
-      <Route path="/survey" element={<Survey />} />
-      <Route path="/games" element={<Games />} /> {/* не готово */}
-      <Route path="/employees" element={<Employees />} />
-      <Route path="/profile" element={<Profile />} />
-      <Route path="/help" element={<Help />} />
-      <Route path="/admin_page" element={<Admin />} />
-      <Route path="/admin_page/users" element={<Users/>} />
-      <Route path="/students" element={<Students />} />
-    </RouterRoutes>
+      <Route path="/auth/google/success" element={<GoogleAuthSuccess />} />
+      <Route element={<ProtectedRoute isAllowed={!!user} redirectPath="/login" />}>
+        <Route path="/main" element={<Main />} />
+        <Route path="/survey" element={<Survey />} />
+        <Route path="/games" element={<Games />} />
+        <Route path="/employees" element={<Employees />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/help" element={<Help />} />
+        <Route path="/students" element={<Students />} />
+      </Route>
+      <Route element={<ProtectedRoute isAllowed={!!user} allowedRoles={['admin']} redirectPath="/login" />}>
+        <Route path="/admin_page" element={<Admin />} />
+        <Route path="/admin_page/settings" element={<GameSettings/>} />
+      </Route>
+    </Routes>
   );
 };
