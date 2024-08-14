@@ -4,6 +4,7 @@ import { formatErrors } from '@/helpers/formatErrors';
 import { IUpdateCard } from '@/interfaces/IUpdateCard';
 import { CardRepository } from '@/repositories/card.repository';
 import { validate } from 'class-validator';
+import { plainToInstance } from 'class-transformer';
 
 export class CardService {
   private repository: CardRepository;
@@ -89,16 +90,17 @@ export class CardService {
     return card;
   };
 
-  createCard = async (data: CardDto): Promise<Card> => {
-    const errors = await validate(data, {
+  async createOptions(data: CardDto): Promise<Card> {
+    const errors = await validate(plainToInstance(CardDto, data), {
       whitelist: true,
-      validationError: { value: false, target: false },
+      validationError: { target: false, value: false },
     });
-    if (errors?.length) {
+
+    if (errors.length > 0) {
       throw formatErrors(errors);
     }
-    return await this.repository.createCard(data);
-  };
+    return await this.repository.createOptions(data);
+}
 
   deleteCard = async (id: number) => {
     const oldCard = await this.repository.getCard(id);

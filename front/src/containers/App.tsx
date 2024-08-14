@@ -1,6 +1,6 @@
 import { BrowserRouter} from 'react-router-dom';
 import { Suspense } from "react";
-import { Routes } from '@/components/routes/routes';
+import { AppRoutes } from '@/components/routes/AppRoutes';
 import { LanguageSwitcher } from "@/components/LanguageSwitcher/LanguageSwitcher";
 
 const App = () => {
@@ -10,7 +10,7 @@ const App = () => {
       <Suspense fallback={<div>Loading...</div>}>
         <LanguageSwitcher />
         <BrowserRouter>
-          <Routes />
+          <AppRoutes />
         </BrowserRouter>
       </Suspense>
     </div>

@@ -8,11 +8,12 @@ import { updateLastActivity } from './middlewares/updateLastActivity';
 import { CardRoute } from './routes/card.route';
 import { SurveyRoute } from './routes/survey.route';
 import { StatisticRoute } from './routes/statistic.route';
+import { SettingsRoute } from './routes/settings.route';
 
 const app = new App({
     port: 8000,
     middlewares: [logger(), cors(), updateLastActivity],
-    controllers: [ new UserRoute(), new CardRoute(), new StatisticRoute(), new SurveyRoute() ],
+    controllers: [ new UserRoute(), new CardRoute(), new StatisticRoute(), new SurveyRoute(),new SettingsRoute() ],
 });
 
 app.listen();
