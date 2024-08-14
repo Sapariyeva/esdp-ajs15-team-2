@@ -48,3 +48,14 @@
     color: #9069cd !important;
     background-color: inherit !important;
 }
+
+.select-container.default .select-options {
+    top: 45px;
+}
+
+
+@media (max-width: 1360px) {
+    .select-container.default .select-options {
+        top: 54px;
+    }
+}
