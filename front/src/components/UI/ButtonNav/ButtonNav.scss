@@ -1,0 +1,42 @@
+@mixin button-nav-size($width, $height, $padding, $font-size) {
+  width: $width;
+  height: $height;
+  padding: $padding;
+  font-size: $font-size;
+}
+
+@mixin button-type($type) {
+  @if $type == "back" {
+  } @else if $type == "close" {
+  }
+}
+
+.button-nav {
+  width: 58px;
+  height: 58px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: none;
+  border: 1px solid #1c1b1f;
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 23px;
+  color: #1c1b1f;
+}
+
+.button-nav:hover {
+  background-color: #cecece;
+}
+
+.button-nav-size-sm {
+  @include button-nav-size(38px, 38px, 10px, 12px);
+}
+
+.button-nav-size-md {
+  @include button-nav-size(48px, 48px, 14px, 16px);
+}
+
+.button-nav-size-lg {
+  @include button-nav-size(58px, 58px, 16px, 20px);
+}

@@ -1,7 +1,7 @@
-import axios, { AxiosInstance } from 'axios';
+import axios, { AxiosInstance } from "axios";
 import { Store } from "@reduxjs/toolkit";
-import { RootState } from '@/app/store';
-import { apiURL } from '@/constants';
+import { RootState } from "@/app/store";
+import { apiURL } from "@/constants";
 
 type AppStore = Store<RootState>;
 
@@ -12,12 +12,12 @@ export const injectStore = (_store: AppStore) => {
 };
 
 const axiosApi: AxiosInstance = axios.create({
-  baseURL: apiURL
+  baseURL: apiURL,
 });
 
-axiosApi.interceptors.request.use(config => {
+axiosApi.interceptors.request.use((config) => {
   try {
-    // config.headers['Authorization'] = store.getState().user.user?.token;
+    config.headers["Authorization"] = store.getState().user.user?.token;
   } catch (e) {
     console.error(e);
   }

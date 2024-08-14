@@ -1,0 +1,110 @@
+.select-container {
+  position: relative;
+
+  &.default {
+    width: 140px;
+
+    .select-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      background-color: #fff;
+      border: 1px solid #d9d9d9;
+      color: #d9d9d9;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: background-color 0.3s;
+
+      &.active {
+        background-color: #300163;
+        border: 1px solid #300163;
+        color: #fff;
+      }
+    }
+
+    .arrow {
+      margin-left: 10px;
+    }
+
+    .select-options {
+      position: absolute;
+      text-align: start;
+      top: 30px;
+      left: 0;
+      width: 100%;
+      background-color: #fff;
+      border: 1px solid #d9d9d9;
+      border-radius: 8px;
+      z-index: 1000;
+      padding: 0;
+      color: #d9d9d9;
+    }
+
+    .select-option {
+      padding: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      list-style: none;
+
+      &:hover {
+        background-color: #f3e5f5;
+      }
+
+      &.selected {
+        color: #9069cd;
+      }
+    }
+  }
+
+  &.inline {
+    width: 522px;
+
+    .inline-select {
+      display: flex;
+      border: 1px solid #d9d9d9;
+      border-radius: 8px;
+      overflow: hidden;
+      font-size: 14px;
+    }
+
+    .select-option {
+      flex: 1;
+      padding: 10px;
+      text-align: center;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      border-right: 1px solid #d9d9d9;
+
+      &:last-child {
+        border-right: none;
+      }
+
+      &:not(.selected) {
+        background-color: #fff;
+        color: #d9d9d9;
+      }
+
+      &.selected {
+        background-color: #f3e5f5;
+        color: #9069cd;
+        font-weight: bold;
+      }
+
+      &:hover {
+        background-color: #f3e5f5;
+      }
+
+      .check-icon {
+        position: absolute;
+        left: 20px;
+        color: #9069cd;
+        font-size: 14px;
+      }
+    }
+  }
+}

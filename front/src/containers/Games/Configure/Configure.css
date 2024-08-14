@@ -1,0 +1,61 @@
+.custom-modal .ant-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.custom-modal .ant-modal-title {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.custom-modal .custom-modal-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 20px;
+}
+
+.custom-modal .verb-button {
+    background-color: white;
+    border: 1px solid #d9d9d9;
+    border-radius: 32px;
+    padding: 10px 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 109px;
+    height: 53px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.custom-modal-content .verb-button {
+    border: 1px solid #d9d9d9;
+    box-shadow: #9069cd;
+}
+
+.custom-modal-content .verb-button:hover,
+.custom-modal-content .verb-button:active {
+    border-color: #9069cd;
+    color: #9069cd;
+    background-color: #9069cd;
+    box-shadow: #9069cd;
+}
+
+.custom-modal-content .verb-button:hover {
+    border-color: #9069cd !important;
+    color: #9069cd !important;
+    background-color: inherit !important;
+}
+
+.select-container.default .select-options {
+    top: 45px;
+}
+
+
+@media (max-width: 1360px) {
+    .select-container.default .select-options {
+        top: 54px;
+    }
+}

@@ -1,8 +1,12 @@
 import express from 'express';
 import { Application, RequestHandler } from 'express';
+import session from 'express-session';
+import passport from 'passport';
 import { AppInit } from './interfaces/AppInit.interface';
 import { IRoute } from './interfaces/IRoute.interface';
 import { appDataSource } from './dataSource/dataSource';
+import './config/passportConfig';
+import { UserRoute } from './routes/user.route';
 
 class App {
     public app: Application;
@@ -15,7 +19,7 @@ class App {
         this.initMiddlewares(appInit.middlewares);
         this.initRoutes(appInit.controllers);
 
-        this.app.get('/api', (req, res) => {
+        this.app.get('/hc', (req, res) => {
             res.json({ hello: 'Hello World!'});
         });
     }
@@ -23,11 +27,19 @@ class App {
         middlewares.forEach((middleware) => {
             this.app.use(middleware);
         });
+        this.app.use(session({
+            secret: 'your-secret-key',
+            resave: false,
+            saveUninitialized: false
+        }));
+        this.app.use(passport.initialize());
+        this.app.use(passport.session());
     }
     private initRoutes(routes: IRoute[]) {
         routes.forEach((route) => {
             this.app.use(route.path, route.router);
         });
+        this.app.use('/', new UserRoute().router);
     }
     private initAssets() {
         this.app.use(express.json());

@@ -1,0 +1,41 @@
+.languageSwitcher {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.languageSwitcher button {
+  padding: 5px 10px;
+  border: none;
+  background-color: #f0f0f0;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.languageSwitcher button:hover {
+  background-color: #ccc;
+}
+
+.languageSwitcher {
+  .select-container.default {
+    position: fixed;
+    top: 45px;
+    right: 240px;
+    .arrow {
+      display: none;
+    }
+    .select-options {
+      top: 45px;
+    }
+    .select-header {
+      border: #fff;
+      color: #1c1b1f;
+
+      &.active {
+        color: #fff;
+      }
+    }
+  }
+}
