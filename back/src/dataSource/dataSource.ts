@@ -1,7 +1,7 @@
 import { DataSource, DataSourceOptions } from "typeorm";
 import { SeederOptions } from "typeorm-extension";
-import MainSeeder from "@/database/seeds/main.seeder";
-import { UserFactory } from "@/database/factories/user.factory";
+import MainSeeder from "../database/seeds/main.seeder";
+import { UserFactory } from "../database/factories/user.factory";
 
 /**
  * Данная конфигурация нужна при запуске команды npm run dev
