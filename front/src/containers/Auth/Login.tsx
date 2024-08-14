@@ -153,10 +153,10 @@ const Login = () => {
                             type="facebook"
                         />
                         <ButtonSocial
-                            onClick={() => console.log("click")}
+                            onClick={() => window.location.href = 'http://localhost:8000/users/auth/google'}
                             size={buttonSize}
                             type="google"
-                        />
+                        ></ButtonSocial>
                         <ButtonSocial
                             onClick={() => console.log("click")}
                             size={buttonSize}
