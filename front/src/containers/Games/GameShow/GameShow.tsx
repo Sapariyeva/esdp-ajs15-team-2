@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Flex, Modal, Typography } from 'antd';
+import { Flex, Typography } from 'antd';
 import { GameShowItem } from './GameShowItem';
+import Modal from "antd/es/modal/Modal";
 import { shuffle } from 'lodash';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { fetchShowCards } from '@/features/showCardSlice';
@@ -59,6 +60,7 @@ export function GameShow({ endGame, restartGame }: Props) {
         cards = cards.concat(showCards);
     }
     
+    console.log(cards);
     return shuffle(cards);
   }, [rotation, showCards]);
 
@@ -256,7 +258,6 @@ export function GameShow({ endGame, restartGame }: Props) {
     </>
   );
 }
-
 export interface IShowCard {
   id: number;
   title: string;

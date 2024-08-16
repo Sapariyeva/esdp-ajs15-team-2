@@ -21,6 +21,19 @@ const options: DataSourceOptions & SeederOptions = {
     factories: [UserFactory, CardFactory]
 }
 
+// const options: DataSourceOptions & SeederOptions = {
+//     type: 'mysql',
+//     host: 'localhost',
+//     port: 3306,
+//     username: 'root',
+//     password: "helloWorld123",
+//     database: 'project',
+//     synchronize: true,
+//     logging: true,
+//     entities: [`src/entities/*{.ts,.js}`],
+//     seeds: [ MainSeeder ],
+//     factories: [UserFactory, CardFactory]
+// }
 /**
  * Данная конфигурация нужна при запуске команды docker compose up
  */

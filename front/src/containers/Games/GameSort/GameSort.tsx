@@ -84,31 +84,31 @@ export function GameSort({ endGame, restartGame }: Props) {
         dispatch(fetchCards());
     }, [dispatch]);
 
-    // const duplicatedCards: ICard[] = useMemo(() => {
-    //     let cards: ICard[] = [];
-    //     for (let i = 0; i < rotation; i++) {
-    //         cards = cards.concat(cardsServer);
-    //     }
-    //     return shuffle(cards);
-    // }, [rotation, cardsServer]);
-
     const duplicatedCards: ICard[] = useMemo(() => {
-        const filteredCards = cardsServer.filter(card => selectedCategories.includes(card.category));
-    
-        let duplicated: ICard[] = [];
+        let cards: ICard[] = [];
         for (let i = 0; i < rotation; i++) {
-            duplicated = duplicated.concat(filteredCards);
+            cards = cards.concat(cardsServer);
         }
+        return shuffle(cards);
+    }, [rotation, cardsServer]);
+
+    // const duplicatedCards: ICard[] = useMemo(() => {
+    //     const filteredCards = cardsServer.filter(card => selectedCategories.includes(card.category));
     
-        return shuffle(duplicated);  // Перемешиваем карточки
-    }, [rotation, cardsServer, selectedCategories]);
+    //     let duplicated: ICard[] = [];
+    //     for (let i = 0; i < rotation; i++) {
+    //         duplicated = duplicated.concat(filteredCards);
+    //     }
+    
+    //     return shuffle(duplicated);  // Перемешиваем карточки
+    // }, [rotation, cardsServer, selectedCategories]);
 
     const [cards, setCards] = useState<ICard[]>(duplicatedCards);
 
-    // useEffect(() => {
-    //     const filteredCards = duplicatedCards.filter(card => selectedCategories.includes(card.category));
-    //     setCards(filteredCards);
-    // }, [duplicatedCards, selectedCategories]);
+    useEffect(() => {
+        const filteredCards = duplicatedCards.filter(card => selectedCategories.includes(card.category));
+        setCards(filteredCards);
+    }, [duplicatedCards, selectedCategories]);
 
     // Завершение игры
     useEffect(() => {
@@ -304,7 +304,7 @@ export function GameSort({ endGame, restartGame }: Props) {
                     </div>
                 )}
                 <div className="card-deck">
-                    {/* {cards.map((card) => (
+                    {cards.map((card) => (
                         <div
                             key={card.id}
                             draggable={true}
@@ -316,13 +316,13 @@ export function GameSort({ endGame, restartGame }: Props) {
                         >
                             <img src={card.image} alt={card.name} />
                         </div>
-                    ))} */}
-                    {cards.map((card, index) => {
+                    ))}
+                    {/* {cards.map((card) => {
                         if (!card) return null;
 
                         return (
                         <div
-                            key={`${card.id}-${index}`}
+                            key={card.id}
                             draggable={true}
                             onDragStart={(e) => dragStartHandler(e, card)}
                             onDragLeave={(e) => dragEndHandler(e)}
@@ -333,7 +333,7 @@ export function GameSort({ endGame, restartGame }: Props) {
                             <img src={card.image} alt={card.name} />
                         </div>
                     );
-                })}
+                })} */}
                 </div>
             </div>
             <Modal
