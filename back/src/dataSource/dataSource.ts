@@ -7,27 +7,13 @@ import { CardFactory } from "@/database/factories/card.factory";
 /**
  * Данная конфигурация нужна при запуске команды npm run dev
  */
-// const options: DataSourceOptions & SeederOptions = {
-//     type: 'mysql',
-//     host: 'localhost',
-//     port: 3306,
-//     username: 'igrovuz',
-//     password: "Igrovuz2024~!",
-//     database: 'esdp',
-//     synchronize: true,
-//     logging: true,
-//     entities: [`src/entities/*{.ts,.js}`],
-//     seeds: [ MainSeeder ],
-//     factories: [UserFactory]
-// }
-
 const options: DataSourceOptions & SeederOptions = {
     type: 'mysql',
     host: 'localhost',
     port: 3306,
-    username: 'root',
-    password: "helloWorld123",
-    database: 'project',
+    username: 'igrovuz',
+    password: "Igrovuz2024~!",
+    database: 'esdp',
     synchronize: true,
     logging: true,
     entities: [`src/entities/*{.ts,.js}`],
