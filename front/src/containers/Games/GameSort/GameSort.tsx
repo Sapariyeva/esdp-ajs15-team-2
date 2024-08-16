@@ -262,7 +262,7 @@ export function GameSort({ endGame, restartGame }: Props) {
     return (
         <div className="game">
             <div className="game-buttons">
-                <ButtonNav style={{ marginLeft: 30 }} type="close" onClick={endGame} size="sm"></ButtonNav>
+                <ButtonNav style={{ marginLeft: 30, marginTop: 30 }} type="close" onClick={endGame} size="sm"></ButtonNav>
                 {hints && (
                     <Button style={{ marginRight: 100, width: 136, height: 53 }} type="default" size="md" title="Подсказка" onClick={handleHint}></Button>
                 )}
