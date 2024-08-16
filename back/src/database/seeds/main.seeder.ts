@@ -2,9 +2,11 @@ import { DataSource } from 'typeorm';
 import { Seeder, SeederFactoryManager } from 'typeorm-extension';
 import { User } from '@/entities/user.entity';
 import bcrypt from 'bcrypt';
+import { Card } from '@/entities/card.entity';
 export default class MainSeeder implements Seeder {
     public async run(dataSource: DataSource, factoryManager: SeederFactoryManager): Promise<void> {
         const userFactory = factoryManager.get(User);
+        const cardFactory = factoryManager.get(Card);
 
         // Создаем статичного пользователя (админа)
         const salt = await bcrypt.genSalt(10);
@@ -21,5 +23,8 @@ export default class MainSeeder implements Seeder {
         // Создаем и сохраняем пять случайных пользователей
         const users = await userFactory.saveMany(5);
         await dataSource.getRepository(User).save(users);
+
+        const cards = await cardFactory.saveMany(7);
+        await dataSource.getRepository(Card).save(cards);
     };
 };

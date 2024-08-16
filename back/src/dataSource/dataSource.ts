@@ -2,22 +2,37 @@ import { DataSource, DataSourceOptions } from "typeorm";
 import { SeederOptions } from "typeorm-extension";
 import MainSeeder from "@/database/seeds/main.seeder";
 import { UserFactory } from "@/database/factories/user.factory";
+import { CardFactory } from "@/database/factories/card.factory";
 
 /**
  * Данная конфигурация нужна при запуске команды npm run dev
  */
+// const options: DataSourceOptions & SeederOptions = {
+//     type: 'mysql',
+//     host: 'localhost',
+//     port: 3306,
+//     username: 'igrovuz',
+//     password: "Igrovuz2024~!",
+//     database: 'esdp',
+//     synchronize: true,
+//     logging: true,
+//     entities: [`src/entities/*{.ts,.js}`],
+//     seeds: [ MainSeeder ],
+//     factories: [UserFactory]
+// }
+
 const options: DataSourceOptions & SeederOptions = {
     type: 'mysql',
     host: 'localhost',
     port: 3306,
-    username: 'igrovuz',
-    password: "Igrovuz2024~!",
-    database: 'esdp',
+    username: 'root',
+    password: "helloWorld123",
+    database: 'project',
     synchronize: true,
     logging: true,
     entities: [`src/entities/*{.ts,.js}`],
     seeds: [ MainSeeder ],
-    factories: [UserFactory]
+    factories: [UserFactory, CardFactory]
 }
 
 /**
