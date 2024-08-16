@@ -84,20 +84,31 @@ export function GameSort({ endGame, restartGame }: Props) {
         dispatch(fetchCards());
     }, [dispatch]);
 
+    // const duplicatedCards: ICard[] = useMemo(() => {
+    //     let cards: ICard[] = [];
+    //     for (let i = 0; i < rotation; i++) {
+    //         cards = cards.concat(cardsServer);
+    //     }
+    //     return shuffle(cards);
+    // }, [rotation, cardsServer]);
+
     const duplicatedCards: ICard[] = useMemo(() => {
-        let cards: ICard[] = [];
+        const filteredCards = cardsServer.filter(card => selectedCategories.includes(card.category));
+    
+        let duplicated: ICard[] = [];
         for (let i = 0; i < rotation; i++) {
-            cards = cards.concat(cardsServer);
+            duplicated = duplicated.concat(filteredCards);
         }
-        return shuffle(cards);
-    }, [rotation, cardsServer]);
+    
+        return shuffle(duplicated);  // Перемешиваем карточки
+    }, [rotation, cardsServer, selectedCategories]);
 
     const [cards, setCards] = useState<ICard[]>(duplicatedCards);
 
-    useEffect(() => {
-        const filteredCards = duplicatedCards.filter(card => selectedCategories.includes(card.category));
-        setCards(filteredCards);
-    }, [duplicatedCards, selectedCategories]);
+    // useEffect(() => {
+    //     const filteredCards = duplicatedCards.filter(card => selectedCategories.includes(card.category));
+    //     setCards(filteredCards);
+    // }, [duplicatedCards, selectedCategories]);
 
     // Завершение игры
     useEffect(() => {
@@ -293,7 +304,7 @@ export function GameSort({ endGame, restartGame }: Props) {
                     </div>
                 )}
                 <div className="card-deck">
-                    {cards.map((card) => (
+                    {/* {cards.map((card) => (
                         <div
                             key={card.id}
                             draggable={true}
@@ -305,7 +316,24 @@ export function GameSort({ endGame, restartGame }: Props) {
                         >
                             <img src={card.image} alt={card.name} />
                         </div>
-                    ))}
+                    ))} */}
+                    {cards.map((card, index) => {
+                        if (!card) return null;
+
+                        return (
+                        <div
+                            key={`${card.id}-${index}`}
+                            draggable={true}
+                            onDragStart={(e) => dragStartHandler(e, card)}
+                            onDragLeave={(e) => dragEndHandler(e)}
+                            onDragEnd={(e) => dragEndHandler(e)}
+                            onDragOver={(e) => dragOverHandler(e)}
+                            className="card"
+                        >
+                            <img src={card.image} alt={card.name} />
+                        </div>
+                    );
+                })}
                 </div>
             </div>
             <Modal
