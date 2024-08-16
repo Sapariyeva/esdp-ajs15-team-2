@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { IShowCard } from "@/containers/Games/GameShow/GameShow";
-import axiosApi from "@/api/axiosApi";
+import { axiosApiClient } from "../helpers/axiosApiClient";
+import { IShowCard } from "../components/GameShow";
 
 interface CardState {
   showCards: IShowCard[];
@@ -15,39 +15,39 @@ const initialState: CardState = {
 };
 
 export const fetchShowCards = createAsyncThunk(
-  "fetch/showCards",
-  async (selectedCategories: string[], { rejectWithValue }) => {
-    try {
-      const response = await axiosApi.get<IShowCard[]>("/cards/show", {
-        params: { category: selectedCategories },
-      });
-      console.log(response.data);
-      return response.data;
-    } catch (e) {
-      return rejectWithValue((e as Error)?.message);
+    'fetch/showCards',
+    async (selectedCategories: string[], { rejectWithValue }) => {
+      try {
+        const response = await axiosApiClient.get<IShowCard[]>('/cards/show', {
+          params: { category: selectedCategories }
+        });
+        console.log(response.data);
+        return response.data;
+      } catch (e) {
+        return rejectWithValue((e as Error)?.message);
+      }
     }
-  }
 );
 
-const showCardSlice = createSlice({
-  name: "showCards",
-  initialState,
-  reducers: {},
-  extraReducers(builder) {
-    builder
-      .addCase(fetchShowCards.fulfilled, (state, action) => {
+const showCardSlice = createSlice(
+  {
+    name: 'showCards',
+    initialState,
+    reducers: {},
+    extraReducers(builder) {
+      builder.addCase(fetchShowCards.fulfilled, (state, action) => {
         state.showCards = action.payload;
         console.log(state.showCards);
         state.loading = false;
-      })
-      .addCase(fetchShowCards.rejected, (state, action) => {
+      }).addCase(fetchShowCards.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error as Error;
       })
       .addCase(fetchShowCards.pending, (state) => {
         state.loading = true;
-      });
-  },
-});
+      })
+    },
+  }
+)
 
 export default showCardSlice.reducer;

@@ -5,10 +5,11 @@ import './GameShow.css';
 interface Props {
     card: IShowCard;
     check: (title: string) => void;
-    highlight?: boolean;
+    isHighlighted?: boolean;
+    isIncorrect?: boolean; 
 }
 
-export function GameShowItem({ card, check, highlight }: Props) {
+export function GameShowItem({ card, check, isHighlighted = false, isIncorrect = false }: Props) {
     const { image, category } = card;
 
     const handleClick = () => {
@@ -18,7 +19,7 @@ export function GameShowItem({ card, check, highlight }: Props) {
     return (
         <Card
             hoverable
-            className={`game-show-item-${highlight ? 'highlight' : ''}`}
+            className={`game-show-item ${isHighlighted ? 'highlight' : ''} ${isIncorrect ? 'incorrect' : ''}`}
             cover={<img alt="example" src={image} style={{ height: 280 }} />}
             onClick={handleClick}
             style={{

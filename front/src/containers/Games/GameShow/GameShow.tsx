@@ -1,12 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Flex, Typography } from 'antd';
 import { GameShowItem } from './GameShowItem';
-import { useAppDispatch, useAppSelector } from '@/app/hooks';
-import { ButtonNav } from '@/components/UI/ButtonNav/ButtonNav';
-import { Button } from '@/components/UI/Button/Button';
+import { useAppDispatch, useAppSelector } from '../app/hook';
+import { ButtonNav } from './UI/ButtonNav/ButtonNav';
+import { Button } from './UI/Button/Button';
 import Modal from "antd/es/modal/Modal";
-import { message } from "antd";
-import { fetchShowCards } from '@/features/showCardSlice';
+import { fetchShowCards } from '../features/ShowCardSlice';
 import { shuffle } from 'lodash';
 
 const { Title } = Typography;
@@ -41,6 +40,8 @@ export function GameShow({ endGame, restartGame }: Props) {
   const [hintCount, setHintCount] = useState<number>(0); 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [highlightCategory, setHighlightCategory] = useState<string | null>(null); 
+  const [highlightIncorrectCategory, setHighlightIncorrectCategory] = useState<string | null>(null); 
+  const [lastIndex, setLastIndex] = useState<number | null>(null);
 
   const encouragementImages: { [key: string]: string } = {
     'Смайлик': '../../public/gif/smile.gif',
@@ -65,11 +66,18 @@ export function GameShow({ endGame, restartGame }: Props) {
   const [cards, setCards] = useState<IShowCard[][]>(duplicatedCards);
 
   useEffect(() => {
-    setCards(duplicatedCards);
-  }, [duplicatedCards]);
+    if (duplicatedCards.length > 0) {
+      let newCards = [...duplicatedCards];
+      if (lastIndex !== null && newCards.length > 1) {
+        const currentIndex = newCards.findIndex((_, index) => index !== lastIndex);
+        newCards = [newCards[currentIndex], ...newCards.filter((_, index) => index !== currentIndex)];
+      }
+      setCards(newCards);
+      setLastIndex(newCards.length > 0 ? 0 : null);
+    }
+  }, [duplicatedCards, lastIndex]);
 
   useEffect(() => {
-    
     if (cards[currentIndex] && cards[currentIndex].length > 0) {
       const firstCardCategory = cards[currentIndex][0].category;
       setCategory(firstCardCategory);
@@ -133,12 +141,14 @@ export function GameShow({ endGame, restartGame }: Props) {
         if (encouragementSwitch && encouragementImages[encouragement]) {
             setShowGif(encouragementImages[encouragement]);
             setTimeout(() => setShowGif(null), 1000);
-        } else {
-            message.success('Верно');
         }
-          setCorrect(prev => prev + 1);
+        setHighlightCategory(cardCategory);
+        setCorrect(prev => prev + 1);
+        setTimeout(() => {
           handleNextArray();
+        }, 1000);
       } else {
+        setHighlightIncorrectCategory(cardCategory);
           setIncorrect(prev => {
             const newIncorrect = prev + 1;
             if (hints && newIncorrect >= autoHints) {
@@ -147,7 +157,9 @@ export function GameShow({ endGame, restartGame }: Props) {
                 setHints(false); 
               }
             }
-            handleNextArray();
+            setTimeout(() => {
+              handleNextArray();
+            }, 1000);
             return newIncorrect;
           });
       }
@@ -156,12 +168,14 @@ export function GameShow({ endGame, restartGame }: Props) {
         if (encouragementSwitch && encouragementImages[encouragement]) {
           setShowGif(encouragementImages[encouragement]);
           setTimeout(() => setShowGif(null), 1000);
-        } else {
-            message.success('Верно');
         }
-          setCorrect(prev => prev + 1);
+        setHighlightCategory(cardCategory);
+        setCorrect(prev => prev + 1);
+        setTimeout(() => {
           handleNextArray();
+        }, 1000);
       } else {
+        setHighlightIncorrectCategory(cardCategory);
         setIncorrect(prev => {
           const newIncorrect = prev + 0;
           if (hints && newIncorrect >= autoHints) {
@@ -170,8 +184,12 @@ export function GameShow({ endGame, restartGame }: Props) {
               setHints(false); 
             }
           }
-          message.success('Попробуй еще раз');
-          shuffle(cards[currentIndex]);
+          setCards(prevCards => {
+            const updatedCards = [...prevCards];
+            const currentCategory = updatedCards[currentIndex][0].category;
+            updatedCards[currentIndex] = shuffle(updatedCards[currentIndex].map(card => ({ ...card, category: currentCategory })));
+            return updatedCards;
+          });
           return newIncorrect;
         });
       }
@@ -201,22 +219,17 @@ export function GameShow({ endGame, restartGame }: Props) {
           <Title>{category}</Title>
         </Flex>
         <Flex wrap="wrap" gap="large" justify="center">
-          {cards[currentIndex] && (isErrorlessLearning
-          ? cards[currentIndex].map((card) => (
+          {cards[currentIndex] && cards[currentIndex].length > 0 ? (
+            cards[currentIndex].map((card) => (
             <GameShowItem 
                   key={card.id} 
                   card={card} 
                   check={check}
+                  isHighlighted={highlightCategory === card.category}
+                  isIncorrect={highlightIncorrectCategory === card.category}
                 />
-            ))
-          : cards[currentIndex].map((card) => (
-              <GameShowItem 
-                key={card.id} 
-                card={card} 
-                check={check}
-                highlight={highlightCategory === card.category}
-              />
-          )))}
+            ))) : null
+          }
         </Flex>
         <Modal
           open={showAnimation}

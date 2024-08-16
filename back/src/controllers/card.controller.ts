@@ -37,7 +37,6 @@ export class CardController {
         : category
           ? [category as string]
           : [];
-
       const cards = await this.service.getShowCards(categoriesArray);
       res.send(cards);
     } catch (e) {

@@ -1,4 +1,4 @@
-.game-show-item-highlight::after {
+.highlight::after {
     content: '';
     position: absolute;
     top: 0;
@@ -10,7 +10,7 @@
     pointer-events: none;
 }
 
-.game-show-item-incorrect::after {
+.incorrect::after {
     content: '';
     position: absolute;
     top: 0;

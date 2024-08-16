@@ -21,64 +21,50 @@ export class CardService {
     return await this.repository.getAllCards();
   };
 
+  getUniqueCards(cards: Card[], count: number): Card[] {
+    const uniqueCardIds = new Set<number>();
+    const uniqueCards: Card[] = [];
+
+    for (const card of cards) {
+      if (uniqueCards.length >= count) break;
+      if (!uniqueCardIds.has(card.id)) {
+        uniqueCards.push(card);
+        uniqueCardIds.add(card.id);
+      }
+    }
+
+    return uniqueCards;
+  }
+
   getShowCards = async (category: string[]): Promise<Card[][]> => {
-    const matchedCards = await this.repository.getAllCardsByTitle(category);
+   
+    const allCards = await this.repository.find();
     
-    const getCards = async () => {
-      const randomCards = await this.repository.getShowCards();
-      return randomCards;
-    };
+    const categoryCards = category.map(categories => 
+      allCards.filter(card => card.category === categories)
+    );
+
+    const excludeCategories = new Set(category);
+    const filteredCards = allCards.filter(card => !excludeCategories.has(card.category));
+
+    if (filteredCards.length < 2 * category.length) {
+      throw new Error('Не хватает карточек для выполнения запроса');
+    }
+
+    const shuffledFilteredCards = filteredCards.sort(() => 0.5 - Math.random());
 
     const result: Card[][] = [];
 
-    for (const card of matchedCards) {
-      const randomCards = await getCards();
+    for (const categoryCardList of categoryCards) {
+      const neededRandomCount = 3 - categoryCardList.length;
+      const randomCards = this.getUniqueCards(shuffledFilteredCards, neededRandomCount);
+      const uniqueCards = this.getUniqueCards([...categoryCardList, ...randomCards], 3);
 
-      const uniqueCardIds = new Set<number>();
-      const uniqueCardSet: Card[] = [];
+      result.push(uniqueCards);
 
-      if (!uniqueCardIds.has(card.id)) {
-        uniqueCardSet.push({
-          id: card.id,
-          image: card.image,
-          title: card.title,
-          category: card.category,
-          video: card.video
-        });
-        uniqueCardIds.add(card.id);
-      }
-
-      for (const randCard of randomCards) {
-        if (uniqueCardSet.length >= 3) break;
-
-        if (!uniqueCardIds.has(randCard.id)) {
-          uniqueCardSet.push({
-            id: randCard.id,
-            image: randCard.image,
-            title: randCard.title,
-            category: randCard.category,
-            video: randCard.video
-          });
-          uniqueCardIds.add(randCard.id);
-        }
-      }
-
-      while (uniqueCardSet.length < 3) {
-        const randCard = randomCards[Math.floor(Math.random() * randomCards.length)];
-        
-        if (!uniqueCardIds.has(randCard.id)) {
-          uniqueCardSet.push({
-            id: randCard.id,
-            image: randCard.image,
-            title: randCard.title,
-            category: randCard.category,
-            video: randCard.video
-          });
-          uniqueCardIds.add(randCard.id);
-        }
-      }
-      result.push(uniqueCardSet);
+      shuffledFilteredCards.splice(0, neededRandomCount);
     }
+
     return result;
   };
 
