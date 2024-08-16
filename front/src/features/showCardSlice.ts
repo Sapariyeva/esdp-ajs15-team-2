@@ -1,6 +1,6 @@
+import axiosApi from "@/api/axiosApi";
+import { IShowCard } from "@/containers/Games/GameShow/GameShow";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { axiosApiClient } from "../helpers/axiosApiClient";
-import { IShowCard } from "../components/GameShow";
 
 interface CardState {
   showCards: IShowCard[];
@@ -18,7 +18,7 @@ export const fetchShowCards = createAsyncThunk(
     'fetch/showCards',
     async (selectedCategories: string[], { rejectWithValue }) => {
       try {
-        const response = await axiosApiClient.get<IShowCard[]>('/cards/show', {
+        const response = await axiosApi.get<IShowCard[]>('/cards/show', {
           params: { category: selectedCategories }
         });
         console.log(response.data);
