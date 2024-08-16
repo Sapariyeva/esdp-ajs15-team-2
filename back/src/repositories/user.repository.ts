@@ -1,6 +1,6 @@
 import { Repository } from "typeorm";
-import { User } from "@/entities/user.entity";
-import { appDataSource } from "@/dataSource/dataSource";
+import { User } from "../entities/user.entity";
+import { appDataSource } from "../dataSource/dataSource";
 
 export class UserRepository extends Repository<User> {
     constructor() {
