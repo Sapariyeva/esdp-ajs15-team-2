@@ -22,7 +22,7 @@ const options: DataSourceOptions & SeederOptions = {
     database: 'esdp',
     synchronize: true,
     logging: true,
-    entities: [process.env.npm_lifecycle_script?.startsWith('cross-env NODE_ENV=development') ? `src/entities/*{.ts,.js}` : path.join(__dirname, `/*.js`)],
+    entities: [`src/entities/*{.js,.ts}`],
     seeds: [MainSeeder],
     factories: [UserFactory]
 }
