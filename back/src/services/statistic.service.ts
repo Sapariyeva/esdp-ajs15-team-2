@@ -1,8 +1,8 @@
-import { StatisticDto } from '@/dto/statistic.dto';
-import { Statistic } from '@/entities/statistic.entity';
-import { formatErrors } from '@/helpers/formatErrors';
-import { IUpdateStatistic } from '@/interfaces/IUpdateStatistic';
-import { StatisticRepository } from '@/repositories/statistic.repository';
+import { StatisticDto } from '../dto/statistic.dto';
+import { Statistic } from '../entities/statistic.entity';
+import { formatErrors } from '../helpers/formatErrors';
+import { IUpdateStatistic } from '../interfaces/IUpdateStatistic';
+import { StatisticRepository } from '../repositories/statistic.repository';
 import { validate } from 'class-validator';
 
 export class StatisticService {

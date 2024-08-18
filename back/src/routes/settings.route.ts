@@ -1,7 +1,7 @@
-import { SettingsController } from '@/controllers/settings.controller';
-import { IRoute } from '@/interfaces/IRoute.interface';
+import { SettingsController } from '../controllers/settings.controller';
+import { IRoute } from '../interfaces/IRoute.interface';
 import { Router } from 'express';
-import { upload } from '@/middlewares/upload';
+import { upload } from '../middlewares/upload';
 export class SettingsRoute implements IRoute {
     public path = '/settings';
     public router = Router();

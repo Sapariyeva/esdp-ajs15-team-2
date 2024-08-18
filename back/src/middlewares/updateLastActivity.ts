@@ -1,6 +1,6 @@
 import { NextFunction, Response } from "express";
-import { IRequestWithUser } from "@/interfaces/IRequestWithUser.interface";
-import { IUser } from "@/interfaces/IUser.interface";
+import { IRequestWithUser } from "../interfaces/IRequestWithUser.interface";
+import { IUser } from "../interfaces/IUser.interface";
 
 export const updateLastActivity = (
   req: IRequestWithUser,

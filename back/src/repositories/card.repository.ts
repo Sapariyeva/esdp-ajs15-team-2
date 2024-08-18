@@ -1,7 +1,7 @@
-import { appDataSource } from '@/dataSource/dataSource';
-import { CardDto } from '@/dto/card.dto';
-import { Card } from '@/entities/card.entity';
-import { IUpdateCard } from '@/interfaces/IUpdateCard';
+import { appDataSource } from '../dataSource/dataSource';
+import { CardDto } from '../dto/card.dto';
+import { Card } from '../entities/card.entity';
+import { IUpdateCard } from '../interfaces/IUpdateCard';
 import { In, Repository } from 'typeorm';
 
 export class CardRepository extends Repository<Card> {

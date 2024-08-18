@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
 import { plainToInstance } from "class-transformer";
-import { SurveyService } from "@/services/survey.service";
-import { SurveyDto } from "@/dto/survey.dto";
+import { SurveyService } from "../services/survey.service";
+import { SurveyDto } from "../dto/survey.dto";
 
 export class SurveyController {
     private service: SurveyService;

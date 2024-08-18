@@ -1,4 +1,4 @@
-import { CardDto } from '@/dto/card.dto';
+import { CardDto } from '../dto/card.dto';
 
 export interface IUpdateCard {
   id: number;

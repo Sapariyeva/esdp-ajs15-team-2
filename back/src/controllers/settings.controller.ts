@@ -1,9 +1,9 @@
 import { RequestHandler } from 'express';
 import { plainToInstance } from 'class-transformer';
-import { IUser } from "@/interfaces/IUser.interface";
+import { IUser } from "../interfaces/IUser.interface";
 
-import { SettingsDto } from '@/dto/settings.dto';
-import { SettingsService } from '@/services/settings.service';
+import { SettingsDto } from '../dto/settings.dto';
+import { SettingsService } from '../services/settings.service';
 
 
 export interface RequestWithUser extends Request {

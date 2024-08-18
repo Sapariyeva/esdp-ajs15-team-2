@@ -1,6 +1,6 @@
-import { appDataSource } from "@/dataSource/dataSource";
-import { SettingsDto } from "@/dto/settings.dto";
-import { Settings } from "@/entities/settings.entity";
+import { appDataSource } from "../dataSource/dataSource";
+import { SettingsDto } from "../dto/settings.dto";
+import { Settings } from "../entities/settings.entity";
 import { Repository } from "typeorm";
 
 export class SettingsRepository extends Repository<Settings> {

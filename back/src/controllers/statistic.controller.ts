@@ -1,5 +1,5 @@
-import { StatisticDto } from '@/dto/statistic.dto';
-import { StatisticService } from '@/services/statistic.service';
+import { StatisticDto } from '../dto/statistic.dto';
+import { StatisticService } from '../services/statistic.service';
 import { plainToInstance } from 'class-transformer';
 import { RequestHandler } from 'express';
 

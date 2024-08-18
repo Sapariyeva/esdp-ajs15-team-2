@@ -1,4 +1,4 @@
-import { StatisticDto } from '@/dto/statistic.dto';
+import { StatisticDto } from '../dto/statistic.dto';
 
 export interface IUpdateStatistic {
   id: number;

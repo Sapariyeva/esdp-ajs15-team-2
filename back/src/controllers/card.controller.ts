@@ -1,5 +1,5 @@
-import { CardDto } from '@/dto/card.dto';
-import { CardService } from '@/services/card.service';
+import { CardDto } from '../dto/card.dto';
+import { CardService } from '../services/card.service';
 import { plainToInstance } from 'class-transformer';
 import { RequestHandler } from 'express';
 

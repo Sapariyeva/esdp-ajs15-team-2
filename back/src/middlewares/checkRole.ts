@@ -1,5 +1,5 @@
 import { NextFunction, Response } from 'express';
-import { IRequestWithUser } from '@/interfaces/IRequestWithUser.interface';
+import { IRequestWithUser } from '../interfaces/IRequestWithUser.interface';
 
 export function checkRole(...allowedRoles: string[]) {
   return (req: IRequestWithUser, res: Response, next: NextFunction) => {

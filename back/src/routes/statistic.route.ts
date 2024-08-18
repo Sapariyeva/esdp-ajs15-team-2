@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { IRoute } from '@/interfaces/IRoute.interface';
-import { StatisticController } from '@/controllers/statistic.controller';
+import { IRoute } from '../interfaces/IRoute.interface';
+import { StatisticController } from '../controllers/statistic.controller';
 
 export class StatisticRoute implements IRoute {
   public path = '/statistic';

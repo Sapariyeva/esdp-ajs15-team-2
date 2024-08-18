@@ -1,8 +1,8 @@
-import { SettingsDto } from "@/dto/settings.dto";
-import { SettingsRepository } from "@/repositories/settings.repository";
+import { SettingsDto } from "../dto/settings.dto";
+import { SettingsRepository } from "../repositories/settings.repository";
 import { validate } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
-import { formatErrors } from "@/helpers/formatErrors";
+import { formatErrors } from "../helpers/formatErrors";
 
 interface ISettings {
     id: number,

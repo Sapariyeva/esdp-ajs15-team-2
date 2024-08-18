@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import { IRoute } from '@/interfaces/IRoute.interface';
-import { CardController } from '@/controllers/card.controller';
-import { upload } from '@/middlewares/upload';
-import { checkRole } from '@/middlewares/checkRole';
+import { IRoute } from '../interfaces/IRoute.interface';
+import { CardController } from '../controllers/card.controller';
+import { upload } from '../middlewares/upload';
+import { checkRole } from '../middlewares/checkRole';
 
 
 export class CardRoute implements IRoute {

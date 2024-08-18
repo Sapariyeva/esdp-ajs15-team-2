@@ -1,8 +1,8 @@
 import request from "supertest";
 import express, { Request, Response, NextFunction } from "express";
 import { updateLastActivity } from "./updateLastActivity";
-import { IRequestWithUser } from "@/interfaces/IRequestWithUser.interface";
-import { IUser } from "@/interfaces/IUser.interface";
+import { IRequestWithUser } from "../interfaces/IRequestWithUser.interface";
+import { IUser } from "../interfaces/IUser.interface";
 
 // Функция для создания объекта пользователя
 const createTestUser = (): IUser => ({

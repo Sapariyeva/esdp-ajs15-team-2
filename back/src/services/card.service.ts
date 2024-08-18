@@ -1,8 +1,8 @@
-import { CardDto } from '@/dto/card.dto';
-import { Card } from '@/entities/card.entity';
-import { formatErrors } from '@/helpers/formatErrors';
-import { IUpdateCard } from '@/interfaces/IUpdateCard';
-import { CardRepository } from '@/repositories/card.repository';
+import { CardDto } from '../dto/card.dto';
+import { Card } from '../entities/card.entity';
+import { formatErrors } from '../helpers/formatErrors';
+import { IUpdateCard } from '../interfaces/IUpdateCard';
+import { CardRepository } from '../repositories/card.repository';
 import { validate } from 'class-validator';
 import { plainToInstance } from 'class-transformer';
 
