@@ -16,7 +16,7 @@ const options: DataSourceOptions & SeederOptions = {
     database: 'esdp',
     synchronize: true,
     logging: true,
-    entities: [`dist/entities/*{.ts,.js}`],
+    entities: [`dist/entities/**/*.js`],
     seeds: [MainSeeder],
     factories: [UserFactory]
 }
