@@ -2,10 +2,10 @@ import { RequestHandler } from "express";
 import { validate } from "class-validator";
 import { plainToInstance } from "class-transformer";
 import passport from 'passport';
-import { LoginDto, ResetPasswordDto, ResetPasswordRequestDto, UserDto, UsernameDto } from "@/dto/user.dto";
-import { UserService } from "@/services/user.service";
-import { formatErrors } from "@/helpers/formatErrors";
-import { IRequestWithUser } from "@/interfaces/IRequestWithUser.interface";
+import { LoginDto, ResetPasswordDto, ResetPasswordRequestDto, UserDto, UsernameDto } from "../dto/user.dto";
+import { UserService } from "../services/user.service";
+import { formatErrors } from "../helpers/formatErrors";
+import { IRequestWithUser } from "../interfaces/IRequestWithUser.interface";
 
 export class UserController {
   private service: UserService;
