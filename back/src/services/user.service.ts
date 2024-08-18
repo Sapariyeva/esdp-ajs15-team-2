@@ -1,10 +1,10 @@
 import bcrypt from 'bcrypt';
 import { randomUUID } from "crypto";
-import { User } from "@/entities/user.entity";
-import { UserRepository } from "@/repositories/user.repository";
-import { IUser } from "@/interfaces/IUser.interface";
-import { LoginDto, ResetPasswordDto } from "@/dto/user.dto";
-import { sendMessageByMail } from "@/middlewares/sendMessagesByMail";
+import { User } from "../entities/user.entity";
+import { UserRepository } from "../repositories/user.repository";
+import { IUser } from "../interfaces/IUser.interface";
+import { LoginDto, ResetPasswordDto } from "../dto/user.dto";
+import { sendMessageByMail } from "../middlewares/sendMessagesByMail";
 
 const SALT_WORK_FACTORY = 10;
 
