@@ -16,7 +16,4 @@ const app = new App({
     controllers: [ new UserRoute(), new CardRoute(), new StatisticRoute(), new SurveyRoute(),new SettingsRoute() ],
 });
 
-console.log('PROCESS_ENV=====' ,process.env);
-
-
 app.listen();
