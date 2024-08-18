@@ -1,6 +1,7 @@
 import { DataSource, DataSourceOptions } from "typeorm";
 import { SeederOptions } from "typeorm-extension";
 import MainSeeder from "../database/seeds/main.seeder";
+// import { User } from "../entities/user.entity";
 import { UserFactory } from "../database/factories/user.factory";
 
 /**
@@ -15,7 +16,7 @@ const options: DataSourceOptions & SeederOptions = {
     database: 'esdp',
     synchronize: true,
     logging: true,
-    entities: [`src/entities/*{.ts,.js}`],
+    entities: [`dist/entities/*{.ts,.js}`],
     seeds: [MainSeeder],
     factories: [UserFactory]
 }

@@ -43,7 +43,7 @@ export class UserRepository extends Repository<User> {
     }
 
     // Функция для получения всех пользователей
-    async getUsers(): Promise<any[]> {
+    async getUsers(): Promise<User[]> {
         return await this.find()
     }
 }
