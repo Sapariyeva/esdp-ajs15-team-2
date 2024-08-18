@@ -1,3 +1,4 @@
+console.log('PROCESS_ENV=====', process.env);
 import express from 'express';
 import { Application, RequestHandler } from 'express';
 import session from 'express-session';
