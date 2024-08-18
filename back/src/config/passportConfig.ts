@@ -6,6 +6,9 @@ import path from 'node:path';
 import fs from 'node:fs';
 
 const GOOGLE_CLIENT_ID = () => {
+    console.log(__dirname);
+    console.log(path.join(__dirname, './.env'));
+    
     if (!process.env.GOOGLE_CLIENT_ID) {
         const data = fs.readFileSync(path.join(__dirname, './.env'));
         console.log(data);
