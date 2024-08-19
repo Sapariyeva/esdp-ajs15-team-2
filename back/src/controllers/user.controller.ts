@@ -55,12 +55,16 @@ export class UserController {
   // Аутентификация пользователя
   loginUser: RequestHandler = async (req, res): Promise<void> => {
     try {
+        console.log("before loginUserDto ==========", req.body);
         const loginUserDto = plainToInstance(LoginDto, req.body);
+        console.log("after loginUserDto ==========");
         const user = await this.service.loginUser(loginUserDto);
+        console.log("after loginUser ==========");
         if (user) {
           res.send(user);
           return;
         }
+        console.log("after userCheck ==========");
         res.status(401).send({ error: { message: 'Ошибка данных' } });
     } catch (e) {
         res.status(401).send({ error: { message: (e as Error).message}});
