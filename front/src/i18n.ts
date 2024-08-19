@@ -10,6 +10,7 @@ i18n
   .init({
     debug: true,
     fallbackLng: "ru",
+    saveMissing: true,
     lng: localStorage.getItem('i18nextLng') || 'ru', // Инициализация языка из localStorage
     backend: {
       loadPath: "src/locales/{{lng}}/translation.json",
