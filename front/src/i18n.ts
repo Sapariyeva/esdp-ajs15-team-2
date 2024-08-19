@@ -13,7 +13,7 @@ i18n
     saveMissing: true,
     lng: localStorage.getItem('i18nextLng') || 'ru', // Инициализация языка из localStorage
     backend: {
-      loadPath: "src/locales/{{lng}}/translation.json",
+      loadPath: "/locales/{{lng}}/translation.json",
     },
   });
 
