@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
 import { validate } from "class-validator";
 import { plainToInstance } from "class-transformer";
-import passport from 'passport';
+import passport, { use } from 'passport';
 import { LoginDto, ResetPasswordDto, ResetPasswordRequestDto, UserDto, UsernameDto } from "../dto/user.dto";
 import { UserService } from "../services/user.service";
 import { formatErrors } from "../helpers/formatErrors";
@@ -57,14 +57,14 @@ export class UserController {
     try {
         console.log("before loginUserDto ==========", req.body);
         const loginUserDto = plainToInstance(LoginDto, req.body);
-        console.log("after loginUserDto ==========");
+        console.log("after loginUserDto ==========", loginUserDto);
         const user = await this.service.loginUser(loginUserDto);
-        console.log("after loginUser ==========");
+        console.log("after loginUser ==========", user);
         if (user) {
           res.send(user);
           return;
         }
-        console.log("after userCheck ==========");
+        console.log("after userCheck ==========", user);
         res.status(401).send({ error: { message: 'Ошибка данных' } });
     } catch (e) {
         res.status(401).send({ error: { message: (e as Error).message}});
