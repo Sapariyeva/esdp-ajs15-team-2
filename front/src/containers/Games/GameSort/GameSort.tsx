@@ -58,9 +58,9 @@ export function GameSort({ endGame, restartGame }: Props) {
     const [hintCount, setHintCount] = useState<number>(0); 
     const [hints, setHints] = useState<boolean>(hintsEnabled); 
     const [dropZones, setDropZones] = useState<DropZone[]>([
-        { category: 'jump', image: jump },
-        { category: 'shout', image: shout },
-        { category: 'fly', image: fly }
+        { category: 'Прыгать', image: jump },
+        { category: 'Кричать', image: shout },
+        { category: 'Летать', image: fly }
     ]); // Начальные зоны для сброса карт
     const [successMessage, setSuccessMessage] = useState<string>(""); 
     const [showGif, setShowGif] = useState<string | null>(null); 
@@ -91,17 +91,6 @@ export function GameSort({ endGame, restartGame }: Props) {
         }
         return shuffle(cards);
     }, [rotation, cardsServer]);
-
-    // const duplicatedCards: ICard[] = useMemo(() => {
-    //     const filteredCards = cardsServer.filter(card => selectedCategories.includes(card.category));
-    
-    //     let duplicated: ICard[] = [];
-    //     for (let i = 0; i < rotation; i++) {
-    //         duplicated = duplicated.concat(filteredCards);
-    //     }
-    
-    //     return shuffle(duplicated);  // Перемешиваем карточки
-    // }, [rotation, cardsServer, selectedCategories]);
 
     const [cards, setCards] = useState<ICard[]>(duplicatedCards);
 
@@ -317,23 +306,6 @@ export function GameSort({ endGame, restartGame }: Props) {
                             <img src={card.image} alt={card.name} />
                         </div>
                     ))}
-                    {/* {cards.map((card) => {
-                        if (!card) return null;
-
-                        return (
-                        <div
-                            key={card.id}
-                            draggable={true}
-                            onDragStart={(e) => dragStartHandler(e, card)}
-                            onDragLeave={(e) => dragEndHandler(e)}
-                            onDragEnd={(e) => dragEndHandler(e)}
-                            onDragOver={(e) => dragOverHandler(e)}
-                            className="card"
-                        >
-                            <img src={card.image} alt={card.name} />
-                        </div>
-                    );
-                })} */}
                 </div>
             </div>
             <Modal

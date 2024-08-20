@@ -24,7 +24,7 @@ export default class MainSeeder implements Seeder {
         const users = await userFactory.saveMany(5);
         await dataSource.getRepository(User).save(users);
 
-        const cards = await cardFactory.saveMany(7);
+        const cards = await cardFactory.saveMany(10);
         await dataSource.getRepository(Card).save(cards);
     };
 };

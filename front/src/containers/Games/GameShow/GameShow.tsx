@@ -59,9 +59,8 @@ export function GameShow({ endGame, restartGame }: Props) {
     for (let i = 0; i < rotation; i++) {
         cards = cards.concat(showCards);
     }
-    
-    console.log(cards);
-    return shuffle(cards);
+        
+    return cards;
   }, [rotation, showCards]);
 
   const [cards, setCards] = useState<IShowCard[][]>(duplicatedCards);
@@ -115,7 +114,7 @@ export function GameShow({ endGame, restartGame }: Props) {
       setCurrentIndex(currentIndex + 1);
     } else {
       setIsModalVisible(true);
-    } 
+    }
   };
 
   const handleHint = () => {
@@ -147,6 +146,7 @@ export function GameShow({ endGame, restartGame }: Props) {
         setCorrect(prev => prev + 1);
         setTimeout(() => {
           handleNextArray();
+          setHighlightCategory(null);
         }, 1000);
       } else {
         setHighlightIncorrectCategory(cardCategory);
@@ -160,6 +160,7 @@ export function GameShow({ endGame, restartGame }: Props) {
             }
             setTimeout(() => {
               handleNextArray();
+              setHighlightIncorrectCategory(null);
             }, 1000);
             return newIncorrect;
           });
@@ -174,6 +175,7 @@ export function GameShow({ endGame, restartGame }: Props) {
         setCorrect(prev => prev + 1);
         setTimeout(() => {
           handleNextArray();
+          setHighlightCategory(null);
         }, 1000);
       } else {
         setHighlightIncorrectCategory(cardCategory);
@@ -191,16 +193,23 @@ export function GameShow({ endGame, restartGame }: Props) {
             updatedCards[currentIndex] = shuffle(updatedCards[currentIndex].map(card => ({ ...card, category: currentCategory })));
             return updatedCards;
           });
+          setHighlightIncorrectCategory(null);
           return newIncorrect;
         });
       }
     }
-  }
+  };
 
   function calculateSuccessPercentage(correct: number, incorrect: number) {
     const total = correct + incorrect;
     return total === 0 ? 0 : (correct / total) * 100;
   }
+
+  const shuffledCards = useMemo(() => {
+    return cards[currentIndex]?.length > 0 
+      ? shuffle(cards[currentIndex])
+      : [];
+  }, [cards, currentIndex]);
 
   return (
     <>
@@ -220,17 +229,15 @@ export function GameShow({ endGame, restartGame }: Props) {
           <Title>{category}</Title>
         </Flex>
         <Flex wrap="wrap" gap="large" justify="center">
-          {cards[currentIndex] && cards[currentIndex].length > 0 ? (
-            cards[currentIndex].map((card) => (
-            <GameShowItem 
-                  key={card.id} 
-                  card={card} 
-                  check={check}
-                  isHighlighted={highlightCategory === card.category}
-                  isIncorrect={highlightIncorrectCategory === card.category}
-                />
-            ))) : null
-          }
+          {shuffledCards.map((card) => (
+          <GameShowItem 
+            key={card.id} 
+            card={card} 
+            check={check}
+            isHighlighted={highlightCategory === card.category}
+            isIncorrect={highlightIncorrectCategory === card.category}
+          />
+        ))}
         </Flex>
         <Modal
           open={showAnimation}

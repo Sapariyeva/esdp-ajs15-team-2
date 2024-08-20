@@ -48,6 +48,24 @@ export const CardFactory = setSeederFactory(Card, async() => {
             video: '123',
             category: 'Грустить',
         },
+        {
+            title: 'happy',
+            image: 'https://avatars.dzeninfra.ru/get-zen_doc/3414159/pub_60221b10d1d01a0cf87f11dd_602611ddfa0bd9159a560b20/scale_1200',
+            video: '123',
+            category: 'Радоваться',
+        },
+        {
+            title: 'laugh',
+            image: 'https://st3.depositphotos.com/1857171/32584/i/450/depositphotos_325844722-stock-photo-portrait-of-joyful-positive-man.jpg',
+            video: '123',
+            category: 'Смеяться',
+        },
+        {
+            title: 'walk',
+            image: 'https://www.shutterstock.com/image-photo/full-length-profile-shot-young-260nw-2221881113.jpg',
+            video: '123',
+            category: 'Идти',
+        },
     ]
 
     if (currentIndex >= cards.length) {

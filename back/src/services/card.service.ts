@@ -21,48 +21,35 @@ export class CardService {
     return await this.repository.getAllCards();
   };
 
-  getUniqueCards(cards: Card[], count: number): Card[] {
-    const uniqueCardIds = new Set<number>();
-    const uniqueCards: Card[] = [];
-
-    for (const card of cards) {
-      if (uniqueCards.length >= count) break;
-      if (!uniqueCardIds.has(card.id)) {
-        uniqueCards.push(card);
-        uniqueCardIds.add(card.id);
-      }
-    }
-
-    return uniqueCards;
+  shuffleArray<T>(array: T[]): T[] {
+    return array.sort(() => Math.random() - 0.5);
   }
 
-  getShowCards = async (category: string[]): Promise<Card[][]> => {
-   
-    const allCards = await this.repository.find();
-    
-    const categoryCards = category.map(categories => 
-      allCards.filter(card => card.category === categories)
-    );
+  getShowCards = async (titles: string[]): Promise<any[]> => {
+    const cardsPerSet = 3;
+    const matchedCards = await this.repository.getAllCardsByTitle(titles);
+    const allCards = await this.repository.getShowCards();
+    const result: any[] = [];
 
-    const excludeCategories = new Set(category);
-    const filteredCards = allCards.filter(card => !excludeCategories.has(card.category));
+    for (const card of matchedCards) {
+        const remainingCards = allCards.filter(c => c.id !== card.id);
+        if (remainingCards.length < cardsPerSet - 1) {
+            throw new Error('Недостаточно карточек в базе данных для формирования набора');
+        }
 
-    if (filteredCards.length < 2 * category.length) {
-      throw new Error('Не хватает карточек для выполнения запроса');
-    }
+        const randomCards = this.shuffleArray(remainingCards).slice(0, cardsPerSet - 1);
 
-    const shuffledFilteredCards = filteredCards.sort(() => 0.5 - Math.random());
+        const cardSet = [
+            { id: card.id, image: card.image, title: card.title, category: card.category },
+            ...randomCards.map(randomCard => ({
+                id: randomCard.id,
+                image: randomCard.image,
+                title: randomCard.title,
+                category: randomCard.category,
+            }))
+        ];
 
-    const result: Card[][] = [];
-
-    for (const categoryCardList of categoryCards) {
-      const neededRandomCount = 3 - categoryCardList.length;
-      const randomCards = this.getUniqueCards(shuffledFilteredCards, neededRandomCount);
-      const uniqueCards = this.getUniqueCards([...categoryCardList, ...randomCards], 3);
-
-      result.push(uniqueCards);
-
-      shuffledFilteredCards.splice(0, neededRandomCount);
+        result.push(cardSet);
     }
 
     return result;

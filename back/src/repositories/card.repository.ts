@@ -22,7 +22,7 @@ export class CardRepository extends Repository<Card> {
   }
 
   async getShowCards(): Promise<Card[]> {
-    return await this.createQueryBuilder().where({}).orderBy('RAND()').take(2).getMany();
+    return await this.find();
   }
 
   async getCard(id: number) {
