@@ -104,10 +104,11 @@ export class UserController {
     
     try {
       const user = await this.service.confirmEmail(token, req.language);
+      const lang = req.language || 'en';
       if (user) {
         res.status(200).send(`<h1 
           style="text-align: center; margin-top: 20%; color: #9069cd;"
-        >Регистрация пройдена успешно!</h1>
+        >${i18next.t('registration_successful_message', { lng: lang })}</h1>
         <script>
           setTimeout(() => {
             window.closed = true;
@@ -117,7 +118,7 @@ export class UserController {
       } else {
         res.status(400).send(`<h1 
           style="text-align: center; margin-top: 20%; color: #9069cd;"
-        >Ссылка недействительна</h1>
+        >${i18next.t('invalid_link_message', { lng: lang })}</h1>
         <script>
           setTimeout(() => {
             window.closed = true;
