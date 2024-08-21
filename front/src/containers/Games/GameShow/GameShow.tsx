@@ -113,7 +113,15 @@ export function GameShow({ endGame, restartGame }: Props) {
     if (currentIndex < cards.length - 1) {
       setCurrentIndex(currentIndex + 1);
     } else {
-      setIsModalVisible(true);
+      if (interactiveEnd) { // Если включена интерактивная концовка
+        setShowAnimation(true);
+        setTimeout(() => {
+            setShowAnimation(false);
+            setIsModalVisible(true); // Модальное окно о резултате игры
+        }, 2000); 
+      } else {
+          setIsModalVisible(true);
+      }    
     }
   };
 
