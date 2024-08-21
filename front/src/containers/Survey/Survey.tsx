@@ -1,18 +1,21 @@
 import { Container, Grid, useMediaQuery, Theme } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useTranslation } from "react-i18next";
 import { Button } from '@/components/UI/Button/Button';
 import { Title } from '@/components/UI/Title/Title';
 import friends from '@/assets/images/find/friends.jpg';
 import google from '@/assets/images/find/google.jpg';
 import social from '@/assets/images/find/social.jpg';
-import { useNavigate } from 'react-router-dom';
 import { ISurvey } from '@/interfaces/ISurvey';
-import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { createSurvey } from '@/features/surveySlice';
 import { CardSurvey } from '@/components/UI/CardSurvey/CardSurvey';
 
 // Страница с выбором варианта "Как вы узнали о ИгроВУЗ?"
 const Survey = () => {
+    const { t } = useTranslation();
+
     const { user } = useAppSelector(state => state.user);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
@@ -58,7 +61,7 @@ const Survey = () => {
                 {isDesktopOrLarger && (
                     <Button
                         className='Support_btn'
-                        title="Поддержка"
+                        title={t("support")}
                         type="default"
                         style={{borderRadius: 8, fontSize: 20}}
                     />
@@ -66,7 +69,7 @@ const Survey = () => {
             </Grid>
             <Grid display="flex" alignItems="center" flexDirection={"column"}>
                 <Title
-                    text="Как вы узнали о ИгроВУЗ?"
+                    text={t("how_did_you_know")}
                 />
             </Grid>
             <Grid
@@ -77,19 +80,19 @@ const Survey = () => {
                 gap={isTabletOrLarger ? "20px" : "10px"}
             >
                 <CardSurvey
-                    title="От друзей, родных или знакомых"
+                    title={t("from_friends")}
                     image={friends}
                     onClick={() => handleClick(0, "От друзей, родных или знакомых")}
                     isClicked={clickedCard === 0}
                 />
                 <CardSurvey
-                    title="Из социальных сетей"
+                    title={t("from_social_media")}
                     image={social}
                     onClick={() => handleClick(1, "Из социальных сетей")}
                     isClicked={clickedCard === 1}
                 />
                 <CardSurvey
-                    title="Из поиска Google/Yandex"
+                    title={t("from_search")}
                     image={google}
                     onClick={() => handleClick(2, "Из поиска Google/Yandex")}
                     isClicked={clickedCard === 2}
@@ -98,7 +101,7 @@ const Survey = () => {
             <Grid display="flex" justifyContent="center" marginTop={marginTop}>
                 <Button
                     className={`Continue_btn ${clickedCard === null ? 'Disabled' : ''}`}
-                    title="Продолжить"
+                    title={t("continue")}
                     onClick={() => surveyCreate(state)}
                     size={buttonSize}
                     type="primary"

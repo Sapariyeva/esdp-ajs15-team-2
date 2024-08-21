@@ -4,6 +4,7 @@ import { formatErrors } from '@/helpers/formatErrors';
 import { IUpdateCard } from '@/interfaces/IUpdateCard';
 import { CardRepository } from '@/repositories/card.repository';
 import { validate } from 'class-validator';
+import { plainToInstance } from 'class-transformer';
 
 export class CardService {
   private repository: CardRepository;
@@ -20,64 +21,37 @@ export class CardService {
     return await this.repository.getAllCards();
   };
 
-  getShowCards = async (category: string[]): Promise<Card[][]> => {
-    const matchedCards = await this.repository.getAllCardsByTitle(category);
-    
-    const getCards = async () => {
-      const randomCards = await this.repository.getShowCards();
-      return randomCards;
-    };
+  shuffleArray<T>(array: T[]): T[] {
+    return array.sort(() => Math.random() - 0.5);
+  }
 
-    const result: Card[][] = [];
+  getShowCards = async (titles: string[]): Promise<any[]> => {
+    const cardsPerSet = 3;
+    const matchedCards = await this.repository.getAllCardsByTitle(titles);
+    const allCards = await this.repository.getShowCards();
+    const result: any[] = [];
 
     for (const card of matchedCards) {
-      const randomCards = await getCards();
-
-      const uniqueCardIds = new Set<number>();
-      const uniqueCardSet: Card[] = [];
-
-      if (!uniqueCardIds.has(card.id)) {
-        uniqueCardSet.push({
-          id: card.id,
-          image: card.image,
-          title: card.title,
-          category: card.category,
-          video: card.video
-        });
-        uniqueCardIds.add(card.id);
-      }
-
-      for (const randCard of randomCards) {
-        if (uniqueCardSet.length >= 3) break;
-
-        if (!uniqueCardIds.has(randCard.id)) {
-          uniqueCardSet.push({
-            id: randCard.id,
-            image: randCard.image,
-            title: randCard.title,
-            category: randCard.category,
-            video: randCard.video
-          });
-          uniqueCardIds.add(randCard.id);
+        const remainingCards = allCards.filter(c => c.id !== card.id);
+        if (remainingCards.length < cardsPerSet - 1) {
+            throw new Error('Недостаточно карточек в базе данных для формирования набора');
         }
-      }
 
-      while (uniqueCardSet.length < 3) {
-        const randCard = randomCards[Math.floor(Math.random() * randomCards.length)];
-        
-        if (!uniqueCardIds.has(randCard.id)) {
-          uniqueCardSet.push({
-            id: randCard.id,
-            image: randCard.image,
-            title: randCard.title,
-            category: randCard.category,
-            video: randCard.video
-          });
-          uniqueCardIds.add(randCard.id);
-        }
-      }
-      result.push(uniqueCardSet);
+        const randomCards = this.shuffleArray(remainingCards).slice(0, cardsPerSet - 1);
+
+        const cardSet = [
+            { id: card.id, image: card.image, title: card.title, category: card.category },
+            ...randomCards.map(randomCard => ({
+                id: randomCard.id,
+                image: randomCard.image,
+                title: randomCard.title,
+                category: randomCard.category,
+            }))
+        ];
+
+        result.push(cardSet);
     }
+
     return result;
   };
 
@@ -89,16 +63,17 @@ export class CardService {
     return card;
   };
 
-  createCard = async (data: CardDto): Promise<Card> => {
-    const errors = await validate(data, {
+  async createOptions(data: CardDto, lang: string): Promise<Card> {
+    const errors = await validate(plainToInstance(CardDto, data), {
       whitelist: true,
-      validationError: { value: false, target: false },
+      validationError: { target: false, value: false },
     });
-    if (errors?.length) {
-      throw formatErrors(errors);
+
+    if (errors.length > 0) {
+      throw formatErrors(errors, lang);
     }
-    return await this.repository.createCard(data);
-  };
+    return await this.repository.createOptions(data);
+}
 
   deleteCard = async (id: number) => {
     const oldCard = await this.repository.getCard(id);
@@ -109,7 +84,7 @@ export class CardService {
     return oldCard;
   };
 
-  updateCard = async (params: IUpdateCard) => {
+  updateCard = async (params: IUpdateCard, lang: string) => {
     const updatePlace = await this.repository.getCard(params.id);
     if (!updatePlace) {
       throw new Error('Invalid id');
@@ -119,7 +94,7 @@ export class CardService {
       validationError: { value: false, target: false },
     });
     if (errors?.length) {
-      throw formatErrors(errors);
+      throw formatErrors(errors, lang);
     }
     await this.repository.updateCard(params);
     return this.repository.getCard(params.id);

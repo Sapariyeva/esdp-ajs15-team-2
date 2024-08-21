@@ -37,7 +37,6 @@ export class CardController {
         : category
           ? [category as string]
           : [];
-
       const cards = await this.service.getShowCards(categoriesArray);
       res.send(cards);
     } catch (e) {
@@ -55,24 +54,20 @@ export class CardController {
     }
   };
 
-  createCard: RequestHandler = async (req, res): Promise<void> => {
+  createCard: RequestHandler = async (req, res) => {
     try {
-      const cardDto = plainToInstance(CardDto, req.body);
-      if (req.file) {
-        cardDto.image = req.file.filename;
-        cardDto.video = req.file.filename;
-      }
-      const card = await this.service.createCard(cardDto);
-      res.send(card);
-    } catch (e) {
-      if (Array.isArray(0)) {
-        console.log(e);
-        res.status(400).send({ message: e, detailedMessage: (e as Error)?.message });
-      } else {
-        res.status(500).send({ message: e, detailedMessage: (e as Error)?.message });
-      }
+      const optionDto = plainToInstance(CardDto, req.body);
+      const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+      if (files.image) optionDto.image = files.image[0].filename;
+      if (files.video) optionDto.video = files.video[0].filename;
+
+      const option = await this.service.createOptions(optionDto, req.language);
+      res.send(option);
+    } catch (error) {
+      console.error('Error in createOptions:', error);
+      res.status(500).send('An error occurred while processing your request.');
     }
-  };
+  }
 
   deleteCard: RequestHandler = async (req, res): Promise<void> => {
     try {
@@ -102,7 +97,7 @@ export class CardController {
         return;
       }
 
-      const card = await this.service.updateCard({ id, updateOptions });
+      const card = await this.service.updateCard({ id, updateOptions }, req.language);
       res.send(card);
     } catch (e) {
       if (Array.isArray(0)) {

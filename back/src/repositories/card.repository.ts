@@ -22,15 +22,15 @@ export class CardRepository extends Repository<Card> {
   }
 
   async getShowCards(): Promise<Card[]> {
-    return await this.createQueryBuilder().where({}).orderBy('RAND()').take(2).getMany();
+    return await this.find();
   }
 
   async getCard(id: number) {
     return await this.findOne({ where: { id } });
   }
 
-  async createCard(cardDto: CardDto) {
-    return await this.save(cardDto);
+  async createOptions(options: CardDto): Promise<Card> {
+    return await this.save(options);
   }
 
   async deleteCard(id: number) {

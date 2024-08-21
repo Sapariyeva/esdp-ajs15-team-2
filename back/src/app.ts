@@ -5,8 +5,10 @@ import passport from 'passport';
 import { AppInit } from './interfaces/AppInit.interface';
 import { IRoute } from './interfaces/IRoute.interface';
 import { appDataSource } from './dataSource/dataSource';
-import './config/passportConfig';
 import { UserRoute } from './routes/user.route';
+import middleware from 'i18next-http-middleware';
+import './config/passportConfig';
+import i18next from './i18nextConfig';
 
 class App {
     public app: Application;
@@ -34,6 +36,7 @@ class App {
         }));
         this.app.use(passport.initialize());
         this.app.use(passport.session());
+        this.app.use(middleware.handle(i18next));
     }
     private initRoutes(routes: IRoute[]) {
         routes.forEach((route) => {

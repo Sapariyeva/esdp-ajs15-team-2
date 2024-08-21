@@ -12,7 +12,7 @@ import { StatisticRoute } from './routes/statistic.route';
 const app = new App({
     port: 8000,
     middlewares: [logger(), cors(), updateLastActivity],
-    controllers: [ new UserRoute(), new CardRoute(), new StatisticRoute(), new SurveyRoute() ],
+    controllers: [ new UserRoute(), new CardRoute(), new StatisticRoute(), new SurveyRoute()],
 });
 
 app.listen();

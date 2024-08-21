@@ -58,7 +58,7 @@ const Register = () => {
     const submitFormHandler = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (state.password !== state.confirmPassword) {
-            setPasswordError("Пароли не совпадают");
+            setPasswordError(t("passwords_not_match"));
             return;
         }
         setPasswordError(undefined);
@@ -174,7 +174,7 @@ const Register = () => {
                             type="facebook"
                         />
                         <ButtonSocial
-                            onClick={() => console.log("click")}
+                            onClick={() => window.location.href = 'http://localhost:8000/users/auth/google'}
                             size={buttonSize}
                             type="google"
                         />

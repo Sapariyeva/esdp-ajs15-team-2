@@ -1,8 +1,5 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import {
-    Alert, Box, Container,
-    Grid, useMediaQuery, Theme
-} from "@mui/material";
+import { Alert, Box, Container, Grid, useMediaQuery, Theme } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "@/app/hooks";
@@ -23,7 +20,7 @@ interface ILoginState {
 
 const Login = () => {
     const { t } = useTranslation();
-    const { loginError, loading } = useAppSelector(state => state.user);
+    const { loginError, loading, user } = useAppSelector(state => state.user);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
@@ -41,6 +38,16 @@ const Login = () => {
         dispatch(changeInitialState());
     }, [dispatch]);
 
+    useEffect(() => {
+        if (user) {
+            if (user.role === 'admin') {
+                navigate('/admin_page');
+            } else {
+                navigate('/main');
+            }
+        }
+    }, [user, navigate]);
+
     const inputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
 
@@ -53,9 +60,7 @@ const Login = () => {
     const submitFormHandler = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        dispatch(loginUser({ ...state })).unwrap().then(() => {
-            navigate("/main");
-        });
+        dispatch(loginUser({ ...state })).unwrap();
     };
 
     if (loading) return <Loading />
@@ -148,10 +153,10 @@ const Login = () => {
                             type="facebook"
                         />
                         <ButtonSocial
-                            onClick={() => console.log("click")}
+                            onClick={() => window.location.href = 'http://localhost:8000/users/auth/google'}
                             size={buttonSize}
                             type="google"
-                        />
+                        ></ButtonSocial>
                         <ButtonSocial
                             onClick={() => console.log("click")}
                             size={buttonSize}

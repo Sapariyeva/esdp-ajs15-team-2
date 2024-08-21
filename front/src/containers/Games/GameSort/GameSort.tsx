@@ -58,9 +58,9 @@ export function GameSort({ endGame, restartGame }: Props) {
     const [hintCount, setHintCount] = useState<number>(0); 
     const [hints, setHints] = useState<boolean>(hintsEnabled); 
     const [dropZones, setDropZones] = useState<DropZone[]>([
-        { category: 'jump', image: jump },
-        { category: 'shout', image: shout },
-        { category: 'fly', image: fly }
+        { category: 'Прыгать', image: jump },
+        { category: 'Кричать', image: shout },
+        { category: 'Летать', image: fly }
     ]); // Начальные зоны для сброса карт
     const [successMessage, setSuccessMessage] = useState<string>(""); 
     const [showGif, setShowGif] = useState<string | null>(null); 
@@ -262,7 +262,7 @@ export function GameSort({ endGame, restartGame }: Props) {
     return (
         <div className="game">
             <div className="game-buttons">
-                <ButtonNav style={{ marginLeft: 30 }} type="close" onClick={endGame} size="sm"></ButtonNav>
+                <ButtonNav style={{ marginLeft: 30, marginTop: 30 }} type="close" onClick={endGame} size="sm"></ButtonNav>
                 {hints && (
                     <Button style={{ marginRight: 100, width: 136, height: 53 }} type="default" size="md" title="Подсказка" onClick={handleHint}></Button>
                 )}

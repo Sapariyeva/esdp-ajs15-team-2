@@ -42,7 +42,7 @@ const Main = () => {
                         <img src={sadSmile} alt="sadSmile" />
                         <div className="user-info-text">
                             <p>{t("you_don't_have_any_students_added_yet")}</p>
-                            <a href="#" className="add-student-link">{t("add_student")}</a>
+                            <a href="/students" className="add-student-link">{t("add_student")}</a>
                         </div>
                     </div>
                 </div>

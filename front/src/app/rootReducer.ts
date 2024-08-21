@@ -5,7 +5,7 @@ import configureReducer from '@/features/configureSlice';
 import cardReducer from '@/features/cardSlice';
 import showCardReducer from "@/features/showCardSlice";
 import adminReducer from "@/features/adminSlice";
-
+import settingsReducer from '@/features/gameSettingsSlice';
 
 export const rootReducer = combineReducers({
     user: userReducer,
@@ -13,5 +13,6 @@ export const rootReducer = combineReducers({
     configure: configureReducer,
     cards: cardReducer,
     showCards: showCardReducer,
-    admin: adminReducer
+    admin: adminReducer,
+    settings: settingsReducer
 });

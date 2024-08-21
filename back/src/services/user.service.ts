@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt';
 import { randomUUID } from "crypto";
+import i18next from 'i18next';
 import { User } from "@/entities/user.entity";
 import { UserRepository } from "@/repositories/user.repository";
 import { IUser } from "@/interfaces/IUser.interface";
@@ -16,9 +17,9 @@ export class UserService {
     }
 
     // Отправка письма для подтверждения регистрации
-    async sendConfirmationEmail(user: User): Promise<void> {
-        const subject = 'Подтверждение регистрации';
-        const text = `Для подтверждения регистрации перейдите по ссылке: http://localhost:8000/users/confirm/${user.token}`;
+    async sendConfirmationEmail(user: User, lang: string): Promise<void> {
+        const subject = i18next.t('registration_confirmation', { lng: lang });
+        const text = i18next.t(`go_to_confirm_registration http://localhost:8000/users/confirm/${user.token}`, { lng: lang, token: user.token });
         const html = `
             <h2>Вы зарегистрировались</h2>
             <i>Ваши данные:</i>
@@ -32,9 +33,9 @@ export class UserService {
     }
 
     // Отправка письма для сброса пароля
-    async sendResetPasswordEmail(user: User): Promise<void> {
-        const subject = 'Сброс пароля';
-        const text = `Для сброса пароля перейдите по ссылке: http://localhost:5173/new_password/${user.resetPasswordToken}`;
+    async sendResetPasswordEmail(user: User, lang: string): Promise<void> {
+        const subject = i18next.t('password_reset', { lng: lang });
+        const text = i18next.t('go_to_reset_password', { lng: lang, token: user.resetPasswordToken });
         const html = `
         <h2>Сброс пароля</h2>
         <i>Ваши данные:</i>
@@ -47,7 +48,7 @@ export class UserService {
     }
 
     // Регистрация пользователя
-    async registerUser(email: string, password: string): Promise<User> {
+    async registerUser(email: string, password: string, lang: string): Promise<User> {
         const salt = await bcrypt.genSalt(SALT_WORK_FACTORY);
         const existingUser = await this.repository.findByEmail(email);
         if (existingUser && existingUser.isEmailConfirmed) {
@@ -71,18 +72,18 @@ export class UserService {
             user = await this.repository.saveUser(userData);
         }
 
-        await this.sendConfirmationEmail(user);
+        await this.sendConfirmationEmail(user, lang);
         delete user.password;
         return user;
     }
 
     // Аутентификация пользователя
-    async loginUser(loginUserDto: LoginDto): Promise<IUser | null> {
+    async loginUser(loginUserDto: LoginDto, lang: string): Promise<IUser | null> {
         const user = await this.repository.findByEmail(loginUserDto.email);
 
-        if (!user) throw new Error('Ошибка данных');
+        if (!user) throw new Error(i18next.t('data_error', { lng: lang }));
         const isMatch = await user.comparePassword(loginUserDto.password);
-        if (!isMatch) throw new Error('Ошибка данных');
+        if (!isMatch) throw new Error(i18next.t('data_error', { lng: lang }));
 
         if (user && user.isEmailConfirmed) {
             user.generateToken();
@@ -103,75 +104,82 @@ export class UserService {
     }
 
     // Подтверждение регистрации по электронной почте
-    async confirmEmail(token: string): Promise<User | null> {
+    async confirmEmail(token: string, lang: string): Promise<User | null> {
         const user = await this.repository.findByToken(token);
         if (user) {
             user.isEmailConfirmed = true;
             await this.repository.saveUser(user);
             delete user.password;
+            return user;
+        } else {
+            throw new Error(i18next.t('invalid_token', { lng: lang }));
         }
-        return user;
     }
 
     // Повторная отправка письма для подтверждения регистрации
-    async resendConfirmationEmail(email: string): Promise<void> {
+    async resendConfirmationEmail(email: string, lang: string): Promise<void> {
         const user = await this.repository.findByEmail(email);
         if (user && !user.isEmailConfirmed) {
-            await this.sendConfirmationEmail(user);
+            await this.sendConfirmationEmail(user, lang);
         } else {
-            throw new Error("Пользователь уже подтвержден или не найден.");
+            throw new Error(i18next.t('user_already_confirmed_or_not_found', { lng: lang }));
         }
     }
 
     // Изменение имени пользователя
-    async setUsername(token: string, username: string): Promise<User | null> {
+    async setUsername(token: string, username: string, lang: string): Promise<User | null> {
         const user = await this.repository.findByToken(token);
         if (user && user.isEmailConfirmed) {
             user.username = username;
             const updatedUser = await this.repository.saveUser(user);
             delete updatedUser.password;
             return updatedUser;
+        } else {
+            throw new Error(i18next.t('invalid_token_or_email_not_confirmed', { lng: lang }));
         }
-        return null;
     }
 
     // Поиск пользователя по токену
-    async findByToken(token: string): Promise<User | null> {
+    async findByToken(token: string, lang: string): Promise<User | null> {
         const user = await this.repository.findByToken(token);
         if (user) {
             delete user.password;
+            return user;
+        } else {
+            throw new Error(i18next.t('user_search_error', { lng: lang }));
         }
-        return user;
     }
 
     // Поиск пользователя по email
-    async findByEmail(email: string): Promise<User | null> {
+    async findByEmail(email: string, lang: string): Promise<User | null> {
         const user = await this.repository.findByEmail(email);
         if (user) {
             delete user.password;
+            return user;
+        } else {
+            throw new Error(i18next.t('user_search_error', { lng: lang }));
         }
-        return user;
     }
 
     // Отправка письма для сброса пароля
-    async resetPasswordEmail(email: string): Promise<void> {
+    async resetPasswordEmail(email: string, lang: string): Promise<void> {
         const user = await this.repository.findByEmail(email);
         if (!user || !user.isEmailConfirmed) {
-            throw new Error('Пользователь с таким email не найден');
+            throw new Error(i18next.t('user_not_found', { lng: lang }));
         }
 
         user.resetPasswordToken = randomUUID();
 
         await this.repository.saveUser(user);
-        await this.sendResetPasswordEmail(user);
+        await this.sendResetPasswordEmail(user, lang);
     }
 
     // Повторная отправка письма для сброса пароля
-    async resendResetPasswordEmail(email: string): Promise<void> {
+    async resendResetPasswordEmail(email: string, lang: string): Promise<void> {
         const user = await this.repository.findByEmail(email);
         if (user) {
             await this.repository.saveUser(user);
-            await this.sendResetPasswordEmail(user);
+            await this.sendResetPasswordEmail(user, lang);
         } else {
             throw new Error('Пользователь с таким email не найден');
         }
@@ -187,7 +195,7 @@ export class UserService {
     }
 
     // Функция для сброса пароля
-    async resetPassword(resetPasswordDto: ResetPasswordDto): Promise<User | null> {
+    async resetPassword(resetPasswordDto: ResetPasswordDto, lang: string): Promise<User | null> {
         const salt = await bcrypt.genSalt(SALT_WORK_FACTORY);
         const user = await this.repository.findByResetPasswordToken(resetPasswordDto.resetPasswordToken);
         if (user) {
@@ -197,8 +205,9 @@ export class UserService {
             const updatedUser = await this.repository.saveUser(user);
             delete updatedUser.password;
             return updatedUser;
+        } else {
+            throw new Error(i18next.t('user_search_error', { lng: lang }));
         }
-        return null;
     }
 
     // Функция для получения списка пользователей

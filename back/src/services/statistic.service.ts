@@ -24,13 +24,13 @@ export class StatisticService {
     return statistic;
   };
 
-  createStatistic = async (data: StatisticDto): Promise<Statistic> => {
+  createStatistic = async (data: StatisticDto, lang: string): Promise<Statistic> => {
     const errors = await validate(data, {
       whitelist: true,
       validationError: { value: false, target: false },
     });
     if (errors?.length) {
-      throw formatErrors(errors);
+      throw formatErrors(errors, lang);
     }
     return await this.repository.createStatistic(data);
   };
@@ -44,7 +44,7 @@ export class StatisticService {
     return oldStatistic;
   };
 
-  updateStatistic = async (params: IUpdateStatistic) => {
+  updateStatistic = async (params: IUpdateStatistic, lang: string) => {
     const updateStatistic = await this.repository.getStatistic(params.id);
     if (!updateStatistic) {
       throw new Error('Invalid id');
@@ -54,7 +54,7 @@ export class StatisticService {
       validationError: { value: false, target: false },
     });
     if (errors?.length) {
-      throw formatErrors(errors);
+      throw formatErrors(errors, lang);
     }
     await this.repository.updateStatistic(params);
     return this.repository.getStatistic(params.id);

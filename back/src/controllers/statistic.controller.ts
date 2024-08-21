@@ -27,7 +27,7 @@ export class StatisticController {
   createStatistic: RequestHandler = async (req, res): Promise<void> => {
     try {
       const statisticDto = plainToInstance(StatisticDto, req.body);
-      const statistic = await this.service.createStatistic(statisticDto);
+      const statistic = await this.service.createStatistic(statisticDto, req.language);
       res.send(statistic);
     } catch (e) {
       if (Array.isArray(0)) {
@@ -67,7 +67,7 @@ export class StatisticController {
         return;
       }
 
-      const statistic = await this.service.updateStatistic({ id, updateOptions });
+      const statistic = await this.service.updateStatistic({ id, updateOptions }, req.language);
       res.send(statistic);
     } catch (e) {
       if (Array.isArray(0)) {
