@@ -21,12 +21,13 @@ export class UserService {
         const subject = i18next.t('registration_confirmation', { lng: lang });
         const text = i18next.t(`go_to_confirm_registration http://localhost:8000/users/confirm/${user.token}`, { lng: lang, token: user.token });
         const html = `
-            <h2>Вы зарегистрировались</h2>
-            <i>Ваши данные:</i>
+            <h2>${i18next.t('registration_successful', { lng: lang })}</h2>
+            <i>${i18next.t('your_details', { lng: lang })}:</i>
             <ul>
-                <li>login: ${user.email}</li>
+                <li>${i18next.t('login', { lng: lang })}: ${user.email}</li>
             </ul>
-            <p>Для подтверждения регистрации перейдите по ссылке:</p><p><a href="http://localhost:8000/users/confirm/${user.token}">Подтвердить регистрацию</a></p>
+            <p>${i18next.t('go_to_confirm_registration', { lng: lang })}:</p>
+            <p><a href="http://localhost:8000/users/confirm/${user.token}">${i18next.t('confirm_registration', { lng: lang })}</a></p>
         `;
 
         await sendMessageByMail( 'igro.vuz@yandex.ru', user.email, subject, text, html);
@@ -37,12 +38,14 @@ export class UserService {
         const subject = i18next.t('password_reset', { lng: lang });
         const text = i18next.t('go_to_reset_password', { lng: lang, token: user.resetPasswordToken });
         const html = `
-        <h2>Сброс пароля</h2>
-        <i>Ваши данные:</i>
-        <ul>
-            <li>login: ${user.email}</li>
-        </ul>
-        <p>Для сброса пароля перейдите по ссылке:</p><p><a href="http://localhost:5173/new_password/${user.resetPasswordToken}">Сбросить пароль</a></p>`;
+        <h2>${i18next.t('password_reset', { lng: lang })}</h2>
+            <i>${i18next.t('your_details', { lng: lang })}:</i>
+            <ul>
+                <li>${i18next.t('login', { lng: lang })}: ${user.email}</li>
+            </ul>
+            <p>${i18next.t('go_to_reset_password', { lng: lang })}:</p>
+            <p><a href="http://localhost:5173/new_password/${user.resetPasswordToken}">${i18next.t('reset_password', { lng: lang })}</a></p>
+        `;
 
         await sendMessageByMail( 'igro.vuz@yandex.ru', user.email, subject, text, html);
     }
