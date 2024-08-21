@@ -215,7 +215,7 @@ export function GameShow({ endGame, restartGame }: Props) {
     <>
     <div className='game'>
       <div className="game-buttons">
-                  <ButtonNav style={{ marginLeft: 30 }} type="close" onClick={endGame} size="sm"></ButtonNav>
+                  <ButtonNav style={{ marginLeft: 30, marginTop: 100 }} type="close" onClick={endGame} size="sm"></ButtonNav>
                   {hints && (
                       <Button style={{ marginRight: 100, width: 136, height: 53 }} type="default" size="md" title="Подсказка" onClick={handleHint}></Button>
                   )}
@@ -228,7 +228,7 @@ export function GameShow({ endGame, restartGame }: Props) {
       <Flex justify='center'>
           <Title>{category}</Title>
         </Flex>
-        <Flex wrap="wrap" gap="large" justify="center">
+        <Flex wrap="wrap" gap="large" justify="center" style={ { marginTop: 50 } }>
           {shuffledCards.map((card) => (
           <GameShowItem 
             key={card.id} 
