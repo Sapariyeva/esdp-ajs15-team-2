@@ -2,6 +2,7 @@ import { RequestHandler } from "express";
 import { validate } from "class-validator";
 import { plainToInstance } from "class-transformer";
 import passport from 'passport';
+import i18next from "i18next";
 import { LoginDto, ResetPasswordDto, ResetPasswordRequestDto, UserDto, UsernameDto } from "@/dto/user.dto";
 import { UserService } from "@/services/user.service";
 import { formatErrors } from "@/helpers/formatErrors";
@@ -18,7 +19,7 @@ export class UserController {
   getUsers: RequestHandler = async (req, res): Promise<void> => {
     const users = await this.service.getUsers();
     res.send(users);
-  }
+  };
 
   // Регистрация пользователя
   register: RequestHandler = async (req, res): Promise<void> => {
@@ -32,45 +33,56 @@ export class UserController {
       validationError: { target: false, value: false } 
     });
     if (errors.length > 0) {
-      res.status(400).send(formatErrors(errors));
+      const lang = req.language || 'en';
+      res.status(400).send(formatErrors(errors, lang));
       return;
     }
 
     try {
       const newUser = await this.service.registerUser(
         userDto.email,
-        userDto.password
+        userDto.password,
+        req.language
       );
       res.send(newUser);
     } catch (e) {
-      console.log(e);
-      if ((e as { message: string }).message === 'Email уже используется') {
-        res.status(401).send({ error: { message: 'Пользователь уже существует' } });
+      const lang = req.language || 'en';
+      if ((e as { message: string }).message === "Email уже используется") {
+        res.status(401).send({
+          error: { message: i18next.t("user_already_exists", { lng: lang }) },
+        });
       } else {
-        res.status(500).send({ error: { message: 'Упс, что-то пошло не так' } });
+        res.status(500).send({
+          error: {
+            message: i18next.t("something_went_wrong", { lng: lang }),
+          },
+        });
       }
     }
-  }
+  };
 
   // Аутентификация пользователя
   loginUser: RequestHandler = async (req, res): Promise<void> => {
     try {
-        const loginUserDto = plainToInstance(LoginDto, req.body);
-        const user = await this.service.loginUser(loginUserDto);
-        if (user) {
-          res.send(user);
-          return;
-        }
-        res.status(401).send({ error: { message: 'Ошибка данных' } });
+      const loginUserDto = plainToInstance(LoginDto, req.body);
+      const user = await this.service.loginUser(loginUserDto, req.language);
+      if (user) {
+        res.send(user);
+        return;
+      }
+      const lang = req.language;
+      res
+        .status(401)
+        .send({ error: { message: i18next.t("data_error", { lng: lang }) } });
     } catch (e) {
-        res.status(401).send({ error: { message: (e as Error).message}});
+      res.status(401).send({ error: { message: (e as Error).message } });
     }
   };
 
   // Выход пользователя
   logoutUser: RequestHandler = async (req: IRequestWithUser, res) => {
     // Проверяем, есть ли токен у пользователя
-    if(!req.user?.token) return res.send( { message: 'success' } );
+    if(!req.user?.token) return res.send({ message: "success" });
     try {
       // Получаем токен пользователя из запроса
       const { token } = req.user;
@@ -78,7 +90,10 @@ export class UserController {
       // Вызываем сервис для логаута пользователя
       await this.service.logoutUser(token);
     } catch (e) {
-      return res.status(500).send({ error: { message: 'Внутренняя ошибка сервера' } });
+      const lang = req.language;
+      return res.status(500).send({
+        error: { message: i18next.t("internal_server_error", { lng: lang }) },
+      });
     }
     return res.send({ message: `success ` });
   }
@@ -88,7 +103,7 @@ export class UserController {
     const { token } = req.params;
     
     try {
-      const user = await this.service.confirmEmail(token);
+      const user = await this.service.confirmEmail(token, req.language);
       if (user) {
         res.status(200).send(`<h1 
           style="text-align: center; margin-top: 20%; color: #9069cd;"
@@ -111,25 +126,36 @@ export class UserController {
         </script>`);
       }
     } catch (error) {
-      res.status(500).send({ error: { message: 'Ошибка подтверждения электронной почты' } });
+      const lang = req.language;
+      res.status(500).send({
+        error: {
+          message: i18next.t("email_confirmation_error", { lng: lang }),
+        },
+      });
     }
-  }
+  };
 
   // Повторная отправка письма для подтверждения регистрации
   resendConfirmationEmail: RequestHandler = async (req, res) => {
     const email = req.body.email;
     try {
-        await this.service.resendConfirmationEmail(email);
-        res.status(200).send({ message: "Подтверждение повторно отправлено на вашу почту." });
+      await this.service.resendConfirmationEmail(email, req.language);
+      const lang = req.language;
+      res
+        .status(200)
+        .send({ message: i18next.t("confirmation_resent", { lng: lang }) });
     } catch (error) {
-        res.status(400).send({ error: { message: "Неверный адрес электронной почты." } });
+      const lang = req.language;
+      res.status(400).send({
+        error: { message: i18next.t("invalid_email_address", { lng: lang }) },
+      });
     }
   };
 
   // Изменение имени
   setUsername: RequestHandler = async (req, res): Promise<void> => {
     if (!req.headers.authorization) {
-      res.status(401).send({ error: { message: 'Unauthorized' } });
+      res.status(401).send({ error: { message: "Unauthorized" } });
       return;
     }
     const usernameDto = new UsernameDto();
@@ -141,49 +167,80 @@ export class UserController {
       validationError: { target: false, value: false } 
     });
     if (errors.length > 0) {
-      res.status(400).send(formatErrors(errors));
+      const lang = req.language;
+      res.status(400).send(formatErrors(errors, lang));
       return;
     }
 
     try {
       const user = await this.service.setUsername(
         usernameDto.token,
-        usernameDto.username
+        usernameDto.username,
+        req.language
       );
       if (user) {
         res.send(user);
       } else {
-        res.status(400).send({ error: { message: "Неверный токен или адрес электронной почты не подтвержден." }});
+        const lang = req.language;
+        res.status(400).send({
+          error: {
+            message: i18next.t("invalid_token_or_email_not_confirmed", {
+              lng: lang,
+            }),
+          },
+        });
       }
     } catch (error) {
-      res.status(500).send({ error: { message: 'Ошибка установки имени пользователя' } });
+      const lang = req.language;
+      res.status(500).send({
+        error: { message: i18next.t("username_error", { lng: lang }) },
+      });
     }
   }
 
   // Поиск пользователя по почте
   findByEmail: RequestHandler = async (req, res): Promise<void> => {
     try {
-      const user = await this.service.findByEmail(req.params.email);
+      const user = await this.service.findByEmail(
+        req.params.email,
+        req.language
+      );
       
       if (user) {
         res.send(user);
       } else {
-        res.status(400).send({ error: { message: "Неверный адрес электронной почты." }});
+        const lang = req.language;
+        res.status(400).send({
+          error: {
+            message: i18next.t("invalid_email_address", { lng: lang }),
+          },
+        });
       }
     } catch (error) {
-      res.status(500).send({ error: { message: 'Ошибка поиска пользователя' } });
+      const lang = req.language;
+      res
+        .status(500)
+        .send({
+          error: { message: i18next.t("user_search_error", { lng: lang }) },
+        });
     }
-  }
+  };
 
   // Отправка письма для сброса пароля
   resetPasswordEmail: RequestHandler = async (req, res): Promise<void> => {
     const resetPasswordRequestDto = new ResetPasswordRequestDto();
     resetPasswordRequestDto.email = req.body.email;
     try {
-      await this.service.resetPasswordEmail(resetPasswordRequestDto.email);
-      res.send({ message: 'Ссылка для сброса пароля отправлена на ваш email' });
+      await this.service.resetPasswordEmail(
+        resetPasswordRequestDto.email,
+        req.language
+      );
+      const lang = req.language;
+      res.send({
+        message: i18next.t("password_reset_link_sent", { lng: lang }),
+      });
     } catch (e) {
-      res.status(500).send({ error: { message: (e as Error).message}});
+      res.status(500).send({ error: { message: (e as Error).message } });
     }
   }
 
@@ -191,10 +248,13 @@ export class UserController {
   resendResetPasswordEmail: RequestHandler = async (req, res): Promise<void> => {
     const email = req.body.email;
     try {
-      await this.service.resendResetPasswordEmail(email);
-      res.send({ message: 'Ссылка для сброса пароля повторно отправлена на ваш email' });
+      await this.service.resendResetPasswordEmail(email, req.language);
+      const lang = req.language;
+      res.send({
+        message: i18next.t("password_reset_link_resent", { lng: lang }),
+      });
     } catch (e) {
-      res.status(500).send({ error: { message: (e as Error).message}});
+      res.status(500).send({ error: { message: (e as Error).message } });
     }
   }
 
@@ -209,9 +269,14 @@ export class UserController {
         res.send(null);
       }
     } catch (error) {
-      res.status(500).send({ error: { message: 'Ошибка поиска пользователя' } });
+      const lang = req.language;
+      res
+        .status(500)
+        .send({
+          error: { message: i18next.t("user_search_error", { lng: lang }) },
+        });
     }
-  }
+  };
 
   // Функция для сброса пароля
   resetPassword: RequestHandler = async (req, res): Promise<void> => {
@@ -220,17 +285,19 @@ export class UserController {
     resetPasswordDto.password = req.body.password;
     
     const errors = await validate(resetPasswordDto, { 
-      whitelist: true, 
+      whitelist: true,
       validationError: { target: false, value: false } 
     });
     if (errors.length > 0) {
-      res.status(400).send(formatErrors(errors));
+      const lang = req.language;
+      res.status(400).send(formatErrors(errors, lang));
       return;
     }
 
     try {
-      await this.service.resetPassword(resetPasswordDto);
-      res.send({ message: 'Пароль успешно изменен' });
+      await this.service.resetPassword(resetPasswordDto, req.language);
+      const lang = req.language;
+      res.send({ message: i18next.t("password_successfully_changed", { lng: lang }) });
     } catch (e) {
       res.status(500).send({ error: { message: (e as Error).message}});
     }
@@ -243,7 +310,10 @@ export class UserController {
     if (req.user) {
       res.redirect('/dashboard');
     } else {
-      res.status(400).send({ error: { message: 'Ошибка аутентификации через Google' }});
+      const lang = req.language;
+      res
+        .status(400)
+        .send({ error: { message: i18next.t("google_auth_error", { lng: lang }) } });
     }
   });
-}
+};

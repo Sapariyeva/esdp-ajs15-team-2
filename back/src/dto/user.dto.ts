@@ -16,7 +16,7 @@ function IsStrongPassword(validationOptions?: ValidationOptions) {
           return typeof value === 'string' && strongPasswordRegex.test(value);
         },
         defaultMessage(args: ValidationArguments) {
-          return 'Пароль должен иметь длину не менее 8 символов, содержать хотя бы одну заглавную букву, одну строчную букву, одну цифру и один специальный символ.';
+          return "invalid_password_format";
         },
       },
     });
@@ -26,16 +26,16 @@ function IsStrongPassword(validationOptions?: ValidationOptions) {
 // DTO для регистрации
 @Expose()
 export class UserDto {
-  @IsString({message: "Пароль должен быть строкой"})
-  @IsNotEmpty({message: "Укажите пароль"})
-  @IsStrongPassword({message: "Пароль должен иметь длину не менее 8 символов, содержать хотя бы одну заглавную букву, одну строчную букву, одну цифру и один специальный символ."})
+  @IsString({ message: "password_must_be_string" })
+  @IsNotEmpty({ message: "missing_password" })
+  @IsStrongPassword({ message: "invalid_password_format" })
   password!: string;
 
-  @IsString({message: "Имя пользователя должно быть строкой"})
+  @IsString({ message: "username_must_be_string" })
   @IsOptional()
   username?: string;
 
-  @IsEmail({}, { message: "Неверный формат email" })
+  @IsEmail({}, { message: "invalid_email_format" })
   email!: string;
 }
 
@@ -43,39 +43,43 @@ export class UserDto {
 // DTO для добавления имени пользователя
 @Expose()
 export class UsernameDto {
-  @IsNotEmpty({message: "Укажите имя проверяющего"})
-  @Matches(/^[A-Za-zА-Яа-яЁё\s]+$/, {message: 'Имя пользователя не должно содержать цифры'})
+  @IsNotEmpty({ message: "missing_checker_name" })
+  @Matches(/^[A-Za-zА-Яа-яЁё\s]+$/, {
+    message: "username_no_numbers",
+  })
   username!: string;
 
-  @IsString({message: "Токен должен быть строкой"})
-  @IsNotEmpty({message: "Укажите токен"})
+  @IsString({ message: "token_must_be_string" })
+  @IsNotEmpty({ message: "missing_token" })
   token!: string;
 }
 
 // DTO для входа
 export class LoginDto {
-  @IsEmail()
+  @IsEmail({}, { message: "invalid_email_format" })
   email!: string;
 
-  @IsString()
-  @MinLength(8)
+  @IsString({ message: "password_must_be_string" })
+  @MinLength(8, { message: "invalid_password_format" })
   password!: string;
 }
 
 // DTO для сброса пароля
 export class ResetPasswordRequestDto {
-  @IsEmail()
+  @IsEmail({}, { message: "invalid_email_format" })
   email!: string;
 }
 
 // DTO для смены пароля
 export class ResetPasswordDto {
-  @IsString({message: "Пароль должен быть строкой"})
-  @IsNotEmpty({message: "Укажите пароль"})
-  @IsStrongPassword({message: "Пароль должен иметь длину не менее 8 символов, содержать хотя бы одну заглавную букву, одну строчную букву, одну цифру и один специальный символ."})
+  @IsString({ message: "password_must_be_string" })
+  @IsNotEmpty({ message: "missing_password" })
+  @IsStrongPassword({
+    message: "invalid_password_format",
+  })
   password!: string;
 
-  @IsString({message: "Токен должен быть строкой"})
-  @IsNotEmpty({message: "Укажите токен"})
+  @IsString({ message: "token_must_be_string" })
+  @IsNotEmpty({ message: "missing_token" })
   resetPasswordToken!: string;
 }

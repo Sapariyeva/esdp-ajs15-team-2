@@ -63,14 +63,14 @@ export class CardService {
     return card;
   };
 
-  async createOptions(data: CardDto): Promise<Card> {
+  async createOptions(data: CardDto, lang: string): Promise<Card> {
     const errors = await validate(plainToInstance(CardDto, data), {
       whitelist: true,
       validationError: { target: false, value: false },
     });
 
     if (errors.length > 0) {
-      throw formatErrors(errors);
+      throw formatErrors(errors, lang);
     }
     return await this.repository.createOptions(data);
 }
@@ -84,7 +84,7 @@ export class CardService {
     return oldCard;
   };
 
-  updateCard = async (params: IUpdateCard) => {
+  updateCard = async (params: IUpdateCard, lang: string) => {
     const updatePlace = await this.repository.getCard(params.id);
     if (!updatePlace) {
       throw new Error('Invalid id');
@@ -94,7 +94,7 @@ export class CardService {
       validationError: { value: false, target: false },
     });
     if (errors?.length) {
-      throw formatErrors(errors);
+      throw formatErrors(errors, lang);
     }
     await this.repository.updateCard(params);
     return this.repository.getCard(params.id);

@@ -61,7 +61,7 @@ export class CardController {
       if (files.image) optionDto.image = files.image[0].filename;
       if (files.video) optionDto.video = files.video[0].filename;
 
-      const option = await this.service.createOptions(optionDto);
+      const option = await this.service.createOptions(optionDto, req.language);
       res.send(option);
     } catch (error) {
       console.error('Error in createOptions:', error);
@@ -97,7 +97,7 @@ export class CardController {
         return;
       }
 
-      const card = await this.service.updateCard({ id, updateOptions });
+      const card = await this.service.updateCard({ id, updateOptions }, req.language);
       res.send(card);
     } catch (e) {
       if (Array.isArray(0)) {

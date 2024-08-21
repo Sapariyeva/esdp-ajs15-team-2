@@ -58,7 +58,7 @@ const Register = () => {
     const submitFormHandler = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (state.password !== state.confirmPassword) {
-            setPasswordError("Пароли не совпадают");
+            setPasswordError(t("passwords_not_match"));
             return;
         }
         setPasswordError(undefined);
