@@ -148,5 +148,7 @@
   "add_new_student": "Добавить нового студента",
   "are_you_sure_you_want_to_remove_the_student": "Вы уверены, что хотите удалить студента из профиля?",
   "card_behavior_on_error": "Поведение карточки при ошибке:",
-  "session_setup": "Настройка сессии"
+  "session_setup": "Настройка сессии",
+  "postponement": "Откладывание",
+  "replacement": "Подмена"
 }
